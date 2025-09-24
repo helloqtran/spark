@@ -67,12 +67,13 @@ const DropdownChip = React.memo(({
       </button>
       {isOpen && (
         <div 
-          className="absolute z-40 mt-2 w-48 sm:w-56 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2"
+          className="absolute z-40 mt-2 w-48 sm:w-56 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2 left-1/2 transform -translate-x-1/2"
           style={{
-            left: '50%',
-            transform: 'translateX(-50%)',
             maxWidth: 'calc(100vw - 2rem)',
-            minWidth: '200px'
+            minWidth: '200px',
+            // Ensure dropdown doesn't go off-screen on mobile
+            left: 'max(1rem, calc(50% - 96px))',
+            transform: 'translateX(-50%)'
           }}
           role="listbox"
           aria-label={`${label} options`}
