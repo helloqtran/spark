@@ -52,15 +52,6 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-2">
-          {/* Get a Prompt Button */}
-          <button
-            onClick={() => navigate('/prompts')}
-            className="bg-black/20 backdrop-blur-sm text-white px-4 py-2 rounded-2xl font-medium hover:bg-black/30 transition-colors text-sm border border-white/10"
-            aria-label="Get a prompt"
-          >
-            Get a prompt
-          </button>
-          
           {/* Collections Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
@@ -128,26 +119,14 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
           </button>
         </div>
         
-        {/* Mobile Navigation */}
-        <div className="md:hidden flex items-center gap-2">
-          {/* Get a Prompt Button - Mobile */}
-          <button
-            onClick={() => navigate('/prompts')}
-            className="bg-black/20 backdrop-blur-sm text-white px-3 py-2 rounded-2xl font-medium hover:bg-black/30 transition-colors text-sm border border-white/10"
-            aria-label="Get a prompt"
-          >
-            Get a prompt
-          </button>
-          
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
-            aria-label="Toggle mobile menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+          aria-label="Toggle mobile menu"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
 
       {/* Mobile Sidebar */}
