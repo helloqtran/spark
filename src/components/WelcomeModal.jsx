@@ -1,20 +1,21 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronRight, X } from 'lucide-react';
 
 const WelcomeModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+  return createPortal(
+    <>
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm" 
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50" 
         onClick={onClose}
         aria-label="Close welcome modal"
       />
       
       {/* Modal Content */}
-      <div className="relative bg-black border border-gray-700 rounded-2xl shadow-xl w-[90%] max-w-md p-8 text-center">
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black border border-gray-700 rounded-2xl shadow-xl w-[90%] max-w-md p-8 text-center z-50">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -40,7 +41,8 @@ const WelcomeModal = ({ isOpen, onClose }) => {
           </button>
         </div>
       </div>
-    </div>
+    </>,
+    document.body
   );
 };
 

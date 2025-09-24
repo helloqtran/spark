@@ -191,6 +191,7 @@ const MainPromptsPage = ({
         lists={lists}
       />
 
+
       {/* Main Content Container - Groups Filters and Cards */}
       <div className="flex-1 flex flex-col justify-center items-center px-4 pb-4 pt-8 sm:pt-12">
         {/* Combined Filters and Cards Section */}
