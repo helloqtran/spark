@@ -77,7 +77,7 @@ const DropdownChip = React.memo(({
           role="listbox"
           aria-label={`${label} options`}
         >
-          <div className="max-h-60 overflow-auto custom-scrollbar">
+          <div className="max-h-60 overflow-y-auto custom-scrollbar" style={{ touchAction: 'pan-y' }}>
             {options.length === 0 ? (
               <div className="text-sm text-gray-400 px-2 py-2">No options</div>
             ) : (

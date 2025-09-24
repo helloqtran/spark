@@ -206,6 +206,17 @@
     touch-action: pan-y !important;
   }
   
+  /* Specifically allow scrolling in dropdown containers */
+  .custom-scrollbar * {
+    touch-action: pan-y !important;
+  }
+  
+  /* Ensure dropdown scrolling works properly */
+  .custom-scrollbar {
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
   .full-height {
     height: calc(var(--vh, 1vh) * 100) !important;
   }
