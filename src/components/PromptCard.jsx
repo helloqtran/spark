@@ -20,6 +20,16 @@ const PromptCard = React.memo(({
   const [touchStart, setTouchStart] = React.useState(null);
   const [touchEnd, setTouchEnd] = React.useState(null);
 
+  // Dynamic text sizing based on text length
+  const getTextSize = (text) => {
+    const length = text.length;
+    if (length <= 80) return 'text-2xl sm:text-3xl';
+    if (length <= 120) return 'text-xl sm:text-2xl';
+    if (length <= 180) return 'text-lg sm:text-xl';
+    if (length <= 250) return 'text-base sm:text-lg';
+    return 'text-sm sm:text-base';
+  };
+
   const minSwipeDistance = 30;
 
   const onTouchStart = (e) => {
@@ -122,7 +132,7 @@ const PromptCard = React.memo(({
 
       {/* Card content */}
       <div className="flex items-center justify-center h-full">
-        <p className="text-2xl sm:text-3xl leading-relaxed text-gray-800 px-2">{prompt.text}</p>
+        <p className={`${getTextSize(prompt.text)} leading-relaxed text-gray-800 px-2`}>{prompt.text}</p>
       </div>
     </div>
   );

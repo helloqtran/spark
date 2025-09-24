@@ -20,6 +20,16 @@ const BackgroundCard = React.memo(({
   
   // Make background cards more subtle during animation to reduce text visibility
   const isAnimatingSubtle = isAnimating;
+
+  // Dynamic text sizing based on text length (same as PromptCard)
+  const getTextSize = (text) => {
+    const length = text.length;
+    if (length <= 80) return 'text-2xl sm:text-3xl';
+    if (length <= 120) return 'text-xl sm:text-2xl';
+    if (length <= 180) return 'text-lg sm:text-xl';
+    if (length <= 250) return 'text-base sm:text-lg';
+    return 'text-sm sm:text-base';
+  };
   
   return (
     <div
@@ -37,7 +47,7 @@ const BackgroundCard = React.memo(({
           {prompt.type}
         </div>
       )}
-      <p className="text-2xl sm:text-3xl leading-relaxed text-gray-700 mb-2 px-2">{prompt.text}</p>
+      <p className={`${getTextSize(prompt.text)} leading-relaxed text-gray-700 mb-2 px-2`}>{prompt.text}</p>
       {prompt.tags && prompt.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 justify-center">
           {prompt.tags.slice(0,3).map(tag => (
