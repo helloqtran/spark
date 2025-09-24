@@ -48,7 +48,7 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
           </button>
           
           {isDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 w-40 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-20px)' }}>
+            <div className="absolute top-full right-0 mt-2 w-40 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-10px)' }}>
               <button
                 onClick={() => {
                   setCurrentScreen('favorites');

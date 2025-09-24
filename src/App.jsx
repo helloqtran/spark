@@ -188,7 +188,7 @@ const SparkApp = () => {
   // Welcome Screen (CTA only)
   if (currentScreen === 'welcome') {
     return (
-      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center p-6 text-center full-height" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', margin: '0 !important', position: 'fixed !important' }}>
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center p-6 text-center" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100dvh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important' }}>
         <div className="max-w-md">
           <h1 className="text-8xl font-bold mb-16 text-white tracking-wide spark-font">SPARK</h1>
           <p className="text-gray-300 mb-8">
@@ -214,7 +214,7 @@ const SparkApp = () => {
     });
 
     return (
-      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col full-height" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', margin: '0 !important', position: 'fixed !important' }}>
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100dvh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -275,7 +275,7 @@ const SparkApp = () => {
     }));
 
     return (
-      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col full-height" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', margin: '0 !important', position: 'fixed !important' }}>
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100dvh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -332,7 +332,7 @@ const SparkApp = () => {
   // About Screen
   if (currentScreen === 'about') {
     return (
-      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col full-height" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', margin: '0 !important', position: 'fixed !important' }}>
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100dvh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -747,51 +747,70 @@ const SparkApp = () => {
       </div>
 
       {/* Card and Help Text Container */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4">
+      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-20">
         {/* Card Deck - Vertically Centered */}
-        <div className="flex-1 flex items-center justify-center w-full">
-          <div className="relative w-[85%] sm:w-[500px] h-[400px] sm:h-[500px]" style={{ height: 'calc(400px + 16px)' }}>
-            {/* Background cards */}
-            {[1, 2].map((offsetIndex) => {
-              const cardIndex = (currentIndex + offsetIndex) % availablePrompts.length;
-              const prompt = availablePrompts[cardIndex];
-              
-              // Only render if we have a valid prompt
-              if (!prompt) return null;
-              
-              return (
-                <BackgroundCard
-                  key={`bg-${offsetIndex}-${cardIndex}`}
-                  prompt={prompt}
-                  offsetIndex={offsetIndex}
-                  isAnimating={isAnimating}
-                  cardIndex={cardIndex}
-                />
-              );
-            })}
+        <div className="flex items-center justify-center w-full mb-8">
+          {availablePrompts.length === 0 ? (
+            <div className="text-center p-8">
+              <div className="text-6xl mb-4">🔍</div>
+              <h3 className="text-xl font-semibold text-white mb-2">No prompts found</h3>
+              <p className="text-gray-300 mb-4">
+                No prompts match your current filters. Try adjusting your filters or clear them to see all prompts.
+              </p>
+              <button
+                onClick={handleClearFilters}
+                className="text-black px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base rounded-lg font-medium transition-colors"
+                style={{ backgroundColor: '#D8A159' }}
+              >
+                Clear all filters
+              </button>
+            </div>
+          ) : (
+            <div className="relative w-[85%] sm:w-[500px] h-[350px] sm:h-[450px]" style={{ height: 'calc(350px + 16px)' }}>
+              {/* Background cards */}
+              {[1, 2].map((offsetIndex) => {
+                const cardIndex = (currentIndex + offsetIndex) % availablePrompts.length;
+                const prompt = availablePrompts[cardIndex];
+                
+                // Only render if we have a valid prompt
+                if (!prompt) return null;
+                
+                return (
+                  <BackgroundCard
+                    key={`bg-${offsetIndex}-${cardIndex}`}
+                    prompt={prompt}
+                    offsetIndex={offsetIndex}
+                    isAnimating={isAnimating}
+                    cardIndex={cardIndex}
+                  />
+                );
+              })}
 
-            {/* Front card */}
-            {currentPrompt && (
-              <PromptCard
-                prompt={currentPrompt}
-                isAnimating={isAnimating}
-                favorites={favorites}
-                hiddenPrompts={hiddenPrompts}
-                onToggleFavorite={toggleFavorite}
-                onToggleHidden={handleToggleHidden}
-                onAddToList={handleAddToList}
-                onClick={getNewPrompt}
-              />
-            )}
-          </div>
+              {/* Front card */}
+              {currentPrompt && (
+                <PromptCard
+                  prompt={currentPrompt}
+                  isAnimating={isAnimating}
+                  favorites={favorites}
+                  hiddenPrompts={hiddenPrompts}
+                  onToggleFavorite={toggleFavorite}
+                  onToggleHidden={handleToggleHidden}
+                  onAddToList={handleAddToList}
+                  onClick={getNewPrompt}
+                />
+              )}
+            </div>
+          )}
         </div>
 
         {/* Help Text - Centered at bottom */}
-        <div className="flex justify-center items-center pb-8">
-          <p className="text-sm text-gray-300 text-center">
-            Tap or swipe the card to get a new prompt
-          </p>
-        </div>
+        {availablePrompts.length > 0 && (
+          <div className="flex justify-center items-center">
+            <p className="text-sm text-gray-300 text-center">
+              Tap or swipe the card to get a new prompt
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Add to List Modal */}
