@@ -10,23 +10,63 @@ import AboutPage from './pages/AboutPage';
 import AllPromptsPage from './pages/AllPromptsPage';
 import ListsPage from './pages/ListsPage';
 
-// Import hooks and utilities
-import { useUserData } from './hooks/useUserData';
-
 const App = () => {
   const navigate = useNavigate();
-  const userData = useUserData();
-  const {
-    favorites,
-    hiddenPrompts,
-    lists,
-    setLists,
-    toggleFavorite,
-    toggleHidden,
-    addPromptToList,
-    removePromptFromList,
-    deleteList
-  } = userData;
+  
+  // Simple state without complex data loading
+  const [favorites, setFavorites] = React.useState(new Set());
+  const [hiddenPrompts, setHiddenPrompts] = React.useState(new Set());
+  const [lists, setLists] = React.useState({});
+
+  // Simple functions
+  const toggleFavorite = (promptText) => {
+    setFavorites(prev => {
+      const newFavorites = new Set(prev);
+      if (newFavorites.has(promptText)) {
+        newFavorites.delete(promptText);
+      } else {
+        newFavorites.add(promptText);
+      }
+      return newFavorites;
+    });
+  };
+
+  const toggleHidden = (promptText) => {
+    setHiddenPrompts(prev => {
+      const newHidden = new Set(prev);
+      if (newHidden.has(promptText)) {
+        newHidden.delete(promptText);
+      } else {
+        newHidden.add(promptText);
+      }
+      return newHidden;
+    });
+  };
+
+  const addPromptToList = (listName, promptText) => {
+    if (!listName || !promptText) return;
+    setLists(prev => {
+      const current = prev[listName] || [];
+      const nextItems = current.includes(promptText) ? current : [...current, promptText];
+      return { ...prev, [listName]: nextItems };
+    });
+  };
+
+  const removePromptFromList = (listName, promptText) => {
+    setLists(prev => {
+      const current = prev[listName] || [];
+      const nextItems = current.filter(t => t !== promptText);
+      return { ...prev, [listName]: nextItems };
+    });
+  };
+
+  const deleteList = (listName) => {
+    setLists(prev => {
+      const next = { ...prev };
+      delete next[listName];
+      return next;
+    });
+  };
 
   // Prevent mobile scrolling
   useEffect(() => {
@@ -95,7 +135,7 @@ const App = () => {
             toggleHidden={toggleHidden}
             addPromptToList={addPromptToList}
             setLists={setLists}
-            handleToggleHidden={handleToggleHidden}
+            handleToggleHidden={toggleHidden}
           />
         } 
       />
@@ -113,7 +153,7 @@ const App = () => {
         element={
           <HiddenPage 
             hiddenPrompts={hiddenPrompts}
-            handleToggleHidden={handleToggleHidden}
+            handleToggleHidden={toggleHidden}
           />
         } 
       />
@@ -134,7 +174,7 @@ const App = () => {
             hiddenPrompts={hiddenPrompts}
             lists={lists}
             toggleFavorite={toggleFavorite}
-            handleToggleHidden={handleToggleHidden}
+            handleToggleHidden={toggleHidden}
             addPromptToList={addPromptToList}
             setLists={setLists}
             deleteList={deleteList}

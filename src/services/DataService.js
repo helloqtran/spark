@@ -39,23 +39,73 @@ const DataService = {
   },
   
   // Specific data operations
-  saveFavorites: (favorites) => DataService.saveUserData('favorites', Array.from(favorites)),
+  saveFavorites: (favorites) => {
+    try {
+      DataService.saveUserData('favorites', Array.from(favorites));
+    } catch (error) {
+      console.error('Failed to save favorites:', error);
+    }
+  },
   loadFavorites: () => {
-    const favorites = DataService.loadUserData('favorites', []);
-    return new Set(Array.isArray(favorites) ? favorites : []);
+    try {
+      const favorites = DataService.loadUserData('favorites', []);
+      return new Set(Array.isArray(favorites) ? favorites : []);
+    } catch (error) {
+      console.error('Failed to load favorites:', error);
+      return new Set();
+    }
   },
   
-  saveHidden: (hidden) => DataService.saveUserData('hidden', Array.from(hidden)),
+  saveHidden: (hidden) => {
+    try {
+      DataService.saveUserData('hidden', Array.from(hidden));
+    } catch (error) {
+      console.error('Failed to save hidden prompts:', error);
+    }
+  },
   loadHidden: () => {
-    const hidden = DataService.loadUserData('hidden', []);
-    return new Set(Array.isArray(hidden) ? hidden : []);
+    try {
+      const hidden = DataService.loadUserData('hidden', []);
+      return new Set(Array.isArray(hidden) ? hidden : []);
+    } catch (error) {
+      console.error('Failed to load hidden prompts:', error);
+      return new Set();
+    }
   },
   
-  saveLists: (lists) => DataService.saveUserData('lists', lists),
-  loadLists: () => DataService.loadUserData('lists', {}),
+  saveLists: (lists) => {
+    try {
+      DataService.saveUserData('lists', lists);
+    } catch (error) {
+      console.error('Failed to save lists:', error);
+    }
+  },
+  loadLists: () => {
+    try {
+      const lists = DataService.loadUserData('lists', {});
+      return typeof lists === 'object' && lists !== null ? lists : {};
+    } catch (error) {
+      console.error('Failed to load lists:', error);
+      return {};
+    }
+  },
   
-  saveSelectedCategories: (categories) => DataService.saveUserData('selectedCategories', categories),
-  loadSelectedCategories: () => DataService.loadUserData('selectedCategories', [])
+  saveSelectedCategories: (categories) => {
+    try {
+      DataService.saveUserData('selectedCategories', categories);
+    } catch (error) {
+      console.error('Failed to save selected categories:', error);
+    }
+  },
+  loadSelectedCategories: () => {
+    try {
+      const categories = DataService.loadUserData('selectedCategories', []);
+      return Array.isArray(categories) ? categories : [];
+    } catch (error) {
+      console.error('Failed to load selected categories:', error);
+      return [];
+    }
+  }
 };
 
 export default DataService;

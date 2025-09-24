@@ -22,7 +22,7 @@ const AboutPage = ({ favorites, hiddenPrompts }) => {
         <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
           <div className="space-y-4">
             <p className="text-white leading-relaxed">
-              Spark was ~vibecoded~ with love (and a few tears) by <a href="https://www.instagram.com/pole_teenie" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>@pole_teenie</a> and <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>Cursor</a> <Heart size={16} className="inline fill-pink-500 text-pink-500 ml-1" />
+              Spark was vibecoded with love (and a few tears) by <a href="https://www.instagram.com/pole_teenie" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>@pole_teenie</a> and <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>Cursor</a> <Heart size={16} className="inline fill-pink-500 text-pink-500 ml-1" />
             </p>
             
             <p className="text-white leading-relaxed">
