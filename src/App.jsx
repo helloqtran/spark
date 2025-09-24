@@ -747,19 +747,19 @@ const SparkApp = () => {
       </div>
 
       {/* Card and Help Text Container */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-20">
+      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-8">
         {/* Card Deck - Vertically Centered */}
         <div className="flex items-center justify-center w-full mb-8">
           {availablePrompts.length === 0 ? (
             <div className="text-center p-8">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-xl font-semibold text-white mb-2">No prompts found</h3>
-              <p className="text-gray-300 mb-4">
+              <p className="text-gray-300 mb-6">
                 No prompts match your current filters. Try adjusting your filters or clear them to see all prompts.
               </p>
               <button
                 onClick={handleClearFilters}
-                className="text-black px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base rounded-lg font-medium transition-colors"
+                className="text-black px-3 py-1.5 sm:px-6 sm:py-3 text-xs sm:text-base rounded-lg font-medium transition-colors"
                 style={{ backgroundColor: '#D8A159' }}
               >
                 Clear all filters
