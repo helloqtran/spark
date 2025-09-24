@@ -29,9 +29,13 @@ const PromptCard = React.memo(({
 
   const onTouchMove = (e) => {
     setTouchEnd(e.targetTouches[0].clientX);
+    // Prevent scrolling while swiping
+    if (touchStart) {
+      e.preventDefault();
+    }
   };
 
-  const onTouchEnd = () => {
+  const onTouchEnd = (e) => {
     if (!touchStart || !touchEnd) return;
     
     const distance = touchStart - touchEnd;
@@ -40,6 +44,7 @@ const PromptCard = React.memo(({
 
     if (isLeftSwipe || isRightSwipe) {
       e.preventDefault();
+      e.stopPropagation();
       onClick();
     }
   };

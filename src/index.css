@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --vh: 1vh;
+  }
+  
   html {
     scrollbar-width: thin;
     scrollbar-color: #D8A159 #1f2937;
@@ -158,5 +162,9 @@
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+  }
+  
+  .full-height {
+    height: calc(var(--vh, 1vh) * 100) !important;
   }
 }
