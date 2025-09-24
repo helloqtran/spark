@@ -159,70 +159,74 @@ const MainPromptsPage = ({
         hiddenPrompts={hiddenPrompts}
       />
 
-      {/* Filters Section */}
-      <div className="flex justify-center items-center pt-24 pb-0 px-4 sm:px-0">
-        <div className="w-full max-w-4xl">
-          <div className="text-center mb-3">
-            <h2 className="text-sm sm:text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
+      {/* Main Content Container - Groups Filters and Cards */}
+      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-4 pt-8 sm:pt-12">
+        {/* Combined Filters and Cards Section */}
+        <div className="flex flex-col items-center w-full">
+          {/* Filters Section */}
+          <div className="flex justify-center items-center mb-6 sm:mb-8">
+            <div className="w-full max-w-4xl">
+              <div className="text-center mb-3">
+                <h2 className="text-sm sm:text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <DropdownChip
+                  label="Type"
+                  options={getAllTypes()}
+                  selected={filterTypes}
+                  onToggle={(id) => setFilterTypes(prev => { 
+                    const next = new Set(prev); 
+                    next.has(id) ? next.delete(id) : next.add(id); 
+                    return next; 
+                  })}
+                  onClear={() => setFilterTypes(new Set())}
+                  onOpenChange={(open) => setOpenDropdown(open ? 'type' : null)}
+                  isOpen={openDropdown === 'type'}
+                  dropdownId="type"
+                />
+                <DropdownChip
+                  label="Tags"
+                  options={getAllTags().map(tag => ({ id: tag, label: tag }))}
+                  selected={filterTags}
+                  onToggle={(id) => setFilterTags(prev => { 
+                    const next = new Set(prev); 
+                    next.has(id) ? next.delete(id) : next.add(id); 
+                    return next; 
+                  })}
+                  onClear={() => setFilterTags(new Set())}
+                  onOpenChange={(open) => setOpenDropdown(open ? 'tags' : null)}
+                  isOpen={openDropdown === 'tags'}
+                  dropdownId="tags"
+                />
+                <DropdownChip
+                  label="Custom Lists"
+                  options={Object.keys(lists).map(n => ({ id: n, label: n }))}
+                  selected={filterLists}
+                  onToggle={(id) => setFilterLists(prev => { 
+                    const next = new Set(prev); 
+                    next.has(id) ? next.delete(id) : next.add(id); 
+                    return next; 
+                  })}
+                  onClear={() => setFilterLists(new Set())}
+                  onOpenChange={(open) => setOpenDropdown(open ? 'lists' : null)}
+                  isOpen={openDropdown === 'lists'}
+                  dropdownId="lists"
+                />
+              </div>
+              <div className="flex justify-center mt-3">
+                <button
+                  onClick={handleClearFilters}
+                  className="text-xs sm:text-base px-2 sm:px-3 py-1 sm:py-2 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
+                  aria-label="Clear all filters"
+                >
+                  Clear filters
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <DropdownChip
-              label="Type"
-              options={getAllTypes()}
-              selected={filterTypes}
-              onToggle={(id) => setFilterTypes(prev => { 
-                const next = new Set(prev); 
-                next.has(id) ? next.delete(id) : next.add(id); 
-                return next; 
-              })}
-              onClear={() => setFilterTypes(new Set())}
-              onOpenChange={(open) => setOpenDropdown(open ? 'type' : null)}
-              isOpen={openDropdown === 'type'}
-              dropdownId="type"
-            />
-            <DropdownChip
-              label="Tags"
-              options={getAllTags().map(tag => ({ id: tag, label: tag }))}
-              selected={filterTags}
-              onToggle={(id) => setFilterTags(prev => { 
-                const next = new Set(prev); 
-                next.has(id) ? next.delete(id) : next.add(id); 
-                return next; 
-              })}
-              onClear={() => setFilterTags(new Set())}
-              onOpenChange={(open) => setOpenDropdown(open ? 'tags' : null)}
-              isOpen={openDropdown === 'tags'}
-              dropdownId="tags"
-            />
-            <DropdownChip
-              label="Custom Lists"
-              options={Object.keys(lists).map(n => ({ id: n, label: n }))}
-              selected={filterLists}
-              onToggle={(id) => setFilterLists(prev => { 
-                const next = new Set(prev); 
-                next.has(id) ? next.delete(id) : next.add(id); 
-                return next; 
-              })}
-              onClear={() => setFilterLists(new Set())}
-              onOpenChange={(open) => setOpenDropdown(open ? 'lists' : null)}
-              isOpen={openDropdown === 'lists'}
-              dropdownId="lists"
-            />
-          </div>
-          <div className="flex justify-center mt-3">
-            <button
-              onClick={handleClearFilters}
-              className="text-xs sm:text-base px-2 sm:px-3 py-1 sm:py-2 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
-              aria-label="Clear all filters"
-            >
-              Clear filters
-            </button>
-          </div>
-        </div>
-      </div>
 
-      {/* Card and Help Text Container */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-4">
+          {/* Card and Help Text Container */}
+          <div className="flex flex-col items-center w-full max-w-none">
         {/* Card Deck - Vertically Centered */}
         <div className="flex items-center justify-center w-full mb-8">
           {availablePrompts.length === 0 ? (
@@ -286,6 +290,8 @@ const MainPromptsPage = ({
             </p>
           </div>
         )}
+          </div>
+        </div>
       </div>
 
       {/* Add to List Modal */}
