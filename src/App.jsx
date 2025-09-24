@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 // Import page components
-import WelcomePage from './pages/WelcomePage';
 import MainPromptsPage from './pages/MainPromptsPage';
 import FavoritesPage from './pages/FavoritesPage';
 import HiddenPage from './pages/HiddenPage';
@@ -124,7 +123,18 @@ const App = () => {
     <Routes>
       <Route 
         path="/" 
-        element={<WelcomePage onGetStarted={() => navigate('/prompts')} />} 
+        element={
+          <MainPromptsPage 
+            favorites={favorites}
+            hiddenPrompts={hiddenPrompts}
+            lists={lists}
+            toggleFavorite={toggleFavorite}
+            toggleHidden={toggleHidden}
+            addPromptToList={addPromptToList}
+            setLists={setLists}
+            handleToggleHidden={toggleHidden}
+          />
+        } 
       />
       <Route 
         path="/prompts" 

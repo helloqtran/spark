@@ -19,6 +19,11 @@ const AllPromptsPage = ({
   const [allPromptsFilterTypes, setAllPromptsFilterTypes] = useState(new Set());
   const [allPromptsFilterTags, setAllPromptsFilterTags] = useState(new Set());
   const [allPromptsFilterLists, setAllPromptsFilterLists] = useState(new Set());
+  
+  // Exclusion filters
+  const [allPromptsExcludeTypes, setAllPromptsExcludeTypes] = useState(new Set());
+  const [allPromptsExcludeTags, setAllPromptsExcludeTags] = useState(new Set());
+  const [allPromptsExcludeLists, setAllPromptsExcludeLists] = useState(new Set());
   const [allPromptsOpenDropdown, setAllPromptsOpenDropdown] = useState(null);
   const [isAddToListOpen, setIsAddToListOpen] = useState(false);
   const [newListName, setNewListName] = useState('');
@@ -41,16 +46,28 @@ const AllPromptsPage = ({
     allPrompts = PROMPTS_DATABASE.map(item => normalizePromptItem(item));
   }
 
-  // Apply type filters
+  // Apply type filters (inclusion)
   const typeSelected = allPromptsFilterTypes.size > 0;
   if (typeSelected) {
     allPrompts = allPrompts.filter(p => p.type && allPromptsFilterTypes.has(p.type));
   }
 
-  // Apply tag filters
+  // Apply type exclusions
+  const typeExcluded = allPromptsExcludeTypes.size > 0;
+  if (typeExcluded) {
+    allPrompts = allPrompts.filter(p => !p.type || !allPromptsExcludeTypes.has(p.type));
+  }
+
+  // Apply tag filters (inclusion)
   const tagSelected = allPromptsFilterTags.size > 0;
   if (tagSelected) {
     allPrompts = allPrompts.filter(p => p.tags && p.tags.some(tag => allPromptsFilterTags.has(tag)));
+  }
+
+  // Apply tag exclusions
+  const tagExcluded = allPromptsExcludeTags.size > 0;
+  if (tagExcluded) {
+    allPrompts = allPrompts.filter(p => !p.tags || !p.tags.some(tag => allPromptsExcludeTags.has(tag)));
   }
 
   const handleCreateList = useCallback(() => {
@@ -104,12 +121,36 @@ const AllPromptsPage = ({
               label="Type"
               options={getAllTypes()}
               selected={allPromptsFilterTypes}
-              onToggle={(id) => setAllPromptsFilterTypes(prev => { 
-                const next = new Set(prev); 
-                next.has(id) ? next.delete(id) : next.add(id); 
-                return next; 
-              })}
-              onClear={() => setAllPromptsFilterTypes(new Set())}
+              excluded={allPromptsExcludeTypes}
+              onToggle={(id, action) => {
+                if (action === 'include') {
+                  setAllPromptsFilterTypes(prev => new Set([...prev, id]));
+                  setAllPromptsExcludeTypes(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                } else if (action === 'exclude') {
+                  setAllPromptsFilterTypes(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                  setAllPromptsExcludeTypes(prev => new Set([...prev, id]));
+                } else if (action === 'clear') {
+                  setAllPromptsFilterTypes(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                  setAllPromptsExcludeTypes(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                }
+              }}
+              onClear={() => { setAllPromptsFilterTypes(new Set()); setAllPromptsExcludeTypes(new Set()); }}
               onOpenChange={(open) => setAllPromptsOpenDropdown(open ? 'type' : null)}
               isOpen={allPromptsOpenDropdown === 'type'}
               dropdownId="type"
@@ -118,12 +159,36 @@ const AllPromptsPage = ({
               label="Tags"
               options={getAllTags().map(tag => ({ id: tag, label: tag }))}
               selected={allPromptsFilterTags}
-              onToggle={(id) => setAllPromptsFilterTags(prev => { 
-                const next = new Set(prev); 
-                next.has(id) ? next.delete(id) : next.add(id); 
-                return next; 
-              })}
-              onClear={() => setAllPromptsFilterTags(new Set())}
+              excluded={allPromptsExcludeTags}
+              onToggle={(id, action) => {
+                if (action === 'include') {
+                  setAllPromptsFilterTags(prev => new Set([...prev, id]));
+                  setAllPromptsExcludeTags(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                } else if (action === 'exclude') {
+                  setAllPromptsFilterTags(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                  setAllPromptsExcludeTags(prev => new Set([...prev, id]));
+                } else if (action === 'clear') {
+                  setAllPromptsFilterTags(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                  setAllPromptsExcludeTags(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                }
+              }}
+              onClear={() => { setAllPromptsFilterTags(new Set()); setAllPromptsExcludeTags(new Set()); }}
               onOpenChange={(open) => setAllPromptsOpenDropdown(open ? 'tags' : null)}
               isOpen={allPromptsOpenDropdown === 'tags'}
               dropdownId="tags"
@@ -132,12 +197,36 @@ const AllPromptsPage = ({
               label="Custom Lists"
               options={Object.keys(lists).map(n => ({ id: n, label: n }))}
               selected={allPromptsFilterLists}
-              onToggle={(id) => setAllPromptsFilterLists(prev => { 
-                const next = new Set(prev); 
-                next.has(id) ? next.delete(id) : next.add(id); 
-                return next; 
-              })}
-              onClear={() => setAllPromptsFilterLists(new Set())}
+              excluded={allPromptsExcludeLists}
+              onToggle={(id, action) => {
+                if (action === 'include') {
+                  setAllPromptsFilterLists(prev => new Set([...prev, id]));
+                  setAllPromptsExcludeLists(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                } else if (action === 'exclude') {
+                  setAllPromptsFilterLists(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                  setAllPromptsExcludeLists(prev => new Set([...prev, id]));
+                } else if (action === 'clear') {
+                  setAllPromptsFilterLists(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                  setAllPromptsExcludeLists(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                }
+              }}
+              onClear={() => { setAllPromptsFilterLists(new Set()); setAllPromptsExcludeLists(new Set()); }}
               onOpenChange={(open) => setAllPromptsOpenDropdown(open ? 'lists' : null)}
               isOpen={allPromptsOpenDropdown === 'lists'}
               dropdownId="lists"
@@ -149,6 +238,9 @@ const AllPromptsPage = ({
                 setAllPromptsFilterTypes(new Set());
                 setAllPromptsFilterTags(new Set());
                 setAllPromptsFilterLists(new Set());
+                setAllPromptsExcludeTypes(new Set());
+                setAllPromptsExcludeTags(new Set());
+                setAllPromptsExcludeLists(new Set());
               }}
               className="text-sm sm:text-xs px-2 py-1 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
               aria-label="Clear all filters"

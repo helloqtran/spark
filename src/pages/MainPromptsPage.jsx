@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import NavigationBar from '../components/NavigationBar';
 import DropdownChip from '../components/DropdownChip';
 import PromptCard from '../components/PromptCard';
 import BackgroundCard from '../components/BackgroundCard';
 import AddToListModal from '../components/AddToListModal';
+import WelcomeModal from '../components/WelcomeModal';
 import { PROMPTS_DATABASE, normalizePromptItem, getAllTags, getAllTypes } from '../data/prompts';
 
 const MainPromptsPage = ({ 
@@ -22,12 +23,27 @@ const MainPromptsPage = ({
   const [isAddToListOpen, setIsAddToListOpen] = useState(false);
   const [newListName, setNewListName] = useState('');
   const [selectedListName, setSelectedListName] = useState('');
+  const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
   
   // Filters (multi-select) - Main view
   const [filterTypes, setFilterTypes] = useState(new Set());
   const [filterTags, setFilterTags] = useState(new Set());
   const [filterLists, setFilterLists] = useState(new Set());
+  
+  // Exclusion filters
+  const [excludeTypes, setExcludeTypes] = useState(new Set());
+  const [excludeTags, setExcludeTags] = useState(new Set());
+  const [excludeLists, setExcludeLists] = useState(new Set());
   const [openDropdown, setOpenDropdown] = useState(null);
+
+  // Check for first-time user on component mount
+  useEffect(() => {
+    const hasVisitedBefore = localStorage.getItem('spark-has-visited');
+    if (!hasVisitedBefore) {
+      setIsWelcomeModalOpen(true);
+      localStorage.setItem('spark-has-visited', 'true');
+    }
+  }, []);
 
   // Memoized filtered prompts to prevent unnecessary recalculations
   const availablePrompts = useMemo(() => {
@@ -47,20 +63,32 @@ const MainPromptsPage = ({
       pool = PROMPTS_DATABASE.map(item => normalizePromptItem(item));
     }
 
-    // Apply type filters
+    // Apply type filters (inclusion)
     const typeSelected = filterTypes.size > 0;
     const typeFiltered = typeSelected
       ? pool.filter(p => p.type && filterTypes.has(p.type))
       : pool;
 
-    // Apply tag filters
-    const tagSelected = filterTags.size > 0;
-    const tagFiltered = tagSelected
-      ? typeFiltered.filter(p => p.tags && p.tags.some(tag => filterTags.has(tag)))
+    // Apply type exclusions
+    const typeExcluded = excludeTypes.size > 0;
+    const typeExclusionFiltered = typeExcluded
+      ? typeFiltered.filter(p => !p.type || !excludeTypes.has(p.type))
       : typeFiltered;
 
+    // Apply tag filters (inclusion)
+    const tagSelected = filterTags.size > 0;
+    const tagFiltered = tagSelected
+      ? typeExclusionFiltered.filter(p => p.tags && p.tags.some(tag => filterTags.has(tag)))
+      : typeExclusionFiltered;
+
+    // Apply tag exclusions
+    const tagExcluded = excludeTags.size > 0;
+    const tagExclusionFiltered = tagExcluded
+      ? tagFiltered.filter(p => !p.tags || !p.tags.some(tag => excludeTags.has(tag)))
+      : tagFiltered;
+
     // Exclude hidden
-    const filtered = tagFiltered.filter(p => !hiddenPrompts.has(p.text));
+    const filtered = tagExclusionFiltered.filter(p => !hiddenPrompts.has(p.text));
     
     // Shuffle the array to randomize order
     const shuffled = [...filtered];
@@ -70,7 +98,7 @@ const MainPromptsPage = ({
     }
     
     return shuffled;
-  }, [filterTypes, filterTags, filterLists, lists, hiddenPrompts]);
+  }, [filterTypes, filterTags, filterLists, excludeTypes, excludeTags, excludeLists, lists, hiddenPrompts]);
 
   // Memoized current prompt - try to find the stored prompt text first
   const currentPrompt = useMemo(() => {
@@ -150,6 +178,9 @@ const MainPromptsPage = ({
     setFilterTypes(new Set());
     setFilterTags(new Set());
     setFilterLists(new Set());
+    setExcludeTypes(new Set());
+    setExcludeTags(new Set());
+    setExcludeLists(new Set());
   }, []);
 
   return (
@@ -175,12 +206,36 @@ const MainPromptsPage = ({
                   label="Type"
                   options={getAllTypes()}
                   selected={filterTypes}
-                  onToggle={(id) => setFilterTypes(prev => { 
-                    const next = new Set(prev); 
-                    next.has(id) ? next.delete(id) : next.add(id); 
-                    return next; 
-                  })}
-                  onClear={() => setFilterTypes(new Set())}
+                  excluded={excludeTypes}
+                  onToggle={(id, action) => {
+                    if (action === 'include') {
+                      setFilterTypes(prev => new Set([...prev, id]));
+                      setExcludeTypes(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                    } else if (action === 'exclude') {
+                      setFilterTypes(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                      setExcludeTypes(prev => new Set([...prev, id]));
+                    } else if (action === 'clear') {
+                      setFilterTypes(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                      setExcludeTypes(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                    }
+                  }}
+                  onClear={() => { setFilterTypes(new Set()); setExcludeTypes(new Set()); }}
                   onOpenChange={(open) => setOpenDropdown(open ? 'type' : null)}
                   isOpen={openDropdown === 'type'}
                   dropdownId="type"
@@ -189,12 +244,36 @@ const MainPromptsPage = ({
                   label="Tags"
                   options={getAllTags().map(tag => ({ id: tag, label: tag }))}
                   selected={filterTags}
-                  onToggle={(id) => setFilterTags(prev => { 
-                    const next = new Set(prev); 
-                    next.has(id) ? next.delete(id) : next.add(id); 
-                    return next; 
-                  })}
-                  onClear={() => setFilterTags(new Set())}
+                  excluded={excludeTags}
+                  onToggle={(id, action) => {
+                    if (action === 'include') {
+                      setFilterTags(prev => new Set([...prev, id]));
+                      setExcludeTags(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                    } else if (action === 'exclude') {
+                      setFilterTags(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                      setExcludeTags(prev => new Set([...prev, id]));
+                    } else if (action === 'clear') {
+                      setFilterTags(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                      setExcludeTags(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                    }
+                  }}
+                  onClear={() => { setFilterTags(new Set()); setExcludeTags(new Set()); }}
                   onOpenChange={(open) => setOpenDropdown(open ? 'tags' : null)}
                   isOpen={openDropdown === 'tags'}
                   dropdownId="tags"
@@ -203,12 +282,36 @@ const MainPromptsPage = ({
                   label="Custom Lists"
                   options={Object.keys(lists).map(n => ({ id: n, label: n }))}
                   selected={filterLists}
-                  onToggle={(id) => setFilterLists(prev => { 
-                    const next = new Set(prev); 
-                    next.has(id) ? next.delete(id) : next.add(id); 
-                    return next; 
-                  })}
-                  onClear={() => setFilterLists(new Set())}
+                  excluded={excludeLists}
+                  onToggle={(id, action) => {
+                    if (action === 'include') {
+                      setFilterLists(prev => new Set([...prev, id]));
+                      setExcludeLists(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                    } else if (action === 'exclude') {
+                      setFilterLists(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                      setExcludeLists(prev => new Set([...prev, id]));
+                    } else if (action === 'clear') {
+                      setFilterLists(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                      setExcludeLists(prev => {
+                        const next = new Set(prev);
+                        next.delete(id);
+                        return next;
+                      });
+                    }
+                  }}
+                  onClear={() => { setFilterLists(new Set()); setExcludeLists(new Set()); }}
                   onOpenChange={(open) => setOpenDropdown(open ? 'lists' : null)}
                   isOpen={openDropdown === 'lists'}
                   dropdownId="lists"
@@ -310,6 +413,12 @@ const MainPromptsPage = ({
         setNewListName={setNewListName}
         onAddToList={handleAddToListConfirm}
         onCreateList={handleCreateList}
+      />
+
+      {/* Welcome Modal */}
+      <WelcomeModal
+        isOpen={isWelcomeModalOpen}
+        onClose={() => setIsWelcomeModalOpen(false)}
       />
     </div>
   );

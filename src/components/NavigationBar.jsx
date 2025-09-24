@@ -45,7 +45,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
         <button
           onClick={() => navigate('/')}
           className="text-lg sm:text-xl font-bold text-white hover:text-gray-300 transition-colors spark-font"
-          aria-label="Go to welcome page"
+          aria-label="Go to main prompts page"
         >
           SPARK
         </button>
@@ -158,7 +158,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
             <button
               onClick={() => navigate('/')}
               className="text-lg font-bold text-white hover:text-gray-300 transition-colors spark-font"
-              aria-label="Go to welcome page"
+              aria-label="Go to main prompts page"
             >
               SPARK
             </button>

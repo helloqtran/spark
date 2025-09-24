@@ -1,0 +1,47 @@
+import React from 'react';
+import { ChevronRight, X } from 'lucide-react';
+
+const WelcomeModal = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm" 
+        onClick={onClose}
+        aria-label="Close welcome modal"
+      />
+      
+      {/* Modal Content */}
+      <div className="relative bg-black border border-gray-700 rounded-2xl shadow-xl w-[90%] max-w-md p-8 text-center">
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+          aria-label="Close welcome modal"
+        >
+          <X size={20} />
+        </button>
+
+        {/* Content */}
+        <div className="max-w-sm mx-auto">
+          <h1 className="text-6xl font-bold mb-8 text-white tracking-wide spark-font">SPARK</h1>
+          <p className="text-gray-300 mb-8 text-lg leading-relaxed">
+            Get inspired with movement prompts designed to spark creativity in your freestyle practice.
+          </p>
+          <button 
+            onClick={onClose}
+            className="text-black px-8 py-3 rounded-lg font-medium flex items-center gap-3 mx-auto transition-colors text-base hover:opacity-90"
+            style={{ backgroundColor: '#D8A159' }}
+          >
+            Get Started
+            <ChevronRight size={20} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default WelcomeModal;
