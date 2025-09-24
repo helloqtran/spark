@@ -12,6 +12,7 @@ const HiddenPage = ({ favorites, hiddenPrompts, handleToggleHidden }) => {
       <NavigationBar 
         favorites={favorites}
         hiddenPrompts={hiddenPrompts}
+        lists={lists}
       />
 
       {/* Page Title */}

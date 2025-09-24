@@ -157,6 +157,7 @@ const MainPromptsPage = ({
       <NavigationBar 
         favorites={favorites}
         hiddenPrompts={hiddenPrompts}
+        lists={lists}
       />
 
       {/* Main Content Container - Groups Filters and Cards */}

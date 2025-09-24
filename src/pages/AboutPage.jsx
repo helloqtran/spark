@@ -8,6 +8,7 @@ const AboutPage = ({ favorites, hiddenPrompts }) => {
       <NavigationBar 
         favorites={favorites}
         hiddenPrompts={hiddenPrompts}
+        lists={{}}
       />
 
       {/* Page Title */}
