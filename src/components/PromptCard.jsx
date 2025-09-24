@@ -17,6 +17,33 @@ const PromptCard = React.memo(({
   onAddToList, 
   onClick 
 }) => {
+  const [touchStart, setTouchStart] = React.useState(null);
+  const [touchEnd, setTouchEnd] = React.useState(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe || isRightSwipe) {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   if (!prompt) return null;
 
   return (
@@ -30,6 +57,9 @@ const PromptCard = React.memo(({
           : 'translateX(0) rotate(0deg)',
       }}
       onClick={onClick}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
       role="button"
       tabIndex={0}
       aria-label={`Movement prompt: ${prompt.text}`}
@@ -46,6 +76,7 @@ const PromptCard = React.memo(({
           e.stopPropagation();
           onToggleFavorite(prompt.text);
         }}
+        onTouchStart={(e) => e.stopPropagation()}
         className="absolute top-3 right-3 sm:top-4 sm:right-4 p-3 hover:bg-gray-100 rounded-full transition-colors"
         aria-label={favorites.has(prompt.text) ? 'Remove from favorites' : 'Add to favorites'}
       >
@@ -64,6 +95,7 @@ const PromptCard = React.memo(({
           e.stopPropagation();
           onToggleHidden(prompt.text);
         }}
+        onTouchStart={(e) => e.stopPropagation()}
         className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 px-3 py-2 sm:px-4 text-sm font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
         aria-label={hiddenPrompts.has(prompt.text) ? 'Show prompt' : 'Hide prompt'}
       >
@@ -76,6 +108,7 @@ const PromptCard = React.memo(({
           e.stopPropagation();
           onAddToList();
         }}
+        onTouchStart={(e) => e.stopPropagation()}
         className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 px-3 py-2 sm:px-4 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
         aria-label="Add prompt to list"
       >

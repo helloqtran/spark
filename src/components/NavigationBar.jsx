@@ -29,7 +29,7 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
     <div className="bg-black shadow-sm p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50">
       <button
         onClick={() => setCurrentScreen('prompts')}
-        className="text-xl font-bold text-white hover:text-gray-300 transition-colors spark-font"
+        className="text-lg sm:text-xl font-bold text-white hover:text-gray-300 transition-colors spark-font"
         aria-label="Go to main prompts screen"
       >
         SPARK
@@ -39,12 +39,12 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="text-gray-300 text-base hover:text-white flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+            className="text-gray-300 text-sm sm:text-base hover:text-white flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
             aria-label="View collections"
           >
-            <List size={20} />
+            <List size={16} className="sm:w-5 sm:h-5" />
             Collections
-            <ChevronDown size={18} className={`transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown size={14} className={`sm:w-[18px] sm:h-[18px] transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
           </button>
           
           {isDropdownOpen && (
@@ -88,14 +88,14 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
 
         <button
           onClick={() => setCurrentScreen('all-prompts')}
-          className="text-gray-300 text-base hover:text-white px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+          className="text-gray-300 text-sm sm:text-base hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
           aria-label="View all prompts"
         >
           View All
         </button>
         <button
           onClick={() => setCurrentScreen('about')}
-          className="text-gray-300 text-base hover:text-white px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+          className="text-gray-300 text-sm sm:text-base hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
           aria-label="View about page"
         >
           About

@@ -8,6 +8,8 @@
     scrollbar-color: #D8A159 #1f2937;
     margin: 0 !important;
     padding: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
   }
   
   html::-webkit-scrollbar {
@@ -39,6 +41,9 @@
     scrollbar-color: #D8A159 #1f2937;
     margin: 0 !important;
     padding: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
   }
   
   body::-webkit-scrollbar {
@@ -146,5 +151,12 @@
   * {
     scrollbar-width: thin;
     scrollbar-color: #D8A159 #1f2937;
+  }
+  
+  #root {
+    height: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 }

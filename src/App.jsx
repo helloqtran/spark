@@ -188,7 +188,7 @@ const SparkApp = () => {
   // Welcome Screen (CTA only)
   if (currentScreen === 'welcome') {
     return (
-      <div className="fixed top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center p-6 text-center" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', margin: '0 !important' }}>
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center p-6 text-center" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important' }}>
         <div className="max-w-md">
           <h1 className="text-8xl font-bold mb-16 text-white tracking-wide spark-font">SPARK</h1>
           <p className="text-gray-300 mb-8">
@@ -214,7 +214,7 @@ const SparkApp = () => {
     });
 
     return (
-      <div className="fixed top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', margin: '0 !important' }}>
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -275,7 +275,7 @@ const SparkApp = () => {
     }));
 
     return (
-      <div className="fixed top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', margin: '0 !important' }}>
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -332,7 +332,7 @@ const SparkApp = () => {
   // About Screen
   if (currentScreen === 'about') {
     return (
-      <div className="fixed top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', margin: '0 !important' }}>
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
