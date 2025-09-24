@@ -96,7 +96,7 @@ const AllPromptsPage = ({
       <div className="flex justify-center items-center pt-4 pb-4 px-4 sm:px-0 bg-black">
         <div className="w-full max-w-4xl">
           <div className="text-center mb-3">
-            <h2 className="text-sm font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
+            <h2 className="text-sm sm:text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <DropdownChip
@@ -149,7 +149,7 @@ const AllPromptsPage = ({
                 setAllPromptsFilterTags(new Set());
                 setAllPromptsFilterLists(new Set());
               }}
-              className="text-base px-3 py-2 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
+              className="text-xs sm:text-base px-2 sm:px-3 py-1 sm:py-2 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
               aria-label="Clear all filters"
             >
               Clear filters
