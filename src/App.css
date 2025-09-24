@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Ensure full viewport coverage on mobile */
+.full-viewport {
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  height: 100svh; /* Small viewport height for mobile browsers */
+}

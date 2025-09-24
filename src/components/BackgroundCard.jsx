@@ -23,7 +23,7 @@ const BackgroundCard = React.memo(({
   
   return (
     <div
-      className="absolute top-0 left-0 w-full h-full rounded-2xl p-12 text-center flex flex-col justify-center transition-opacity duration-150 isolate"
+      className="absolute top-0 left-0 w-full h-full rounded-2xl p-4 sm:p-12 text-center flex flex-col justify-center transition-opacity duration-150 isolate"
       style={{
         transform: `translate(${offset}px, ${offset}px)`,
         backgroundColor: bgColor,
@@ -37,7 +37,7 @@ const BackgroundCard = React.memo(({
           {prompt.type}
         </div>
       )}
-      <p className="text-2xl leading-relaxed text-gray-700 mb-2">{prompt.text}</p>
+      <p className="text-2xl sm:text-3xl leading-relaxed text-gray-700 mb-2 px-2">{prompt.text}</p>
       {prompt.tags && prompt.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 justify-center">
           {prompt.tags.slice(0,3).map(tag => (

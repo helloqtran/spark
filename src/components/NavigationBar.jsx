@@ -34,30 +34,30 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
       >
         SPARK
       </button>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
         {/* Collections Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="text-gray-300 text-xs hover:text-white flex items-center gap-1"
+            className="text-gray-300 text-base hover:text-white flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
             aria-label="View collections"
           >
-            <List size={14} />
+            <List size={20} />
             Collections
-            <ChevronDown size={12} className={`transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown size={18} className={`transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
           </button>
           
           {isDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 w-40 bg-black border border-gray-700 rounded-lg shadow-xl py-2">
+            <div className="absolute top-full right-0 mt-2 w-40 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-20px)' }}>
               <button
                 onClick={() => {
                   setCurrentScreen('favorites');
                   setIsDropdownOpen(false);
                 }}
-                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-xs"
+                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm"
                 aria-label={`View my favorites (${favorites.size} items)`}
               >
-                <Heart size={14} className={favorites.size > 0 ? "fill-pink-500 text-pink-500" : ""} />
+                <Heart size={18} className={favorites.size > 0 ? "fill-pink-500 text-pink-500" : ""} />
                 My Favorites ({favorites.size})
               </button>
               <button
@@ -65,10 +65,10 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
                   setCurrentScreen('hidden');
                   setIsDropdownOpen(false);
                 }}
-                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-xs"
+                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm"
                 aria-label={`View hidden prompts (${hiddenPrompts.size} items)`}
               >
-                <EyeOff size={14} />
+                <EyeOff size={18} />
                 Hidden ({hiddenPrompts.size})
               </button>
               <button
@@ -76,10 +76,10 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
                   setCurrentScreen('lists');
                   setIsDropdownOpen(false);
                 }}
-                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-xs"
+                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm"
                 aria-label="View custom lists"
               >
-                <List size={14} />
+                <List size={18} />
                 Custom Lists
               </button>
             </div>
@@ -88,14 +88,14 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
 
         <button
           onClick={() => setCurrentScreen('all-prompts')}
-          className="text-gray-300 text-xs hover:text-white"
+          className="text-gray-300 text-base hover:text-white px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
           aria-label="View all prompts"
         >
           View All
         </button>
         <button
           onClick={() => setCurrentScreen('about')}
-          className="text-gray-300 text-xs hover:text-white"
+          className="text-gray-300 text-base hover:text-white px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
           aria-label="View about page"
         >
           About

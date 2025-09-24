@@ -49,7 +49,7 @@ const DropdownChip = React.memo(({
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={handleToggle}
-        className={`text-xs px-3 py-1.5 rounded-full border flex items-center gap-1 ${
+        className={`text-sm px-3 py-2 rounded-full border flex items-center gap-1.5 ${
           selected.size > 0 
             ? 'text-black border-white' 
             : 'border-gray-500 text-gray-300 hover:bg-gray-800'
@@ -61,19 +61,19 @@ const DropdownChip = React.memo(({
       >
         {label}{selected.size > 0 ? ` (${selected.size})` : ''}
         <ChevronDown 
-          size={12} 
+          size={16} 
           className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} 
         />
       </button>
       {isOpen && (
         <div 
-          className="absolute z-40 mt-2 w-56 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2"
+          className="absolute z-40 mt-2 w-48 sm:w-56 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2"
           role="listbox"
           aria-label={`${label} options`}
         >
           <div className="max-h-60 overflow-auto custom-scrollbar">
             {options.length === 0 ? (
-              <div className="text-xs text-gray-400 px-2 py-2">No options</div>
+              <div className="text-sm text-gray-400 px-2 py-2">No options</div>
             ) : (
               options.map(opt => (
                 <label 
@@ -96,14 +96,14 @@ const DropdownChip = React.memo(({
           <div className="flex items-center justify-between mt-2">
             <button 
               onClick={() => { onClear(); }} 
-              className="text-xs text-gray-400 hover:text-gray-200 px-2 py-1"
+              className="text-base text-gray-400 hover:text-gray-200 px-3 py-2 rounded-lg hover:bg-gray-700/50 transition-colors"
               aria-label="Clear all selections"
             >
               Clear
             </button>
             <button 
               onClick={() => { if (onOpenChange) onOpenChange(false); }} 
-              className="text-xs text-black rounded-md px-3 py-1" 
+              className="text-base text-black rounded-lg px-4 py-2" 
               style={{ backgroundColor: '#D8A159' }}
               aria-label="Close dropdown"
             >

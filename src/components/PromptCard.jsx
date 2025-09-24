@@ -21,7 +21,7 @@ const PromptCard = React.memo(({
 
   return (
     <div
-      className={`absolute top-0 left-0 w-full h-full rounded-2xl p-12 text-center flex flex-col justify-center cursor-pointer transition-transform duration-300 ease-in-out bg-white`}
+      className={`absolute top-0 left-0 w-full h-full rounded-2xl p-4 sm:p-12 text-center flex flex-col justify-center cursor-pointer transition-transform duration-300 ease-in-out bg-white`}
       style={{
         boxShadow: '0 15px 35px rgba(0,0,0,0.2)',
         zIndex: 30,
@@ -46,11 +46,11 @@ const PromptCard = React.memo(({
           e.stopPropagation();
           onToggleFavorite(prompt.text);
         }}
-        className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 p-3 hover:bg-gray-100 rounded-full transition-colors"
         aria-label={favorites.has(prompt.text) ? 'Remove from favorites' : 'Add to favorites'}
       >
         <Heart 
-          size={20} 
+          size={24} 
           className={favorites.has(prompt.text) 
             ? "fill-pink-500 text-pink-500" 
             : "text-gray-400 hover:text-pink-500"
@@ -64,7 +64,7 @@ const PromptCard = React.memo(({
           e.stopPropagation();
           onToggleHidden(prompt.text);
         }}
-        className="absolute bottom-4 left-4 px-3 py-1 text-xs font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+        className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 px-3 py-2 sm:px-4 text-sm font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
         aria-label={hiddenPrompts.has(prompt.text) ? 'Show prompt' : 'Hide prompt'}
       >
         {hiddenPrompts.has(prompt.text) ? "SHOW" : "HIDE"}
@@ -76,7 +76,7 @@ const PromptCard = React.memo(({
           e.stopPropagation();
           onAddToList();
         }}
-        className="absolute bottom-4 right-4 px-3 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
+        className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 px-3 py-2 sm:px-4 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
         aria-label="Add prompt to list"
       >
         Add to list
@@ -84,7 +84,7 @@ const PromptCard = React.memo(({
 
       {/* Card content */}
       <div className="flex items-center justify-center h-full">
-        <p className="text-2xl leading-relaxed text-gray-800">{prompt.text}</p>
+        <p className="text-2xl sm:text-3xl leading-relaxed text-gray-800 px-2">{prompt.text}</p>
       </div>
     </div>
   );

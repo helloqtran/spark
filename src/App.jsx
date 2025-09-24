@@ -36,11 +36,17 @@ const SparkApp = () => {
   const [newListName, setNewListName] = useState('');
   const [selectedListName, setSelectedListName] = useState('');
   
-  // Filters (multi-select)
+  // Filters (multi-select) - Main view
   const [filterTypes, setFilterTypes] = useState(new Set());
   const [filterTags, setFilterTags] = useState(new Set());
   const [filterLists, setFilterLists] = useState(new Set());
   const [openDropdown, setOpenDropdown] = useState(null);
+  
+  // Filters (multi-select) - All Prompts view
+  const [allPromptsFilterTypes, setAllPromptsFilterTypes] = useState(new Set());
+  const [allPromptsFilterTags, setAllPromptsFilterTags] = useState(new Set());
+  const [allPromptsFilterLists, setAllPromptsFilterLists] = useState(new Set());
+  const [allPromptsOpenDropdown, setAllPromptsOpenDropdown] = useState(null);
 
   // Memoized filtered prompts to prevent unnecessary recalculations
   const availablePrompts = useMemo(() => {
@@ -182,7 +188,7 @@ const SparkApp = () => {
   // Welcome Screen (CTA only)
   if (currentScreen === 'welcome') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)' }}>
+      <div className="fixed top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center p-6 text-center" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', margin: '0 !important' }}>
         <div className="max-w-md">
           <h1 className="text-8xl font-bold mb-16 text-white tracking-wide spark-font">SPARK</h1>
           <p className="text-gray-300 mb-8">
@@ -190,11 +196,11 @@ const SparkApp = () => {
           </p>
           <button 
             onClick={() => setCurrentScreen('prompts')}
-            className="text-black px-8 py-3 rounded-lg font-medium flex items-center gap-2 mx-auto transition-colors"
+            className="text-black px-10 py-4 rounded-lg font-medium flex items-center gap-3 mx-auto transition-colors text-lg"
             style={{ backgroundColor: '#D8A159' }}
           >
             Get Started
-            <ChevronRight size={20} />
+            <ChevronRight size={24} />
           </button>
         </div>
       </div>
@@ -208,7 +214,7 @@ const SparkApp = () => {
     });
 
     return (
-      <div className="min-h-screen flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)' }}>
+      <div className="fixed top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', margin: '0 !important' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -224,7 +230,7 @@ const SparkApp = () => {
         </div>
 
         {/* Scrollable content area */}
-        <div className="absolute top-0 left-0 right-0 bottom-0 pt-44 overflow-y-auto overflow-x-hidden custom-scrollbar">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
           <div className="p-6 max-w-4xl mx-auto w-full pb-8">
             {favoritePrompts.length === 0 ? (
               <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 p-8">
@@ -245,10 +251,10 @@ const SparkApp = () => {
                       <div className="flex gap-1 flex-shrink-0 self-center">
                         <button
                           onClick={() => toggleFavorite(prompt.text)}
-                          className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                          className="p-3 hover:bg-white/10 rounded-full transition-colors"
                           title="Remove from favorites"
                         >
-                          <Heart size={16} className="fill-pink-500 text-pink-500" />
+                          <Heart size={20} className="fill-pink-500 text-pink-500" />
                         </button>
                       </div>
                     </div>
@@ -269,7 +275,7 @@ const SparkApp = () => {
     }));
 
     return (
-      <div className="min-h-screen flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)' }}>
+      <div className="fixed top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', margin: '0 !important' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -285,7 +291,7 @@ const SparkApp = () => {
         </div>
 
         {/* Scrollable content area */}
-        <div className="absolute top-0 left-0 right-0 bottom-0 pt-44 overflow-y-auto overflow-x-hidden custom-scrollbar">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
           <div className="p-6 max-w-4xl mx-auto w-full space-y-16 pb-8">
             {hiddenPromptsList.length === 0 ? (
               <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 p-8">
@@ -306,10 +312,10 @@ const SparkApp = () => {
                       <div className="flex gap-1 flex-shrink-0 self-center">
                         <button
                           onClick={() => handleToggleHidden(prompt.text)}
-                          className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                          className="p-3 hover:bg-white/10 rounded-full transition-colors"
                           title="Show prompt"
                         >
-                          <EyeOff size={16} className="text-red-400" />
+                          <EyeOff size={20} className="text-red-400" />
                         </button>
                       </div>
                     </div>
@@ -326,7 +332,7 @@ const SparkApp = () => {
   // About Screen
   if (currentScreen === 'about') {
     return (
-      <div className="min-h-screen flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)' }}>
+      <div className="fixed top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100vh !important', margin: '0 !important' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -365,8 +371,8 @@ const SparkApp = () => {
     let allPrompts = [];
 
     // If list filters selected, union of those lists
-    if (filterLists.size > 0) {
-      const texts = Array.from(filterLists).flatMap(listName => lists[listName] || []);
+    if (allPromptsFilterLists.size > 0) {
+      const texts = Array.from(allPromptsFilterLists).flatMap(listName => lists[listName] || []);
       const uniqueTexts = Array.from(new Set(texts));
       allPrompts = uniqueTexts.map(text => {
         const item = PROMPTS_DATABASE.find(it => it && it.text === text);
@@ -378,21 +384,21 @@ const SparkApp = () => {
     }
 
     // Apply type filters
-    const typeSelected = filterTypes.size > 0;
+    const typeSelected = allPromptsFilterTypes.size > 0;
     if (typeSelected) {
-      allPrompts = allPrompts.filter(p => p.type && filterTypes.has(p.type));
+      allPrompts = allPrompts.filter(p => p.type && allPromptsFilterTypes.has(p.type));
     }
 
     // Apply tag filters
-    const tagSelected = filterTags.size > 0;
+    const tagSelected = allPromptsFilterTags.size > 0;
     if (tagSelected) {
-      allPrompts = allPrompts.filter(p => p.tags && p.tags.some(tag => filterTags.has(tag)));
+      allPrompts = allPrompts.filter(p => p.tags && p.tags.some(tag => allPromptsFilterTags.has(tag)));
     }
 
     // Note: We don't exclude hidden prompts on this screen, we just mark them
 
     return (
-      <div className="min-h-screen w-full relative" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)' }}>
+      <div className="full-viewport w-full flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', minHeight: '100vh', minHeight: '100dvh', minHeight: '100svh', height: '100vh', height: '100dvh', height: '100svh' }}>
         <NavigationBar 
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -406,65 +412,71 @@ const SparkApp = () => {
             <h1 className="text-2xl font-bold text-white text-center">All Prompts</h1>
             <p className="text-gray-300 text-sm mt-2">
               {allPrompts.length} prompts available
-              {(filterTypes.size > 0 || filterTags.size > 0 || filterLists.size > 0) && (
-                <span className="text-yellow-400"> (filtered)</span>
+              {(allPromptsFilterTypes.size > 0 || allPromptsFilterTags.size > 0 || allPromptsFilterLists.size > 0) && (
+                <span style={{ color: '#D8A159' }}> (filtered)</span>
               )}
             </p>
           </div>
         </div>
 
         {/* Filters Section */}
-        <div className="flex justify-center items-center pt-4 pb-4">
-          <div>
+        <div className="flex justify-center items-center pt-4 pb-4 px-4 sm:px-0 bg-black">
+          <div className="w-full max-w-4xl">
             <div className="text-center mb-3">
-              <h2 className="text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
+              <h2 className="text-sm font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-2">
               <DropdownChip
                 label="Type"
                 options={getAllTypes()}
-                selected={filterTypes}
-                onToggle={(id) => setFilterTypes(prev => { 
+                selected={allPromptsFilterTypes}
+                onToggle={(id) => setAllPromptsFilterTypes(prev => { 
                   const next = new Set(prev); 
                   next.has(id) ? next.delete(id) : next.add(id); 
                   return next; 
                 })}
-                onClear={() => setFilterTypes(new Set())}
-                onOpenChange={(open) => setOpenDropdown(open ? 'type' : null)}
-                isOpen={openDropdown === 'type'}
+                onClear={() => setAllPromptsFilterTypes(new Set())}
+                onOpenChange={(open) => setAllPromptsOpenDropdown(open ? 'type' : null)}
+                isOpen={allPromptsOpenDropdown === 'type'}
                 dropdownId="type"
               />
               <DropdownChip
                 label="Tags"
                 options={getAllTags().map(tag => ({ id: tag, label: tag }))}
-                selected={filterTags}
-                onToggle={(id) => setFilterTags(prev => { 
+                selected={allPromptsFilterTags}
+                onToggle={(id) => setAllPromptsFilterTags(prev => { 
                   const next = new Set(prev); 
                   next.has(id) ? next.delete(id) : next.add(id); 
                   return next; 
                 })}
-                onClear={() => setFilterTags(new Set())}
-                onOpenChange={(open) => setOpenDropdown(open ? 'tags' : null)}
-                isOpen={openDropdown === 'tags'}
+                onClear={() => setAllPromptsFilterTags(new Set())}
+                onOpenChange={(open) => setAllPromptsOpenDropdown(open ? 'tags' : null)}
+                isOpen={allPromptsOpenDropdown === 'tags'}
                 dropdownId="tags"
               />
               <DropdownChip
                 label="Custom Lists"
                 options={Object.keys(lists).map(n => ({ id: n, label: n }))}
-                selected={filterLists}
-                onToggle={(id) => setFilterLists(prev => { 
+                selected={allPromptsFilterLists}
+                onToggle={(id) => setAllPromptsFilterLists(prev => { 
                   const next = new Set(prev); 
                   next.has(id) ? next.delete(id) : next.add(id); 
                   return next; 
                 })}
-                onClear={() => setFilterLists(new Set())}
-                onOpenChange={(open) => setOpenDropdown(open ? 'lists' : null)}
-                isOpen={openDropdown === 'lists'}
+                onClear={() => setAllPromptsFilterLists(new Set())}
+                onOpenChange={(open) => setAllPromptsOpenDropdown(open ? 'lists' : null)}
+                isOpen={allPromptsOpenDropdown === 'lists'}
                 dropdownId="lists"
               />
+            </div>
+            <div className="flex justify-center mt-3">
               <button
-                onClick={handleClearFilters}
-                className="text-xs px-2 py-1 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
+                onClick={() => {
+                  setAllPromptsFilterTypes(new Set());
+                  setAllPromptsFilterTags(new Set());
+                  setAllPromptsFilterLists(new Set());
+                }}
+                className="text-base px-3 py-2 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
                 aria-label="Clear all filters"
               >
                 Clear filters
@@ -475,13 +487,13 @@ const SparkApp = () => {
 
         {/* Scrollable content area */}
         <div 
-          className="absolute top-64 left-0 right-0 bottom-0 overflow-y-auto overflow-x-hidden custom-scrollbar"
+          className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar"
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: '#D8A159 #1f2937'
           }}
         >
-          <div className="p-6 max-w-4xl mx-auto w-full pb-8">
+          <div className="p-4 sm:p-6 max-w-4xl mx-auto w-full pb-8">
           <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10">
             {allPrompts.map((prompt, index) => {
               const isHidden = hiddenPrompts.has(prompt.text);
@@ -489,7 +501,7 @@ const SparkApp = () => {
                 <div key={prompt.text} className={`px-6 py-4 hover:bg-white/5 transition-colors ${index !== allPrompts.length - 1 ? 'border-b border-white/10' : ''} ${isHidden ? 'opacity-50' : ''}`}>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0 pr-4">
-                      <p className={`text-sm leading-relaxed break-words ${isHidden ? 'text-gray-400' : 'text-white'}`}>{prompt.text}</p>
+                      <p className={`text-base leading-relaxed break-words ${isHidden ? 'text-gray-400' : 'text-white'}`}>{prompt.text}</p>
                       <div className="flex items-center gap-2 mt-2 flex-wrap">
                         {prompt.type && (
                           <span className={`px-2 py-1 text-xs font-medium rounded-full ${isHidden ? 'bg-gray-600 text-gray-300' : ''}`} style={!isHidden ? { backgroundColor: '#D8A159', color: 'black' } : {}}>
@@ -506,17 +518,17 @@ const SparkApp = () => {
                     <div className="flex gap-1 flex-shrink-0 self-center">
                       <button
                         onClick={() => toggleFavorite(prompt.text)}
-                        className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                        className="p-3 hover:bg-white/10 rounded-full transition-colors"
                         title="Toggle favorite"
                       >
-                        <Heart size={16} className={favorites.has(prompt.text) ? "fill-pink-500 text-pink-500" : "text-gray-400"} />
+                        <Heart size={20} className={favorites.has(prompt.text) ? "fill-pink-500 text-pink-500" : "text-gray-400"} />
                       </button>
                       <button
                         onClick={() => handleToggleHidden(prompt.text)}
-                        className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                        className="p-3 hover:bg-white/10 rounded-full transition-colors"
                         title={isHidden ? "Show prompt" : "Hide prompt"}
                       >
-                        <EyeOff size={16} className={isHidden ? "text-red-400" : "text-gray-400"} />
+                        <EyeOff size={20} className={isHidden ? "text-red-400" : "text-gray-400"} />
                       </button>
                       <button
                         onClick={() => {
@@ -525,10 +537,10 @@ const SparkApp = () => {
                           setCurrentPromptText(prompt.text);
                           setIsAddToListOpen(true);
                         }}
-                        className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                        className="p-3 hover:bg-white/10 rounded-full transition-colors"
                         title="Add to list"
                       >
-                        <Plus size={16} className="text-gray-400" />
+                        <Plus size={20} className="text-gray-400" />
                       </button>
                     </div>
                   </div>
@@ -563,7 +575,7 @@ const SparkApp = () => {
   if (currentScreen === 'lists') {
     const listNames = Object.keys(lists);
     return (
-      <div className="min-h-screen w-full relative" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)' }}>
+      <div className="full-viewport w-full flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', minHeight: '100vh', minHeight: '100dvh', minHeight: '100svh', height: '100vh', height: '100dvh', height: '100svh' }}>
         {/* Fixed background elements */}
         <NavigationBar 
           currentScreen={currentScreen}
@@ -582,7 +594,7 @@ const SparkApp = () => {
                 setNewListName('');
                 setIsAddToListOpen(true);
               }}
-              className="mt-4 px-4 py-2 text-sm font-medium rounded-lg text-black transition-colors mx-auto block"
+              className="mt-4 px-6 py-3 text-base font-medium rounded-lg text-black transition-colors mx-auto block"
               style={{ backgroundColor: '#D8A159' }}
             >
               Create New List
@@ -591,10 +603,10 @@ const SparkApp = () => {
         </div>
 
         {/* Scrollable content area */}
-        <div className="absolute top-0 left-0 right-0 bottom-0 pt-44 overflow-y-auto overflow-x-hidden custom-scrollbar">
-          <div className="p-6 max-w-4xl mx-auto w-full space-y-16 pb-8">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
+          <div className="p-4 sm:p-6 max-w-4xl mx-auto w-full space-y-16 pb-8">
           {listNames.length === 0 ? (
-            <div className="text-center py-12 text-gray-300">No custom lists yet.</div>
+            <div className="text-center py-12 text-base text-gray-300">No custom lists yet.</div>
           ) : (
             listNames.map((name, index) => {
               const items = lists[name] || [];
@@ -605,10 +617,10 @@ const SparkApp = () => {
                     <div className="border-t border-gray-600 -mt-8 mb-8"></div>
                   )}
                   <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-white">{name} <span className="text-gray-400 text-sm font-normal">({items.length})</span></h2>
+                    <h2 className="text-lg font-semibold text-white">{name} <span className="text-gray-400 text-sm font-normal">({items.length})</span></h2>
                     <button
                       onClick={() => deleteList(name)}
-                      className="text-sm px-3 py-1 rounded-md border border-red-500/50 text-red-300 bg-black/20 hover:bg-red-500/20 hover:border-red-500/70 hover:text-red-200 transition-colors backdrop-blur-sm"
+                      className="text-base px-4 py-2 rounded-lg border border-red-500/50 text-red-300 bg-black/20 hover:bg-red-500/20 hover:border-red-500/70 hover:text-red-200 transition-colors backdrop-blur-sm"
                     >
                       Delete list
                     </button>
@@ -622,11 +634,11 @@ const SparkApp = () => {
                         return (
                           <div key={text} className="flex items-start justify-between py-3 px-4 rounded-lg hover:bg-white/5 transition-colors group">
                             <div className="flex-1 pr-4 min-w-0">
-                              <div className="text-gray-200 leading-relaxed break-words">{text}</div>
+                              <div className="text-base text-gray-200 leading-relaxed break-words">{text}</div>
                             </div>
                             <button
                               onClick={() => removePromptFromList(name, text)}
-                              className="text-xs px-3 py-1 rounded-md border border-gray-600 text-gray-400 hover:bg-gray-600/20 hover:border-gray-500 hover:text-gray-300 transition-colors opacity-0 group-hover:opacity-100"
+                              className="text-base px-4 py-2 rounded-lg border border-gray-600 text-gray-400 hover:bg-gray-600/20 hover:border-gray-500 hover:text-gray-300 transition-colors opacity-0 group-hover:opacity-100"
                             >
                               Remove
                             </button>
@@ -664,7 +676,7 @@ const SparkApp = () => {
 
   // Main Prompts Screen with deck-style cards
   return (
-    <div className="min-h-screen flex flex-col overflow-hidden" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)' }}>
+    <div className="full-viewport flex flex-col overflow-hidden" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', minHeight: '100vh', minHeight: '100dvh', minHeight: '100svh', height: '100vh', height: '100dvh', height: '100svh' }}>
       <NavigationBar 
         currentScreen={currentScreen}
         setCurrentScreen={setCurrentScreen}
@@ -673,10 +685,10 @@ const SparkApp = () => {
       />
 
       {/* Filters Section */}
-      <div className="flex justify-center items-center pt-24 pb-0">
-        <div>
+      <div className="flex justify-center items-center pt-24 pb-0 px-4 sm:px-0">
+        <div className="w-full max-w-4xl">
           <div className="text-center mb-3">
-            <h2 className="text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
+            <h2 className="text-sm sm:text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <DropdownChip
@@ -721,9 +733,11 @@ const SparkApp = () => {
               isOpen={openDropdown === 'lists'}
               dropdownId="lists"
             />
+          </div>
+          <div className="flex justify-center mt-3">
             <button
               onClick={handleClearFilters}
-              className="text-xs px-2 py-1 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
+              className="text-base px-3 py-2 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
               aria-label="Clear all filters"
             >
               Clear filters
@@ -733,10 +747,10 @@ const SparkApp = () => {
       </div>
 
       {/* Card and Help Text Container */}
-      <div className="flex-1 flex flex-col -mt-8">
-        {/* Card Deck */}
-        <div className="flex-[3] flex items-center justify-center">
-          <div className="relative w-full max-w-md h-[500px]" style={{ width: 'calc(100% + 16px)', height: 'calc(500px + 16px)' }}>
+      <div className="flex-1 flex flex-col justify-center items-center px-4">
+        {/* Card Deck - Vertically Centered */}
+        <div className="flex-1 flex items-center justify-center w-full">
+          <div className="relative w-[85%] sm:w-[500px] h-[400px] sm:h-[500px]" style={{ height: 'calc(400px + 16px)' }}>
             {/* Background cards */}
             {[1, 2].map((offsetIndex) => {
               const cardIndex = (currentIndex + offsetIndex) % availablePrompts.length;
@@ -772,9 +786,9 @@ const SparkApp = () => {
           </div>
         </div>
 
-        {/* Help Text */}
-        <div className="flex-[1] flex items-start justify-center pt-4">
-          <p className="text-sm text-gray-300">
+        {/* Help Text - Centered at bottom */}
+        <div className="flex justify-center items-center pb-8">
+          <p className="text-sm text-gray-300 text-center">
             Tap or swipe the card to get a new prompt
           </p>
         </div>

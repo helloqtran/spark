@@ -38,7 +38,7 @@ const AddToListModal = React.memo(({
               <select
                 value={selectedListName}
                 onChange={(e) => setSelectedListName(e.target.value)}
-                className="w-full border border-gray-600 rounded-lg px-3 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 bg-gray-800 text-white appearance-none"
+                className="w-full border border-gray-600 rounded-lg px-3 py-2 pr-8 text-base focus:outline-none focus:ring-2 focus:ring-gray-500 bg-gray-800 text-white appearance-none"
                 aria-label="Select existing list"
               >
                 <option value="">Select…</option>
@@ -57,7 +57,7 @@ const AddToListModal = React.memo(({
                 })}
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <ChevronDown size={16} className="text-gray-400" />
+                <ChevronDown size={20} className="text-gray-400" />
               </div>
             </div>
           </div>
@@ -71,12 +71,12 @@ const AddToListModal = React.memo(({
                 value={newListName}
                 onChange={(e) => setNewListName(e.target.value)}
                 placeholder="New list name"
-                className="flex-1 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 bg-gray-800 text-white"
+                className="flex-1 border border-gray-600 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-gray-500 bg-gray-800 text-white"
                 aria-label="New list name"
               />
               <button
                 onClick={onCreateList}
-                className={`px-3 py-2 text-sm rounded-lg font-medium border-0 ${
+                className={`px-4 py-3 text-base rounded-lg font-medium border-0 ${
                   newListName.trim() 
                     ? 'text-black' 
                     : 'bg-gray-600 text-gray-400'
@@ -94,7 +94,7 @@ const AddToListModal = React.memo(({
         <div className="mt-5 flex items-center justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm text-gray-300 hover:text-white"
+            className="px-5 py-3 text-base text-gray-300 hover:text-white rounded-lg hover:bg-gray-800/50 transition-colors"
             aria-label="Cancel adding to list"
           >
             Cancel
@@ -102,7 +102,7 @@ const AddToListModal = React.memo(({
           <button
             onClick={onAddToList}
             disabled={!selectedListName || (currentPrompt && selectedListName && lists[selectedListName] && lists[selectedListName].includes(currentPrompt.text))}
-            className={`px-4 py-2 text-sm rounded-lg font-medium ${
+            className={`px-5 py-3 text-base rounded-lg font-medium ${
               (!selectedListName || (currentPrompt && selectedListName && lists[selectedListName] && lists[selectedListName].includes(currentPrompt.text))) 
                 ? 'bg-gray-600 text-gray-400' 
                 : 'text-black'
