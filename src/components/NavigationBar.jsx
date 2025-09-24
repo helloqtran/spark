@@ -26,7 +26,7 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
   }, []);
 
   return (
-    <div className="bg-black shadow-sm p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50">
+    <div className="bg-black shadow-sm p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50" style={{ paddingTop: 'max(env(safe-area-inset-top), 0px)', paddingLeft: 'max(env(safe-area-inset-left), 0px)', paddingRight: 'max(env(safe-area-inset-right), 0px)' }}>
       <button
         onClick={() => setCurrentScreen('prompts')}
         className="text-lg sm:text-xl font-bold text-white hover:text-gray-300 transition-colors spark-font"
@@ -48,7 +48,7 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
           </button>
           
           {isDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 w-40 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-10px)' }}>
+            <div className="absolute top-full right-0 mt-2 w-36 sm:w-40 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-5px)' }}>
               <button
                 onClick={() => {
                   setCurrentScreen('favorites');
