@@ -41,22 +41,31 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
   return (
     <>
       {/* Main Navbar - Always visible */}
-      <div className="bg-black shadow-sm px-6 py-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50" style={{ paddingTop: 'max(env(safe-area-inset-top), 0px)', paddingLeft: 'max(env(safe-area-inset-left), 1.5rem)', paddingRight: 'max(env(safe-area-inset-right), 1.5rem)' }}>
+      <div className="bg-black shadow-sm px-6 py-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50" style={{ paddingTop: 'max(env(safe-area-inset-top), 1rem)', paddingLeft: 'max(env(safe-area-inset-left), 1.5rem)', paddingRight: 'max(env(safe-area-inset-right), 1.5rem)' }}>
         <button
-          onClick={() => navigate('/prompts')}
+          onClick={() => navigate('/')}
           className="text-lg sm:text-xl font-bold text-white hover:text-gray-300 transition-colors spark-font"
-          aria-label="Go to main prompts screen"
+          aria-label="Go to welcome page"
         >
           SPARK
         </button>
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-2">
+          {/* Get a Prompt Button */}
+          <button
+            onClick={() => navigate('/prompts')}
+            className="bg-black/20 backdrop-blur-sm text-white px-4 py-2 rounded-2xl font-medium hover:bg-black/30 transition-colors text-sm border border-white/10"
+            aria-label="Get a prompt"
+          >
+            Get a prompt
+          </button>
+          
           {/* Collections Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="text-gray-300 text-sm sm:text-base hover:text-white flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+              className="text-gray-300 text-sm sm:text-xs hover:text-white flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
               aria-label="View collections"
             >
               <List size={16} className="sm:w-5 sm:h-5" />
@@ -105,28 +114,40 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
 
           <button
             onClick={() => navigate('/all-prompts')}
-            className="text-gray-300 text-sm sm:text-base hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+            className="text-gray-300 text-sm sm:text-xs hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
             aria-label="View all prompts"
           >
             View All
           </button>
           <button
             onClick={() => navigate('/about')}
-            className="text-gray-300 text-sm sm:text-base hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+            className="text-gray-300 text-sm sm:text-xs hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
             aria-label="View about page"
           >
             About
           </button>
         </div>
         
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
-          aria-label="Toggle mobile menu"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile Navigation */}
+        <div className="md:hidden flex items-center gap-2">
+          {/* Get a Prompt Button - Mobile */}
+          <button
+            onClick={() => navigate('/prompts')}
+            className="bg-black/20 backdrop-blur-sm text-white px-3 py-2 rounded-2xl font-medium hover:bg-black/30 transition-colors text-sm border border-white/10"
+            aria-label="Get a prompt"
+          >
+            Get a prompt
+          </button>
+          
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Sidebar */}
@@ -135,9 +156,9 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
             <button
-              onClick={() => navigate('/prompts')}
+              onClick={() => navigate('/')}
               className="text-lg font-bold text-white hover:text-gray-300 transition-colors spark-font"
-              aria-label="Go to main prompts screen"
+              aria-label="Go to welcome page"
             >
               SPARK
             </button>
@@ -201,7 +222,6 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
 
             {/* Other Pages */}
             <div className="space-y-3 pt-6 border-t border-gray-800">
-              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wide">Pages</h3>
               <button
                 onClick={() => {
                   navigate('/all-prompts');

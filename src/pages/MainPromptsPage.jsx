@@ -217,7 +217,7 @@ const MainPromptsPage = ({
               <div className="flex justify-center mt-3">
                 <button
                   onClick={handleClearFilters}
-                  className="text-xs sm:text-base px-2 sm:px-3 py-1 sm:py-2 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
+                  className="text-sm sm:text-xs px-2 py-1 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
                   aria-label="Clear all filters"
                 >
                   Clear filters

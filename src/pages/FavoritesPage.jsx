@@ -2,7 +2,7 @@ import React from 'react';
 import { Heart } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 
-const FavoritesPage = ({ favorites, hiddenPrompts, toggleFavorite }) => {
+const FavoritesPage = ({ favorites, hiddenPrompts, lists, toggleFavorite }) => {
   const favoritePrompts = Array.from(favorites).map(text => {
     return { text };
   });

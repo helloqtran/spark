@@ -2,7 +2,7 @@ import React from 'react';
 import { EyeOff } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 
-const HiddenPage = ({ favorites, hiddenPrompts, handleToggleHidden }) => {
+const HiddenPage = ({ favorites, hiddenPrompts, lists, handleToggleHidden }) => {
   const hiddenPromptsList = Array.from(hiddenPrompts).map(text => ({
     text,
   }));

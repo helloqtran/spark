@@ -147,6 +147,7 @@ const App = () => {
           <FavoritesPage 
             favorites={favorites}
             hiddenPrompts={hiddenPrompts}
+            lists={lists}
             toggleFavorite={toggleFavorite}
           />
         } 
@@ -157,6 +158,7 @@ const App = () => {
           <HiddenPage 
             favorites={favorites}
             hiddenPrompts={hiddenPrompts}
+            lists={lists}
             handleToggleHidden={toggleHidden}
           />
         } 
