@@ -146,6 +146,7 @@ const App = () => {
         element={
           <FavoritesPage 
             favorites={favorites}
+            hiddenPrompts={hiddenPrompts}
             toggleFavorite={toggleFavorite}
           />
         } 
@@ -154,6 +155,7 @@ const App = () => {
         path="/hidden" 
         element={
           <HiddenPage 
+            favorites={favorites}
             hiddenPrompts={hiddenPrompts}
             handleToggleHidden={toggleHidden}
           />
