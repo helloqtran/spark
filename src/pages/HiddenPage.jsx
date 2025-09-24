@@ -2,7 +2,7 @@ import React from 'react';
 import { EyeOff } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 
-const HiddenPage = ({ hiddenPrompts, handleToggleHidden }) => {
+const HiddenPage = ({ favorites, hiddenPrompts, handleToggleHidden }) => {
   const hiddenPromptsList = Array.from(hiddenPrompts).map(text => ({
     text,
   }));
@@ -10,6 +10,7 @@ const HiddenPage = ({ hiddenPrompts, handleToggleHidden }) => {
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100dvh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: 'calc(-1 * env(safe-area-inset-top))', bottom: 'calc(-1 * env(safe-area-inset-bottom))', left: 'calc(-1 * env(safe-area-inset-left))', right: 'calc(-1 * env(safe-area-inset-right))' }}>
       <NavigationBar 
+        favorites={favorites}
         hiddenPrompts={hiddenPrompts}
       />
 
