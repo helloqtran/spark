@@ -59,6 +59,15 @@
     width: 100% !important;
     overflow-x: hidden !important;
     overflow-y: hidden !important;
+    /* Prevent mobile scrolling */
+    touch-action: none !important;
+    overscroll-behavior: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
     /* Ensure background extends under mobile safe areas */
     /* background: radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%);
     background-color: #000000;
@@ -171,10 +180,11 @@
     background: rgba(0, 0, 0, 0.4);
   }
   
-  /* Firefox scrollbar styles */
+  /* Firefox scrollbar styles and mobile scroll prevention */
   * {
     scrollbar-width: thin;
     scrollbar-color: #D8A159 #1f2937;
+    touch-action: none !important;
   }
   
   #root {
@@ -182,6 +192,18 @@
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+  
+  /* Allow touch actions on interactive elements */
+  button, input, select, textarea, [role="button"], [tabindex] {
+    touch-action: manipulation !important;
+  }
+  
+  /* Allow scrolling only in designated containers */
+  .overflow-y-auto, .custom-scrollbar {
+    touch-action: pan-y !important;
   }
   
   .full-height {

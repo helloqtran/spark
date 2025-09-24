@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Heart, EyeOff, ChevronDown, List } from 'lucide-react';
 
 /**
@@ -7,7 +8,9 @@ import { Heart, EyeOff, ChevronDown, List } from 'lucide-react';
  * Provides consistent navigation across all screens with counts for
  * favorites and hidden prompts.
  */
-const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, hiddenPrompts }) => {
+const NavigationBar = React.memo(({ favorites, hiddenPrompts }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -26,9 +29,9 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
   }, []);
 
   return (
-    <div className="bg-black shadow-sm p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50" style={{ paddingTop: 'max(env(safe-area-inset-top), 0px)', paddingLeft: 'max(env(safe-area-inset-left), 0px)', paddingRight: 'max(env(safe-area-inset-right), 0px)' }}>
+    <div className="bg-black shadow-sm px-6 py-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50" style={{ paddingTop: 'max(env(safe-area-inset-top), 0px)', paddingLeft: 'max(env(safe-area-inset-left), 1.5rem)', paddingRight: 'max(env(safe-area-inset-right), 1.5rem)' }}>
       <button
-        onClick={() => setCurrentScreen('prompts')}
+        onClick={() => navigate('/prompts')}
         className="text-lg sm:text-xl font-bold text-white hover:text-gray-300 transition-colors spark-font"
         aria-label="Go to main prompts screen"
       >
@@ -51,7 +54,7 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
             <div className="absolute top-full right-0 mt-2 w-36 sm:w-40 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-5px)' }}>
               <button
                 onClick={() => {
-                  setCurrentScreen('favorites');
+                  navigate('/favorites');
                   setIsDropdownOpen(false);
                 }}
                 className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm"
@@ -62,7 +65,7 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
               </button>
               <button
                 onClick={() => {
-                  setCurrentScreen('hidden');
+                  navigate('/hidden');
                   setIsDropdownOpen(false);
                 }}
                 className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm"
@@ -73,7 +76,7 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
               </button>
               <button
                 onClick={() => {
-                  setCurrentScreen('lists');
+                  navigate('/lists');
                   setIsDropdownOpen(false);
                 }}
                 className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm"
@@ -87,14 +90,14 @@ const NavigationBar = React.memo(({ currentScreen, setCurrentScreen, favorites, 
         </div>
 
         <button
-          onClick={() => setCurrentScreen('all-prompts')}
+          onClick={() => navigate('/all-prompts')}
           className="text-gray-300 text-sm sm:text-base hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
           aria-label="View all prompts"
         >
           View All
         </button>
         <button
-          onClick={() => setCurrentScreen('about')}
+          onClick={() => navigate('/about')}
           className="text-gray-300 text-sm sm:text-base hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
           aria-label="View about page"
         >
