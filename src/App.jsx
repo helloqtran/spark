@@ -737,7 +737,7 @@ const SparkApp = () => {
           <div className="flex justify-center mt-3">
             <button
               onClick={handleClearFilters}
-              className="text-base px-3 py-2 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
+              className="text-xs sm:text-base px-2 sm:px-3 py-1 sm:py-2 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
               aria-label="Clear all filters"
             >
               Clear filters
@@ -747,7 +747,7 @@ const SparkApp = () => {
       </div>
 
       {/* Card and Help Text Container */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-8">
+      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-4">
         {/* Card Deck - Vertically Centered */}
         <div className="flex items-center justify-center w-full mb-8">
           {availablePrompts.length === 0 ? (
@@ -759,7 +759,7 @@ const SparkApp = () => {
               </p>
               <button
                 onClick={handleClearFilters}
-                className="text-black px-3 py-1.5 sm:px-6 sm:py-3 text-xs sm:text-base rounded-lg font-medium transition-colors"
+                className="text-black px-2 py-1 sm:px-6 sm:py-3 text-xs sm:text-base rounded font-medium transition-colors"
                 style={{ backgroundColor: '#D8A159' }}
               >
                 Clear all filters
