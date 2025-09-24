@@ -69,9 +69,10 @@ const DropdownChip = React.memo(({
         <div 
           className="absolute z-40 mt-2 w-48 sm:w-56 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2"
           style={{
-            right: '0',
-            transform: 'translateX(0)',
-            maxWidth: 'calc(100vw - 2rem)'
+            left: '50%',
+            transform: 'translateX(-50%)',
+            maxWidth: 'calc(100vw - 2rem)',
+            minWidth: '200px'
           }}
           role="listbox"
           aria-label={`${label} options`}
