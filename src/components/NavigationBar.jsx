@@ -51,13 +51,13 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts }) => {
           </button>
           
           {isDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 w-36 sm:w-40 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-5px)' }}>
+            <div className="absolute top-full right-0 mt-2 w-48 sm:w-52 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-5px)' }}>
               <button
                 onClick={() => {
                   navigate('/favorites');
                   setIsDropdownOpen(false);
                 }}
-                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm"
+                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm whitespace-nowrap"
                 aria-label={`View my favorites (${favorites.size} items)`}
               >
                 <Heart size={18} className={favorites.size > 0 ? "fill-pink-500 text-pink-500" : ""} />
@@ -68,7 +68,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts }) => {
                   navigate('/hidden');
                   setIsDropdownOpen(false);
                 }}
-                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm"
+                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm whitespace-nowrap"
                 aria-label={`View hidden prompts (${hiddenPrompts.size} items)`}
               >
                 <EyeOff size={18} />
@@ -79,7 +79,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts }) => {
                   navigate('/lists');
                   setIsDropdownOpen(false);
                 }}
-                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm"
+                className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm whitespace-nowrap"
                 aria-label="View custom lists"
               >
                 <List size={18} />
