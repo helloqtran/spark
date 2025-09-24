@@ -75,21 +75,25 @@ const App = () => {
       if (e.target.closest('button, input, select, textarea, [role="button"], [tabindex]')) {
         return;
       }
+      // Don't prevent default for scrollable containers
+      const scrollableContainers = e.target.closest('.overflow-y-auto, .custom-scrollbar, [class*="overflow-y-auto"], [class*="custom-scrollbar"]');
+      if (scrollableContainers) {
+        return;
+      }
       e.preventDefault();
     };
 
     const preventScroll = (e) => {
       // Allow scrolling only within specific containers
-      const scrollableContainers = e.target.closest('.overflow-y-auto, .custom-scrollbar');
+      const scrollableContainers = e.target.closest('.overflow-y-auto, .custom-scrollbar, [class*="overflow-y-auto"], [class*="custom-scrollbar"]');
       if (!scrollableContainers) {
         e.preventDefault();
       }
     };
 
     // Prevent various touch events that can cause scrolling
-    document.addEventListener('touchstart', preventDefault, { passive: false });
+    // Only prevent on the document body, not on scrollable containers
     document.addEventListener('touchmove', preventScroll, { passive: false });
-    document.addEventListener('touchend', preventDefault, { passive: false });
     
     // Prevent mouse wheel scrolling on desktop
     document.addEventListener('wheel', preventScroll, { passive: false });
@@ -106,9 +110,7 @@ const App = () => {
     });
 
     return () => {
-      document.removeEventListener('touchstart', preventDefault);
       document.removeEventListener('touchmove', preventScroll);
-      document.removeEventListener('touchend', preventDefault);
       document.removeEventListener('wheel', preventScroll);
     };
   }, []);
