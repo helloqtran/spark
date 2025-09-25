@@ -77,12 +77,17 @@ const TestWelcomePage = () => {
     switch (currentStep) {
       case 1:
         return (
-          <div className="max-w-sm mx-auto h-[264px] flex flex-col">
-            <h1 className="text-7xl font-bold text-white tracking-wide spark-logo">SPARK</h1>
+          <div className="max-w-sm mx-auto h-[264px] flex flex-col -mt-4">
+            <h1 className="text-7xl font-bold text-white tracking-wide spark-logo mb-8">SPARK</h1>
             <div className="flex-1 flex items-center justify-center">
-              <p className="text-gray-300 text-lg leading-relaxed text-center">
-                Get inspired with movement prompts designed to spark creativity in your freestyle practice.
-              </p>
+              <div className="text-center space-y-3">
+                <p className="text-gray-300 text-lg leading-relaxed">
+                  Stuck in a movement rut?
+                </p>
+                <p className="text-gray-300 text-lg leading-relaxed">
+                  Get freestyle prompts that match your style and spark your flow, in a deck you can shuffle through during your next session.
+                </p>
+              </div>
             </div>
             <div className="h-8"></div> {/* Space for button */}
           </div>
@@ -102,9 +107,6 @@ const TestWelcomePage = () => {
                 <p>Tap once to <b>include</b> prompts with that type</p>
                 <p>Tap twice to <b>exclude</b> prompts with that type</p>
               </div>
-              <p className="text-xs mt-2" style={{ color: '#D8A159' }}>
-                <span className="font-bold">{getMatchingPromptCount}</span> matching prompts
-              </p>
             </div>
             <div className="flex-1 flex items-center justify-center">
               <div className="flex flex-wrap gap-2 justify-center">
@@ -148,9 +150,6 @@ const TestWelcomePage = () => {
                 <p>Tap once to <b>include</b> prompts with that tag </p>
                 <p>Tap twice to <b>exclude</b> prompts with that tag</p>
               </div>
-              <p className="text-xs mt-2" style={{ color: '#D8A159' }}>
-                <span className="font-bold">{getMatchingPromptCount}</span> matching prompts
-              </p>
             </div>
             <div className="flex-1 flex items-center justify-center">
               <div className="flex flex-wrap gap-2 justify-center">
@@ -188,7 +187,7 @@ const TestWelcomePage = () => {
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col overflow-hidden" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0', zIndex: 1 }}>
       <TestNavigationBar />
-      <div className="flex-1 flex flex-col items-center justify-center p-4 pt-20">
+      <div className="flex-1 flex flex-col items-center justify-center p-4 pt-12">
         <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md h-[400px] pt-16 pb-16 px-8 text-center relative">
           {/* Step Content */}
           {renderStep()}
@@ -201,7 +200,7 @@ const TestWelcomePage = () => {
               className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-black px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors text-sm hover:opacity-90 h-10"
               style={{ backgroundColor: '#D8A159' }}
             >
-              Next
+              Start
               <ChevronRight size={16} />
             </button>
           ) : (
@@ -221,7 +220,7 @@ const TestWelcomePage = () => {
                 className="text-black px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors text-sm hover:opacity-90 h-10"
                 style={{ backgroundColor: '#D8A159' }}
               >
-                {currentStep === 2 ? 'Next' : 'Get Started'}
+                {currentStep === 2 ? 'Next' : `See ${getMatchingPromptCount} matching prompts`}
                 <ChevronRight size={16} />
               </button>
             </div>

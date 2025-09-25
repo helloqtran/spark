@@ -77,8 +77,8 @@ const MainPromptsPage = () => {
 
           {/* Card and Help Text Container */}
           <div className="flex flex-col items-center w-full max-w-none">
-            {/* Card Deck - Vertically Centered */}
-            <div className="flex items-center justify-center w-full mb-12 sm:mb-12">
+        {/* Card Deck - Vertically Centered */}
+        <div className="flex items-center justify-center w-full mb-12 sm:mb-12">
               <PromptDeck
                 availablePrompts={filters.availablePrompts}
                 currentIndex={navigation.currentIndex}
@@ -88,19 +88,19 @@ const MainPromptsPage = () => {
                 onToggleFavorite={toggleFavorite}
                 onToggleHidden={toggleHidden}
                 onAddToList={handleAddToList}
-                favorites={favorites}
-                hiddenPrompts={hiddenPrompts}
-              />
-            </div>
+                  favorites={favorites}
+                  hiddenPrompts={hiddenPrompts}
+                />
+        </div>
 
-            {/* Help Text - Centered at bottom */}
+        {/* Help Text - Centered at bottom */}
             {filters.availablePrompts.length > 0 && (
-              <div className="flex justify-center items-center">
-                <p className="text-sm text-gray-300 text-center">
-                  Tap or swipe the card to get a new prompt
-                </p>
-              </div>
-            )}
+          <div className="flex justify-center items-center">
+            <p className="text-sm text-gray-300 text-center">
+              Tap or swipe the card to get a new prompt
+            </p>
+          </div>
+        )}
           </div>
         </div>
       </div>
