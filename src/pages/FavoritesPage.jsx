@@ -16,7 +16,7 @@ const FavoritesPage = ({ favorites, hiddenPrompts, lists, toggleFavorite }) => {
       />
 
       {/* Page Title */}
-      <div className="bg-black py-8 relative z-40 pt-20">
+      <div className="bg-transparent py-8 relative z-40 pt-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-2xl font-bold text-white text-center">Favorite Prompts</h1>
         </div>

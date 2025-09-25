@@ -110,14 +110,14 @@ const AllPromptsPage = ({
       />
 
       {/* Page Title */}
-      <div className="bg-black py-8 relative z-40 pt-20">
+      <div className="bg-transparent py-8 relative z-40 pt-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-2xl font-bold text-white text-center">All Prompts</h1>
         </div>
       </div>
 
       {/* Filters Section */}
-      <div className="flex justify-center items-center pt-6 pb-6 px-4 sm:px-0 bg-black">
+      <div className="flex justify-center items-center pt-6 pb-6 px-4 sm:px-0 bg-transparent">
         <div className="w-full max-w-4xl">
           <div className="text-center mb-3">
             <h2 className="text-sm sm:text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>

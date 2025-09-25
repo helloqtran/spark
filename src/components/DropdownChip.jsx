@@ -139,8 +139,8 @@ const DropdownChip = React.memo(({
         onClick={handleToggle}
         className={`text-sm px-3 py-2 rounded-full border flex items-center gap-1.5 ${
           selected.size > 0 
-            ? 'text-black border-white' 
-            : 'border-gray-500 text-gray-300 hover:bg-gray-800'
+            ? 'text-black border-white border-opacity-50' 
+            : 'border-white border-opacity-50 text-gray-300 hover:bg-gray-800'
         }`}
         style={selected.size > 0 ? { backgroundColor: '#D8A159' } : {}}
         aria-label={`${label} filter (${selected.size} selected)`}

@@ -46,7 +46,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
   return (
     <>
       {/* Main Navbar - Always visible */}
-      <div className="bg-black shadow-sm px-6 py-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50" style={{ paddingTop: 'max(env(safe-area-inset-top), 1rem)', paddingLeft: 'max(env(safe-area-inset-left), 1.5rem)', paddingRight: 'max(env(safe-area-inset-right), 1.5rem)' }}>
+      <div className="bg-transparent shadow-sm px-6 py-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50" style={{ paddingTop: 'max(env(safe-area-inset-top), 1rem)', paddingLeft: 'max(env(safe-area-inset-left), 1.5rem)', paddingRight: 'max(env(safe-area-inset-right), 1.5rem)' }}>
         <button
           onClick={handleSparkClick}
           className="text-lg sm:text-xl font-bold text-white hover:text-gray-300 transition-colors noto-serif-jp"

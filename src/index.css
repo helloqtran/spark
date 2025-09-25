@@ -7,6 +7,7 @@
     --vh: 1vh;
   }
   
+  
   html {
     scrollbar-width: thin;
     scrollbar-color: #D8A159 #1f2937;
@@ -15,15 +16,13 @@
     height: 100% !important;
     width: 100% !important;
     /* Extend page background behind system UI safe areas */
-    background: radial-gradient(ellipse 200vh 150vh at bottom center, #D8A159 0%, #D8A159 15%, #B88A4A 25%, #8A6B2F 35%, #4A3A1A 45%, #000000 60%, #000000 100%);
+    background: 
+      radial-gradient(ellipse 60vh 45vh at 15% 35vh, rgba(216, 161, 89, 0.5) 0%, transparent 50%),
+      radial-gradient(ellipse 60vh 45vh at 85% 65vh, rgba(184, 138, 74, 0.4) 0%, transparent 50%),
+      radial-gradient(ellipse 80vh 60vh at 50% 50vh, #D8A159 0%, #000000 70%);
     background-color: #000000;
-    min-height: 150vh;
-    /* min-height: 100vh;
-    min-height: 100svh;
-    min-height: 100dvh;
-    min-height: 100lvh; */
-    /* Include safe-area insets to ensure full bleed under browser UI */
-    /* min-height: calc(100dvh + 210px); */
+    background-attachment: fixed;
+    min-height: 100vh;
   }
   
   html::-webkit-scrollbar {
@@ -57,27 +56,7 @@
     padding: 0 !important;
     height: 100% !important;
     width: 100% !important;
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
-    /* Prevent mobile scrolling */
-    touch-action: none !important;
-    overscroll-behavior: none !important;
-    -webkit-overflow-scrolling: touch !important;
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
     background: transparent !important;
-    /* Ensure background extends under mobile safe areas */
-    /* background: radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%);
-    background-color: #000000;
-    min-height: 100vh;
-    min-height: 100svh;
-    min-height: 100dvh;
-    min-height: 100lvh;
-    /* Include safe-area insets to ensure full bleed under browser UI */
-    /* min-height: calc(100dvh + env(safe-area-inset-top) + env(safe-area-inset-bottom)); */
   }
   
   body::-webkit-scrollbar {
@@ -219,11 +198,10 @@
     background: rgba(0, 0, 0, 0.4);
   }
   
-  /* Firefox scrollbar styles and mobile scroll prevention */
+  /* Firefox scrollbar styles */
   * {
     scrollbar-width: thin;
     scrollbar-color: #D8A159 #1f2937;
-    touch-action: none !important;
   }
   
   #root {
@@ -231,7 +209,6 @@
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
-    overflow: hidden !important;
     position: relative !important;
     background-color: transparent !important;
   }
