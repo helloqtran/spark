@@ -2,7 +2,6 @@ import React from 'react';
 import { X } from 'lucide-react';
 import DropdownChip from '../DropdownChip';
 import { getAllTags, getAllTypes } from '../../data/prompts';
-import { clearAllFilters } from '../../utils/filterUtils';
 
 /**
  * FiltersSection Component

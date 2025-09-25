@@ -137,12 +137,20 @@ const DropdownChip = React.memo(({
       <button
         ref={buttonRef}
         onClick={handleToggle}
-        className={`text-sm px-3 py-2 rounded-full border flex items-center gap-1.5 ${
-          selected.size > 0 
+        className={`text-sm px-3 py-2 rounded-full border flex items-center gap-1.5 focus:outline-none focus:bg-transparent active:bg-transparent ${
+          selected.size > 0
             ? 'text-black border-white border-opacity-50' 
+            : isOpen
+            ? 'text-white border-white border-opacity-50'
             : 'border-white border-opacity-50 text-gray-300 hover:bg-gray-800'
         }`}
-        style={selected.size > 0 ? { backgroundColor: '#D8A159' } : {}}
+        style={
+          selected.size > 0 
+            ? { backgroundColor: '#D8A159' } 
+            : isOpen 
+            ? { backgroundColor: 'black' } 
+            : { backgroundColor: 'transparent' }
+        }
         aria-label={`${label} filter (${selected.size} selected)`}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
@@ -155,7 +163,7 @@ const DropdownChip = React.memo(({
       </button>
       {isOpen && (
         <div 
-          className="absolute z-40 mt-2 w-48 sm:w-56 bg-gray-900 border border-gray-600 rounded-lg shadow-lg p-2"
+          className="absolute z-40 mt-2 w-48 sm:w-56 bg-black/90 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-lg p-2"
           style={{
             maxWidth: 'calc(100vw - 2rem)',
             minWidth: '200px',

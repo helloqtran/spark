@@ -9,6 +9,8 @@ const ListsPage = () => {
   const [newListName, setNewListName] = useState('');
   const [selectedListName, setSelectedListName] = useState('');
   const [currentPromptText, setCurrentPromptText] = useState(null);
+  const [isCreatingNewList, setIsCreatingNewList] = useState(false);
+  const [newListInput, setNewListInput] = useState('');
 
   const listNames = Object.keys(lists);
 
@@ -21,6 +23,16 @@ const ListsPage = () => {
     setSelectedListName(name);
     setNewListName('');
   }, [newListName, lists, setLists]);
+
+  const handleCreateNewList = useCallback(() => {
+    const name = newListInput.trim();
+    if (!name) return;
+    if (!lists[name]) {
+      setLists(prev => ({ ...prev, [name]: [] }));
+    }
+    setNewListInput('');
+    setIsCreatingNewList(false);
+  }, [newListInput, lists, setLists]);
 
   const handleAddToListConfirm = useCallback(() => {
     const targetName = selectedListName;
@@ -39,17 +51,51 @@ const ListsPage = () => {
       <div className="bg-transparent py-8 relative z-40 pt-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-2xl font-bold text-white text-center">Custom Lists</h1>
-          <button
-            onClick={() => {
-              setSelectedListName('');
-              setNewListName('');
-              setIsAddToListOpen(true);
-            }}
-            className="mt-4 px-6 py-3 text-base font-medium rounded-lg text-black transition-colors mx-auto block"
-            style={{ backgroundColor: '#D8A159' }}
-          >
-            Create New List
-          </button>
+          {!isCreatingNewList ? (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsCreatingNewList(prev => !prev);
+              }}
+              className="mt-4 px-6 py-3 text-base font-medium rounded-lg text-black transition-colors mx-auto block"
+              style={{ backgroundColor: '#D8A159' }}
+            >
+              Create new list
+            </button>
+          ) : (
+            <div className="mt-4 flex gap-2 justify-center">
+              <input
+                type="text"
+                value={newListInput}
+                onChange={(e) => setNewListInput(e.target.value)}
+                placeholder="List name"
+                className="px-4 py-2 rounded-lg text-black placeholder-gray-500"
+                autoFocus
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleCreateNewList();
+                  }
+                }}
+              />
+              <button
+                onClick={handleCreateNewList}
+                className="px-4 py-2 text-sm font-medium rounded-lg text-black transition-colors"
+                style={{ backgroundColor: '#D8A159' }}
+              >
+                Create
+              </button>
+              <button
+                onClick={() => {
+                  setIsCreatingNewList(false);
+                  setNewListInput('');
+                }}
+                className="px-4 py-2 text-sm font-medium rounded-lg text-gray-300 border border-gray-600 hover:bg-gray-800 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
