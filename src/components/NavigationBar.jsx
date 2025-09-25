@@ -65,17 +65,17 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
             </button>
             
             {isDropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-48 sm:w-52 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-5px)' }}>
+              <div className="absolute top-full right-0 mt-2 w-36 sm:w-40 bg-black border border-gray-700 rounded-lg shadow-xl py-2 z-50" style={{ right: '0', transform: 'translateX(-5px)' }}>
                 <button
                   onClick={() => {
                     navigate('/favorites');
                     setIsDropdownOpen(false);
                   }}
                   className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm whitespace-nowrap"
-                  aria-label={`View my favorites (${favorites.size} items)`}
+                  aria-label={`View favorite prompts (${favorites.size} items)`}
                 >
                   <Heart size={18} className={favorites.size > 0 ? "fill-pink-500 text-pink-500" : ""} />
-                  My Favorites ({favorites.size})
+                  Favorites ({favorites.size})
                 </button>
                 <button
                   onClick={() => {
@@ -165,7 +165,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
               >
                 <Heart size={20} className={favorites.size > 0 ? "fill-pink-500 text-pink-500" : ""} />
                 <div>
-                  <div className="font-medium">My Favorites</div>
+                  <div className="font-medium">Favorites</div>
                   <div className="text-sm text-gray-400">{favorites.size} items</div>
                 </div>
               </button>
@@ -179,7 +179,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
               >
                 <EyeOff size={20} />
                 <div>
-                  <div className="font-medium">Hidden Prompts</div>
+                  <div className="font-medium">Hidden</div>
                   <div className="text-sm text-gray-400">{hiddenPrompts.size} items</div>
                 </div>
               </button>

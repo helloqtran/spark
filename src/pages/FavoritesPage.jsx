@@ -18,7 +18,7 @@ const FavoritesPage = ({ favorites, hiddenPrompts, lists, toggleFavorite }) => {
       {/* Page Title */}
       <div className="bg-black py-8 relative z-40 pt-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-2xl font-bold text-white text-center">My Favorites</h1>
+          <h1 className="text-2xl font-bold text-white text-center">Favorite Prompts</h1>
         </div>
       </div>
 
@@ -37,7 +37,7 @@ const FavoritesPage = ({ favorites, hiddenPrompts, lists, toggleFavorite }) => {
             <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10">
               {favoritePrompts.map((prompt, index) => (
                 <div key={prompt.text} className={`px-6 py-4 hover:bg-white/5 transition-colors ${index !== favoritePrompts.length - 1 ? 'border-b border-white/10' : ''}`}>
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center justify-between gap-4">
                     <div className="flex-1 min-w-0 pr-4">
                       <p className="text-white text-sm leading-relaxed break-words">{prompt.text}</p>
                     </div>

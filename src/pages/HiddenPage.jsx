@@ -37,7 +37,7 @@ const HiddenPage = ({ favorites, hiddenPrompts, lists, handleToggleHidden }) => 
             <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10">
               {hiddenPromptsList.map((prompt, index) => (
                 <div key={prompt.text} className={`px-6 py-4 hover:bg-white/5 transition-colors ${index !== hiddenPromptsList.length - 1 ? 'border-b border-white/10' : ''}`}>
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center justify-between gap-4">
                     <div className="flex-1 min-w-0 pr-4">
                       <p className="text-white text-sm leading-relaxed break-words">{prompt.text}</p>
                     </div>
