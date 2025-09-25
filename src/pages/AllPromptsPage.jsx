@@ -238,7 +238,7 @@ const AllPromptsPage = ({
               dropdownId="lists"
             />
           </div>
-          <div className="flex justify-center mt-3">
+          <div className="flex justify-center mt-1">
             <button
               onClick={() => {
                 setAllPromptsFilterTypes(new Set());

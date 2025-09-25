@@ -318,7 +318,7 @@ const MainPromptsPage = ({
                   dropdownId="lists"
                 />
               </div>
-              <div className="flex justify-center mt-3">
+              <div className="flex justify-center mt-1">
                 <button
                   onClick={handleClearFilters}
                   className="text-sm sm:text-xs px-2 py-1 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
