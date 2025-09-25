@@ -66,7 +66,7 @@ const App = () => {
     <UserDataProvider>
       <Routes>
         <Route path="/" element={<TestWelcomePage />} />
-        <Route path="/prompts" element={<MainPromptsPage />} />
+        <Route path="/shuffle" element={<MainPromptsPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/hidden" element={<HiddenPage />} />
         <Route path="/about" element={<AboutPage />} />

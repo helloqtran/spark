@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import { getAllTypes, getAllTags } from '../data/prompts';
+import { getAllTypes, getAllTags, PROMPTS_DATABASE, normalizePromptItem } from '../data/prompts';
 import { useUserDataContext } from '../contexts/UserDataContext';
 import { createThreeStateToggle, createFilterParams } from '../utils/filterUtils';
 import TestNavigationBar from '../components/TestNavigationBar';
@@ -22,11 +22,38 @@ const TestWelcomePage = () => {
   const toggleType = createThreeStateToggle(selectedTypes, excludedTypes, setSelectedTypes, setExcludedTypes);
   const toggleTag = createThreeStateToggle(selectedTags, excludedTags, setSelectedTags, setExcludedTags);
 
+  // Calculate matching prompt count based on current filter selections
+  const getMatchingPromptCount = useMemo(() => {
+    let pool = PROMPTS_DATABASE.map(item => normalizePromptItem(item));
+    
+    // Apply type filters (inclusion)
+    if (selectedTypes.size > 0) {
+      pool = pool.filter(p => p.type && selectedTypes.has(p.type));
+    }
+    
+    // Apply type exclusions
+    if (excludedTypes.size > 0) {
+      pool = pool.filter(p => !p.type || !excludedTypes.has(p.type));
+    }
+    
+    // Apply tag filters (inclusion)
+    if (selectedTags.size > 0) {
+      pool = pool.filter(p => p.tags && p.tags.some(tag => selectedTags.has(tag)));
+    }
+    
+    // Apply tag exclusions
+    if (excludedTags.size > 0) {
+      pool = pool.filter(p => !p.tags || !p.tags.some(tag => excludedTags.has(tag)));
+    }
+    
+    return pool.length;
+  }, [selectedTypes, excludedTypes, selectedTags, excludedTags]);
+
   const handleNext = () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Final step - navigate to prompts page with selected filters
+      // Final step - navigate to shuffle page with selected filters
       const filters = {
         selectedTypes,
         excludedTypes,
@@ -36,7 +63,7 @@ const TestWelcomePage = () => {
       
       const params = createFilterParams(filters);
       const queryString = params.toString();
-      navigate(`/prompts${queryString ? `?${queryString}` : ''}`);
+      navigate(`/shuffle${queryString ? `?${queryString}` : ''}`);
     }
   };
 
@@ -72,9 +99,12 @@ const TestWelcomePage = () => {
                 Which movement types do you want to explore?
               </p>
               <div className="text-gray-400 text-xs mt-1 space-y-0.5">
-                <p>Tap once to <b>only</b> get prompts with that type </p>
+                <p>Tap once to <b>include</b> prompts with that type</p>
                 <p>Tap twice to <b>exclude</b> prompts with that type</p>
               </div>
+              <p className="text-xs mt-2" style={{ color: '#D8A159' }}>
+                <span className="font-bold">{getMatchingPromptCount}</span> matching prompts
+              </p>
             </div>
             <div className="flex-1 flex items-center justify-center">
               <div className="flex flex-wrap gap-2 justify-center">
@@ -115,9 +145,12 @@ const TestWelcomePage = () => {
               Are there any themes you'd like to focus on?
               </p>
               <div className="text-gray-400 text-xs mt-1 space-y-0.5">
-                <p>Tap once to <b>only</b> get prompts with that type </p>
-                <p>Tap twice to <b>exclude</b> prompts with that type</p>
+                <p>Tap once to <b>include</b> prompts with that tag </p>
+                <p>Tap twice to <b>exclude</b> prompts with that tag</p>
               </div>
+              <p className="text-xs mt-2" style={{ color: '#D8A159' }}>
+                <span className="font-bold">{getMatchingPromptCount}</span> matching prompts
+              </p>
             </div>
             <div className="flex-1 flex items-center justify-center">
               <div className="flex flex-wrap gap-2 justify-center">
