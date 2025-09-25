@@ -58,11 +58,12 @@ export const PROMPTS_DATABASE = [
   { text: 'Pretend the floor is velcro: sticky, heavy, resistant', tags: ['imagination', 'fun']},
   { text: 'Focus on playing with heel clacks', type: 'heels'},
   { text: 'Pretend your heels are alive and you\'re letting them lead your dance', type: 'heels', tags: ['imagination']},
+/**  { text: 'Dance like you\'re underwater - slow, fluid movements with resistance', tags: ['imagination', 'tempo'], credit: 'Shared by @movement_artist', creditUrl: 'https://instagram.com/movement_artist'}, CREDIT EXAMPLE*/
 ];
 
 /**
  * Normalization helpers
- * Prompt format: { text, type: 'pole'|'floor'|'heels'|'', tags: string[] }
+ * Prompt format: { text, type: 'pole'|'floor'|'heels'|'', tags: string[], credit: string, creditUrl: string }
  */
 export const normalizePromptItem = (item) => {
   const text = item.text || '';
@@ -72,7 +73,9 @@ export const normalizePromptItem = (item) => {
     type = '';
   }
   const tags = Array.isArray(item.tags) ? item.tags : [];
-  return { text, type, tags };
+  const credit = item.credit || '';
+  const creditUrl = item.creditUrl || '';
+  return { text, type, tags, credit, creditUrl };
 };
 
 /**

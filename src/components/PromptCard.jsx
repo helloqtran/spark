@@ -203,8 +203,8 @@ const PromptCard = React.memo(({
               {/* Type section */}
               {prompt.type && (
                 <div className="text-center">
-                  <h3 className="text-sm sm:text-xs font-medium text-gray-700 mb-2">Type</h3>
-                  <div className="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+                  <h3 className="text-sm sm:text-xs font-medium mb-2 text-gray-600">Type</h3>
+                  <div className="inline-block px-4 py-2 rounded-full text-sm font-medium text-gray-800 bg-gray-200">
                     {prompt.type}
                   </div>
                 </div>
@@ -213,12 +213,12 @@ const PromptCard = React.memo(({
               {/* Tags section */}
               {prompt.tags && prompt.tags.length > 0 && (
                 <div className="text-center">
-                  <h3 className="text-sm sm:text-xs font-medium text-gray-700 mb-3">Tags</h3>
+                  <h3 className="text-sm sm:text-xs font-medium mb-3 text-gray-600">Tags</h3>
                   <div className="flex flex-wrap justify-center gap-2 max-w-xs">
                     {prompt.tags.map((tag, index) => (
                       <span
                         key={index}
-                        className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium"
+                        className="px-3 py-1 rounded-full text-sm font-medium text-gray-800 bg-gray-200"
                       >
                         {tag}
                       </span>
@@ -227,8 +227,31 @@ const PromptCard = React.memo(({
                 </div>
               )}
 
+              {/* Credit section */}
+              {prompt.credit && (
+                <div className="text-center">
+                  {/* Separator line */}
+                  <div className="w-16 h-px mx-auto mb-4 bg-gray-400"></div>
+                  {prompt.creditUrl ? (
+                    <a
+                      href={prompt.creditUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-gray-600 hover:text-gray-800 transition-colors cursor-pointer"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {prompt.credit}
+                    </a>
+                  ) : (
+                    <div className="text-sm text-gray-600">
+                      {prompt.credit}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* No metadata message */}
-              {!prompt.type && (!prompt.tags || prompt.tags.length === 0) && (
+              {!prompt.type && (!prompt.tags || prompt.tags.length === 0) && !prompt.credit && (
                 <div className="text-center">
                   <p className="text-gray-500 text-sm">No additional metadata available</p>
                 </div>

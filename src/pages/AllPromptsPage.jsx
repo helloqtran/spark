@@ -331,8 +331,8 @@ const AllPromptsPage = ({
                   </div>
                 </div>
                 
-                {/* Expandable type and tags section */}
-                {isExpanded && (prompt.type || (prompt.tags && prompt.tags.length > 0)) && (
+                {/* Expandable type, tags, and credit section */}
+                {isExpanded && (prompt.type || (prompt.tags && prompt.tags.length > 0) || prompt.credit) && (
                   <div className="pl-6 pr-4 pb-4 bg-white/2">
                     <div className="space-y-2">
                       {prompt.type && (
@@ -353,6 +353,31 @@ const AllPromptsPage = ({
                               </span>
                             ))}
                           </div>
+                        </div>
+                      )}
+                      {prompt.credit && (
+                        <div className="flex items-center gap-2">
+                          {prompt.creditUrl ? (
+                            <a
+                              href={prompt.creditUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`text-xs transition-colors ${isHidden ? 'text-gray-400' : ''}`}
+                              style={!isHidden ? { color: '#D8A159' } : {}}
+                              onMouseEnter={(e) => !isHidden && (e.target.style.color = '#B88A4A')}
+                              onMouseLeave={(e) => !isHidden && (e.target.style.color = '#D8A159')}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {prompt.credit}
+                            </a>
+                          ) : (
+                            <span 
+                              className={`text-xs ${isHidden ? 'text-gray-400' : ''}`}
+                              style={!isHidden ? { color: '#D8A159' } : {}}
+                            >
+                              {prompt.credit}
+                            </span>
+                          )}
                         </div>
                       )}
                     </div>

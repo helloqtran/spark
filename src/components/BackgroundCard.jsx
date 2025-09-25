@@ -60,6 +60,23 @@ const BackgroundCard = React.memo(({
           ))}
         </div>
       )}
+      {prompt.credit && (
+        <div className="text-[10px] text-gray-500 mt-1">
+          {prompt.creditUrl ? (
+            <a
+              href={prompt.creditUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-400 transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {prompt.credit}
+            </a>
+          ) : (
+            prompt.credit
+          )}
+        </div>
+      )}
     </div>
   );
 });
