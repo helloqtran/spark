@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Import page components
 import MainPromptsPage from './pages/MainPromptsPage';
@@ -10,63 +10,10 @@ import AllPromptsPage from './pages/AllPromptsPage';
 import ListsPage from './pages/ListsPage';
 import TestWelcomePage from './pages/TestWelcomePage';
 
+// Import context provider
+import { UserDataProvider } from './contexts/UserDataContext';
+
 const App = () => {
-  const navigate = useNavigate();
-  
-  // Simple state without complex data loading
-  const [favorites, setFavorites] = React.useState(new Set());
-  const [hiddenPrompts, setHiddenPrompts] = React.useState(new Set());
-  const [lists, setLists] = React.useState({});
-
-  // Simple functions
-  const toggleFavorite = (promptText) => {
-    setFavorites(prev => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(promptText)) {
-        newFavorites.delete(promptText);
-      } else {
-        newFavorites.add(promptText);
-      }
-      return newFavorites;
-    });
-  };
-
-  const toggleHidden = (promptText) => {
-    setHiddenPrompts(prev => {
-      const newHidden = new Set(prev);
-      if (newHidden.has(promptText)) {
-        newHidden.delete(promptText);
-      } else {
-        newHidden.add(promptText);
-      }
-      return newHidden;
-    });
-  };
-
-  const addPromptToList = (listName, promptText) => {
-    if (!listName || !promptText) return;
-    setLists(prev => {
-      const current = prev[listName] || [];
-      const nextItems = current.includes(promptText) ? current : [...current, promptText];
-      return { ...prev, [listName]: nextItems };
-    });
-  };
-
-  const removePromptFromList = (listName, promptText) => {
-    setLists(prev => {
-      const current = prev[listName] || [];
-      const nextItems = current.filter(t => t !== promptText);
-      return { ...prev, [listName]: nextItems };
-    });
-  };
-
-  const deleteList = (listName) => {
-    setLists(prev => {
-      const next = { ...prev };
-      delete next[listName];
-      return next;
-    });
-  };
 
   // Prevent mobile scrolling
   useEffect(() => {
@@ -115,101 +62,20 @@ const App = () => {
     };
   }, []);
 
-  // Enhanced toggleHidden function
-  const handleToggleHidden = (promptText) => {
-    toggleHidden(promptText);
-  };
-
   return (
-    <Routes>
-      <Route 
-        path="/" 
-        element={
-          <TestWelcomePage 
-            favorites={favorites}
-            hiddenPrompts={hiddenPrompts}
-            lists={lists}
-          />
-        } 
-      />
-      <Route 
-        path="/prompts" 
-        element={
-          <MainPromptsPage 
-            favorites={favorites}
-            hiddenPrompts={hiddenPrompts}
-            lists={lists}
-            toggleFavorite={toggleFavorite}
-            toggleHidden={toggleHidden}
-            addPromptToList={addPromptToList}
-            setLists={setLists}
-            handleToggleHidden={toggleHidden}
-          />
-        } 
-      />
-      <Route 
-        path="/favorites" 
-        element={
-          <FavoritesPage 
-            favorites={favorites}
-            hiddenPrompts={hiddenPrompts}
-            lists={lists}
-            toggleFavorite={toggleFavorite}
-          />
-        } 
-      />
-      <Route 
-        path="/hidden" 
-        element={
-          <HiddenPage 
-            favorites={favorites}
-            hiddenPrompts={hiddenPrompts}
-            lists={lists}
-            handleToggleHidden={toggleHidden}
-          />
-        } 
-      />
-      <Route 
-        path="/about" 
-        element={
-          <AboutPage 
-            favorites={favorites}
-            hiddenPrompts={hiddenPrompts}
-          />
-        } 
-      />
-      <Route 
-        path="/all-prompts" 
-        element={
-          <AllPromptsPage 
-            favorites={favorites}
-            hiddenPrompts={hiddenPrompts}
-            lists={lists}
-            toggleFavorite={toggleFavorite}
-            handleToggleHidden={toggleHidden}
-            addPromptToList={addPromptToList}
-            setLists={setLists}
-            deleteList={deleteList}
-          />
-        } 
-      />
-      <Route 
-        path="/lists" 
-        element={
-          <ListsPage 
-            favorites={favorites}
-            hiddenPrompts={hiddenPrompts}
-            lists={lists}
-            addPromptToList={addPromptToList}
-            setLists={setLists}
-            removePromptFromList={removePromptFromList}
-            deleteList={deleteList}
-          />
-        } 
-      />
-      {/* Redirect any unknown routes to home */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <UserDataProvider>
+      <Routes>
+        <Route path="/" element={<TestWelcomePage />} />
+        <Route path="/prompts" element={<MainPromptsPage />} />
+        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/hidden" element={<HiddenPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/all-prompts" element={<AllPromptsPage />} />
+        <Route path="/lists" element={<ListsPage />} />
+        {/* Redirect any unknown routes to home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </UserDataProvider>
   );
 };
 

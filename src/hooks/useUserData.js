@@ -14,17 +14,20 @@ export const useUserData = () => {
   const [lists, setLists] = useState({});
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(null);
 
   // Load user data on mount
   useEffect(() => {
     const loadData = async () => {
       try {
+        setError(null);
         setFavorites(DataService.loadFavorites());
         setHiddenPrompts(DataService.loadHidden());
         setLists(DataService.loadLists());
         setSelectedCategories(DataService.loadSelectedCategories());
       } catch (error) {
         console.error('Failed to load user data:', error);
+        setError(error);
         // Set default values if loading fails
         setFavorites(new Set());
         setHiddenPrompts(new Set());
@@ -114,6 +117,7 @@ export const useUserData = () => {
     lists,
     selectedCategories,
     isLoaded,
+    error,
     // Setters
     setFavorites,
     setHiddenPrompts,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Heart, EyeOff, ChevronDown, List, Menu, X } from 'lucide-react';
+import { useUserDataContext } from '../contexts/UserDataContext';
 
 /**
  * Navigation Bar Component
@@ -8,7 +9,8 @@ import { Heart, EyeOff, ChevronDown, List, Menu, X } from 'lucide-react';
  * Provides consistent navigation across all screens with counts for
  * favorites and hidden prompts.
  */
-const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
+const NavigationBar = React.memo(() => {
+  const { favorites, hiddenPrompts, lists } = useUserDataContext();
   const navigate = useNavigate();
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

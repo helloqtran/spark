@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Heart, EyeOff, ChevronDown, List, Menu, X } from 'lucide-react';
+import { useUserDataContext } from '../contexts/UserDataContext';
 
 /**
  * Test Navigation Bar Component (without SPARK logo)
@@ -8,7 +9,8 @@ import { Heart, EyeOff, ChevronDown, List, Menu, X } from 'lucide-react';
  * Provides consistent navigation across all screens with counts for
  * favorites and hidden prompts, but without the SPARK logo.
  */
-const TestNavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
+const TestNavigationBar = React.memo(() => {
+  const { favorites, hiddenPrompts, lists } = useUserDataContext();
   const navigate = useNavigate();
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { getAllTypes, getAllTags } from '../data/prompts';
+import { useUserDataContext } from '../contexts/UserDataContext';
+import { createThreeStateToggle, createFilterParams } from '../utils/filterUtils';
 import TestNavigationBar from '../components/TestNavigationBar';
 
-const TestWelcomePage = ({ favorites = new Set(), hiddenPrompts = new Set(), lists = {} }) => {
+const TestWelcomePage = () => {
   const navigate = useNavigate();
+  const { favorites, hiddenPrompts, lists } = useUserDataContext();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTypes, setSelectedTypes] = useState(new Set());
   const [excludedTypes, setExcludedTypes] = useState(new Set());
@@ -15,80 +18,23 @@ const TestWelcomePage = ({ favorites = new Set(), hiddenPrompts = new Set(), lis
   const types = getAllTypes();
   const tags = getAllTags();
 
-  const toggleType = (typeId) => {
-    // 3-click cycle: unselected → included → excluded → unselected
-    if (selectedTypes.has(typeId)) {
-      // Currently included, move to excluded
-      setSelectedTypes(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(typeId);
-        return newSet;
-      });
-      setExcludedTypes(prev => new Set([...prev, typeId]));
-    } else if (excludedTypes.has(typeId)) {
-      // Currently excluded, move to unselected
-      setExcludedTypes(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(typeId);
-        return newSet;
-      });
-    } else {
-      // Currently unselected, move to included
-      setSelectedTypes(prev => new Set([...prev, typeId]));
-    }
-  };
-
-  const toggleTag = (tag) => {
-    // 3-click cycle: unselected → included → excluded → unselected
-    if (selectedTags.has(tag)) {
-      // Currently included, move to excluded
-      setSelectedTags(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(tag);
-        return newSet;
-      });
-      setExcludedTags(prev => new Set([...prev, tag]));
-    } else if (excludedTags.has(tag)) {
-      // Currently excluded, move to unselected
-      setExcludedTags(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(tag);
-        return newSet;
-      });
-    } else {
-      // Currently unselected, move to included
-      setSelectedTags(prev => new Set([...prev, tag]));
-    }
-  };
+  // Use shared utility functions
+  const toggleType = createThreeStateToggle(selectedTypes, excludedTypes, setSelectedTypes, setExcludedTypes);
+  const toggleTag = createThreeStateToggle(selectedTags, excludedTags, setSelectedTags, setExcludedTags);
 
   const handleNext = () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {
       // Final step - navigate to prompts page with selected filters
-      const params = new URLSearchParams();
+      const filters = {
+        selectedTypes,
+        excludedTypes,
+        selectedTags,
+        excludedTags,
+      };
       
-      // Add included types
-      if (selectedTypes.size > 0) {
-        params.set('includeTypes', Array.from(selectedTypes).join(','));
-      }
-      
-      // Add excluded types
-      if (excludedTypes.size > 0) {
-        params.set('excludeTypes', Array.from(excludedTypes).join(','));
-      }
-      
-      // Add included tags
-      if (selectedTags.size > 0) {
-        params.set('includeTags', Array.from(selectedTags).join(','));
-      }
-      
-      // Add excluded tags
-      if (excludedTags.size > 0) {
-        params.set('excludeTags', Array.from(excludedTags).join(','));
-      }
-      
-      // Navigate to prompts page with filters
+      const params = createFilterParams(filters);
       const queryString = params.toString();
       navigate(`/prompts${queryString ? `?${queryString}` : ''}`);
     }
@@ -208,11 +154,7 @@ const TestWelcomePage = ({ favorites = new Set(), hiddenPrompts = new Set(), lis
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col overflow-hidden" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0', zIndex: 1 }}>
-      <TestNavigationBar 
-        favorites={favorites}
-        hiddenPrompts={hiddenPrompts}
-        lists={lists}
-      />
+      <TestNavigationBar />
       <div className="flex-1 flex flex-col items-center justify-center p-4 pt-20">
         <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md h-[400px] pt-16 pb-16 px-8 text-center relative">
           {/* Step Content */}
