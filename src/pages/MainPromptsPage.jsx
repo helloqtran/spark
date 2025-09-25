@@ -194,7 +194,7 @@ const MainPromptsPage = ({
 
 
       {/* Main Content Container - Groups Filters and Cards */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-4 pt-16 sm:pt-12">
+      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-4 -mt-8 sm:pt-12">
         {/* Combined Filters and Cards Section */}
         <div className="flex flex-col items-center w-full">
           {/* Filters Section */}
@@ -334,7 +334,7 @@ const MainPromptsPage = ({
           {/* Card and Help Text Container */}
           <div className="flex flex-col items-center w-full max-w-none">
         {/* Card Deck - Vertically Centered */}
-        <div className="flex items-center justify-center w-full mb-8 sm:mb-12">
+        <div className="flex items-center justify-center w-full mb-12 sm:mb-12">
           {availablePrompts.length === 0 ? (
             <div className="text-center p-8">
               <div className="text-6xl mb-4">🔍</div>
