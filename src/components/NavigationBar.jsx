@@ -151,16 +151,16 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
           </div>
 
           {/* Menu Items */}
-          <div className="flex-1 px-6 py-8 space-y-4 overflow-y-auto custom-scrollbar">
+          <div className="flex-1 px-6 py-4 space-y-2 overflow-y-auto custom-scrollbar">
             {/* Collections Section */}
-            <div className="space-y-3">
+            <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wide">Collections</h3>
               <button
                 onClick={() => {
                   navigate('/favorites');
                   setIsMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
                 aria-label={`View my favorites (${favorites.size} items)`}
               >
                 <Heart size={20} className={favorites.size > 0 ? "fill-pink-500 text-pink-500" : ""} />
@@ -174,7 +174,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
                   navigate('/hidden');
                   setIsMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
                 aria-label={`View hidden prompts (${hiddenPrompts.size} items)`}
               >
                 <EyeOff size={20} />
@@ -188,7 +188,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
                   navigate('/lists');
                   setIsMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
                 aria-label="View custom lists"
               >
                 <List size={20} />
@@ -200,13 +200,13 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
             </div>
 
             {/* Other Pages */}
-            <div className="space-y-3 pt-6 border-t border-gray-800">
+            <div className="space-y-2 pt-4 border-t border-gray-800">
               <button
                 onClick={() => {
                   navigate('/all-prompts');
                   setIsMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
                 aria-label="View all prompts"
               >
                 <div className="font-medium">View All Prompts</div>
@@ -216,7 +216,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
                   navigate('/about');
                   setIsMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
                 aria-label="View about page"
               >
                 <div className="font-medium">About</div>
