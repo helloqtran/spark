@@ -22,14 +22,51 @@ const DropdownChip = React.memo(({
   const buttonRef = useRef(null);
   const [dropdownPosition, setDropdownPosition] = React.useState({ left: '50%', transform: 'translateX(-50%)' });
 
+  // Recalculate position on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (isOpen && buttonRef.current) {
+        const buttonRect = buttonRef.current.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const margin = 16;
+        
+        // Use actual dropdown width based on screen size
+        const isMobile = viewportWidth < 640;
+        const dropdownWidth = isMobile ? 200 : 224;
+        
+        let left = '50%';
+        let transform = 'translateX(-50%)';
+        
+        // Check if dropdown would go off the left edge
+        if (buttonRect.left + (dropdownWidth / 2) < margin) {
+          left = `${margin}px`;
+          transform = 'translateX(0)';
+        }
+        // Check if dropdown would go off the right edge
+        else if (buttonRect.right - (dropdownWidth / 2) > viewportWidth - margin) {
+          left = `calc(100% - ${margin}px)`;
+          transform = 'translateX(-100%)';
+        }
+        
+        setDropdownPosition({ left, transform });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isOpen]);
+
   const handleToggle = () => {
     const newOpen = !isOpen;
     if (newOpen && buttonRef.current) {
       // Calculate position to keep dropdown within viewport
       const buttonRect = buttonRef.current.getBoundingClientRect();
-      const dropdownWidth = 192; // w-48 = 192px
       const viewportWidth = window.innerWidth;
       const margin = 16; // 1rem margin
+      
+      // Use actual dropdown width based on screen size
+      const isMobile = viewportWidth < 640; // sm breakpoint
+      const dropdownWidth = isMobile ? 200 : 224; // minWidth on mobile, w-56 on desktop
       
       let left = '50%';
       let transform = 'translateX(-50%)';
