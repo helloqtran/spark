@@ -117,7 +117,7 @@ const AllPromptsPage = ({
       </div>
 
       {/* Filters Section */}
-      <div className="flex justify-center items-center pt-4 pb-4 px-4 sm:px-0 bg-black">
+      <div className="flex justify-center items-center pt-4 pb-6 px-4 sm:px-0 bg-black">
         <div className="w-full max-w-4xl">
           <div className="text-center mb-3">
             <h2 className="text-sm sm:text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
@@ -266,7 +266,7 @@ const AllPromptsPage = ({
           scrollbarColor: '#D8A159 #1f2937'
         }}
       >
-        <div className="p-4 sm:p-6 max-w-4xl mx-auto w-full pb-8">
+        <div className="p-4 sm:p-6 max-w-4xl mx-auto w-full pb-8 pt-6">
         <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10">
           {allPrompts.map((prompt, index) => {
             const isHidden = hiddenPrompts.has(prompt.text);
