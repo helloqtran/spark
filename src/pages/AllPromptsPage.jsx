@@ -100,13 +100,7 @@ const AllPromptsPage = ({
       {/* Page Title */}
       <div className="bg-black py-8 relative z-40 pt-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-2xl font-bold text-white text-center">All Prompts</h1>
-          <p className="text-gray-300 text-sm mt-2">
-            {allPrompts.length} prompts available
-            {(allPromptsFilterTypes.size > 0 || allPromptsFilterTags.size > 0 || allPromptsFilterLists.size > 0) && (
-              <span style={{ color: '#D8A159' }}> (filtered)</span>
-            )}
-          </p>
+          <h1 className="text-2xl font-bold text-white text-center">All Cards</h1>
         </div>
       </div>
 
@@ -292,7 +286,7 @@ const AllPromptsPage = ({
                     <button
                       onClick={() => handleToggleHidden(prompt.text)}
                       className="p-3 hover:bg-white/10 rounded-full transition-colors"
-                      title={isHidden ? "Show prompt" : "Hide prompt"}
+                      title={isHidden ? "Show card" : "Hide card"}
                     >
                       <EyeOff size={20} className={isHidden ? "text-red-400" : "text-gray-400"} />
                     </button>

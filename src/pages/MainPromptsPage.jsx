@@ -337,9 +337,9 @@ const MainPromptsPage = ({
           {availablePrompts.length === 0 ? (
             <div className="text-center p-8">
               <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-white mb-2">No prompts found</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">No cards found</h3>
               <p className="text-gray-300 mb-6">
-                No prompts match your current filters. Try adjusting your filters or clear them to see all prompts.
+                No cards match your current filters. Try adjusting your filters or clear them to see all cards.
               </p>
               <button
                 onClick={handleClearFilters}
