@@ -395,6 +395,17 @@ const MainPromptsPage = ({
             </p>
           </div>
         )}
+
+        {/* Test Welcome Modal Button */}
+        <div className="flex justify-center items-center mt-4">
+          <button
+            onClick={() => setIsWelcomeModalOpen(true)}
+            className="text-xs px-3 py-1 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors border border-gray-600"
+            aria-label="Test welcome modal"
+          >
+            Test Welcome Modal
+          </button>
+        </div>
           </div>
         </div>
       </div>

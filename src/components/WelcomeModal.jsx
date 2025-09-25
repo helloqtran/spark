@@ -26,8 +26,8 @@ const WelcomeModal = ({ isOpen, onClose }) => {
         </button>
 
         {/* Content */}
-        <div className="max-w-sm mx-auto">
-          <h1 className="text-6xl font-bold mb-8 text-white tracking-wide spark-font">SPARK</h1>
+        <div className="max-w-sm mx-auto mb-6">
+          <h1 className="text-7xl font-bold mt-8 mb-12 text-white tracking-wide noto-serif-jp">SPARK</h1>
           <p className="text-gray-300 mb-8 text-lg leading-relaxed">
             Get inspired with movement prompts designed to spark creativity in your freestyle practice.
           </p>
