@@ -8,6 +8,7 @@ import HiddenPage from './pages/HiddenPage';
 import AboutPage from './pages/AboutPage';
 import AllPromptsPage from './pages/AllPromptsPage';
 import ListsPage from './pages/ListsPage';
+import TestWelcomePage from './pages/TestWelcomePage';
 
 const App = () => {
   const navigate = useNavigate();
@@ -124,15 +125,10 @@ const App = () => {
       <Route 
         path="/" 
         element={
-          <MainPromptsPage 
+          <TestWelcomePage 
             favorites={favorites}
             hiddenPrompts={hiddenPrompts}
             lists={lists}
-            toggleFavorite={toggleFavorite}
-            toggleHidden={toggleHidden}
-            addPromptToList={addPromptToList}
-            setLists={setLists}
-            handleToggleHidden={toggleHidden}
           />
         } 
       />

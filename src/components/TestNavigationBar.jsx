@@ -3,12 +3,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Heart, EyeOff, ChevronDown, List, Menu, X } from 'lucide-react';
 
 /**
- * Navigation Bar Component
+ * Test Navigation Bar Component (without SPARK logo)
  * 
  * Provides consistent navigation across all screens with counts for
- * favorites and hidden prompts.
+ * favorites and hidden prompts, but without the SPARK logo.
  */
-const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
+const TestNavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -38,22 +38,10 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  // Simple click handler for SPARK logo - navigate to welcome page
-  const handleSparkClick = () => {
-    navigate('/');
-  };
-
   return (
     <>
       {/* Main Navbar - Always visible */}
-      <div className="bg-transparent shadow-sm px-6 py-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50" style={{ paddingTop: 'max(env(safe-area-inset-top), 1rem)', paddingLeft: 'max(env(safe-area-inset-left), 1.5rem)', paddingRight: 'max(env(safe-area-inset-right), 1.5rem)' }}>
-        <button
-          onClick={handleSparkClick}
-          className="text-2xl sm:text-3xl font-bold text-white hover:text-gray-300 transition-colors spark-logo"
-          aria-label="Go to main prompts page"
-        >
-          SPARK
-        </button>
+      <div className="bg-transparent shadow-sm px-6 py-4 flex items-center justify-end fixed top-0 left-0 right-0 z-50" style={{ paddingTop: 'max(env(safe-area-inset-top), 1rem)', paddingLeft: 'max(env(safe-area-inset-left), 1.5rem)', paddingRight: 'max(env(safe-area-inset-right), 1.5rem)' }}>
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-2">
@@ -138,14 +126,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
       <div className={`md:hidden fixed top-0 right-0 bottom-0 bg-black border-l border-gray-800 transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ width: '280px', paddingTop: 'max(env(safe-area-inset-top), 0px)', paddingBottom: 'max(env(safe-area-inset-bottom), 0px)', zIndex: 45 }}>
         <div ref={mobileMenuRef} className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
-            <button
-              onClick={handleSparkClick}
-              className="text-2xl font-bold text-white hover:text-gray-300 transition-colors spark-logo"
-              aria-label="Go to main prompts page"
-            >
-              SPARK
-            </button>
+          <div className="flex items-center justify-end px-6 py-4 border-b border-gray-800">
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
@@ -243,6 +224,6 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
   );
 });
 
-NavigationBar.displayName = 'NavigationBar';
+TestNavigationBar.displayName = 'TestNavigationBar';
 
-export default NavigationBar;
+export default TestNavigationBar;

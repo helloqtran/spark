@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { X, SearchX } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 import DropdownChip from '../components/DropdownChip';
 import PromptCard from '../components/PromptCard';
 import BackgroundCard from '../components/BackgroundCard';
 import AddToListModal from '../components/AddToListModal';
-import WelcomeModal from '../components/WelcomeModal';
 import { PROMPTS_DATABASE, normalizePromptItem, getAllTags, getAllTypes } from '../data/prompts';
 
 const MainPromptsPage = ({ 
@@ -18,13 +18,13 @@ const MainPromptsPage = ({
   setLists,
   handleToggleHidden
 }) => {
+  const location = useLocation();
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentPromptText, setCurrentPromptText] = useState(null);
   const [isAddToListOpen, setIsAddToListOpen] = useState(false);
   const [newListName, setNewListName] = useState('');
   const [selectedListName, setSelectedListName] = useState('');
-  const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
   
   // Filters (multi-select) - Main view
   const [filterTypes, setFilterTypes] = useState(new Set());
@@ -37,14 +37,35 @@ const MainPromptsPage = ({
   const [excludeLists, setExcludeLists] = useState(new Set());
   const [openDropdown, setOpenDropdown] = useState(null);
 
-  // Check for first-time user on component mount
+
+  // Read URL parameters and set initial filters
   useEffect(() => {
-    const hasVisitedBefore = localStorage.getItem('spark-has-visited');
-    if (!hasVisitedBefore) {
-      setIsWelcomeModalOpen(true);
-      localStorage.setItem('spark-has-visited', 'true');
+    const searchParams = new URLSearchParams(location.search);
+    
+    // Set included types
+    const includeTypes = searchParams.get('includeTypes');
+    if (includeTypes) {
+      setFilterTypes(new Set(includeTypes.split(',')));
     }
-  }, []);
+    
+    // Set excluded types
+    const excludeTypesParam = searchParams.get('excludeTypes');
+    if (excludeTypesParam) {
+      setExcludeTypes(new Set(excludeTypesParam.split(',')));
+    }
+    
+    // Set included tags
+    const includeTags = searchParams.get('includeTags');
+    if (includeTags) {
+      setFilterTags(new Set(includeTags.split(',')));
+    }
+    
+    // Set excluded tags
+    const excludeTagsParam = searchParams.get('excludeTags');
+    if (excludeTagsParam) {
+      setExcludeTags(new Set(excludeTagsParam.split(',')));
+    }
+  }, [location.search]);
 
   // Memoized filtered prompts to prevent unnecessary recalculations
   const availablePrompts = useMemo(() => {
@@ -337,10 +358,10 @@ const MainPromptsPage = ({
         <div className="flex items-center justify-center w-full mb-12 sm:mb-12">
           {availablePrompts.length === 0 ? (
             <div className="text-center p-8">
-              <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-white mb-2">No cards found</h3>
+              <SearchX size={64} className="mx-auto mb-4" style={{ color: '#D8A159' }} />
+              <h3 className="text-xl font-semibold text-white mb-2">No cards match your current filters {':('}</h3>
               <p className="text-gray-300 mb-6">
-                No cards match your current filters. Try adjusting your filters or clear them to see all cards.
+                Have an idea for one that does? <a href="https://www.instagram.com/sparkcards.dance" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }}>DM me on Instagram!</a>
               </p>
               <button
                 onClick={handleClearFilters}
@@ -418,11 +439,6 @@ const MainPromptsPage = ({
         onCreateList={handleCreateList}
       />
 
-      {/* Welcome Modal */}
-      <WelcomeModal
-        isOpen={isWelcomeModalOpen}
-        onClose={() => setIsWelcomeModalOpen(false)}
-      />
     </div>
   );
 };

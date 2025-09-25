@@ -95,6 +95,11 @@
     text-transform: uppercase;
   }
   
+  .spark-logo {
+    font-family: 'Italiana', 'Times New Roman', serif;
+    text-transform: uppercase;
+  }
+  
   .noto-serif-jp-normal {
     font-family: 'Noto Serif JP', serif;
   }
