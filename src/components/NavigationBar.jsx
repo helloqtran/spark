@@ -104,7 +104,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
           </div>
 
           <button
-            onClick={() => navigate('/all-cards')}
+            onClick={() => navigate('/all-prompts')}
             className="text-gray-300 text-sm sm:text-xs hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
             aria-label="View all prompts"
           >
@@ -130,7 +130,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
       </div>
 
       {/* Mobile Sidebar */}
-      <div className={`md:hidden fixed top-0 right-0 bottom-0 z-40 bg-black border-l border-gray-800 transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ width: '280px', paddingTop: 'max(env(safe-area-inset-top), 0px)', paddingBottom: 'max(env(safe-area-inset-bottom), 0px)' }}>
+      <div className={`md:hidden fixed top-0 right-0 bottom-0 bg-black border-l border-gray-800 transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ width: '280px', paddingTop: 'max(env(safe-area-inset-top), 0px)', paddingBottom: 'max(env(safe-area-inset-bottom), 0px)', zIndex: 45 }}>
         <div ref={mobileMenuRef} className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
@@ -203,7 +203,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
             <div className="space-y-2 pt-4 border-t border-gray-800">
               <button
                 onClick={() => {
-                  navigate('/all-cards');
+                  navigate('/all-prompts');
                   setIsMobileMenuOpen(false);
                 }}
                 className="w-full flex items-center gap-3 px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Heart, EyeOff, Plus } from 'lucide-react';
+import { Heart, EyeOff, Plus, Info } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 import DropdownChip from '../components/DropdownChip';
 import AddToListModal from '../components/AddToListModal';
@@ -29,6 +29,7 @@ const AllPromptsPage = ({
   const [newListName, setNewListName] = useState('');
   const [selectedListName, setSelectedListName] = useState('');
   const [currentPromptText, setCurrentPromptText] = useState(null);
+  const [expandedPrompt, setExpandedPrompt] = useState(null);
 
   // Apply the same filtering logic as the main screen, but include hidden prompts
   let allPrompts = [];
@@ -89,6 +90,17 @@ const AllPromptsPage = ({
     setCurrentPromptText(null);
   }, [selectedListName, currentPromptText, addPromptToList]);
 
+  const togglePromptExpansion = useCallback((promptText) => {
+    setExpandedPrompt(prev => {
+      // If clicking on the same prompt, toggle it (collapse)
+      if (prev === promptText) {
+        return null;
+      }
+      // Otherwise, expand the new prompt (this will collapse the previous one)
+      return promptText;
+    });
+  }, []);
+
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100dvh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: 'calc(-1 * env(safe-area-inset-top))', bottom: 'calc(-1 * env(safe-area-inset-bottom))', left: 'calc(-1 * env(safe-area-inset-left))', right: 'calc(-1 * env(safe-area-inset-right))' }}>
       <NavigationBar 
@@ -100,7 +112,7 @@ const AllPromptsPage = ({
       {/* Page Title */}
       <div className="bg-black py-8 relative z-40 pt-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-2xl font-bold text-white text-center">All Cards</h1>
+          <h1 className="text-2xl font-bold text-white text-center">All Prompts</h1>
         </div>
       </div>
 
@@ -257,53 +269,94 @@ const AllPromptsPage = ({
         <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10">
           {allPrompts.map((prompt, index) => {
             const isHidden = hiddenPrompts.has(prompt.text);
+            const isExpanded = expandedPrompt === prompt.text;
             return (
-              <div key={prompt.text} className={`px-6 py-4 hover:bg-white/5 transition-colors ${index !== allPrompts.length - 1 ? 'border-b border-white/10' : ''} ${isHidden ? 'opacity-50' : ''}`}>
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0 pr-4">
-                    <p className={`text-base leading-relaxed break-words ${isHidden ? 'text-gray-400' : 'text-white'}`}>{prompt.text}</p>
-                    <div className="flex items-center gap-2 mt-2 flex-wrap">
-                      {prompt.type && (
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${isHidden ? 'bg-gray-600 text-gray-300' : ''}`} style={!isHidden ? { backgroundColor: '#D8A159', color: 'black' } : {}}>
-                          {prompt.type}
-                        </span>
-                      )}
-                      {prompt.tags && prompt.tags.map((tag, tagIndex) => (
-                        <span key={tagIndex} className={`px-2 py-1 text-xs rounded-full ${isHidden ? 'bg-gray-600/50 text-gray-400' : 'bg-white/20 text-gray-300'}`}>
-                          {tag}
-                        </span>
-                      ))}
+              <div key={prompt.text} className={`${index !== allPrompts.length - 1 ? 'border-b border-white/10' : ''} ${isHidden ? 'opacity-50' : ''}`}>
+                {/* Prompt row */}
+                <div className="pl-6 pr-4 py-4 hover:bg-white/5 transition-colors">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex-1 min-w-0 pr-2">
+                      <p className={`text-base leading-relaxed break-words ${isHidden ? 'text-gray-400' : 'text-white'}`}>{prompt.text}</p>
+                    </div>
+                    <div className="flex items-center gap-1 flex-shrink-0">
+                      {/* Info indicator */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          togglePromptExpansion(prompt.text);
+                        }}
+                        className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                        title="Show details"
+                      >
+                        <Info 
+                          size={16} 
+                          className="text-gray-400" 
+                        />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFavorite(prompt.text);
+                        }}
+                        className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                        title="Toggle favorite"
+                      >
+                        <Heart size={18} className={favorites.has(prompt.text) ? "fill-pink-500 text-pink-500" : "text-gray-400"} />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleToggleHidden(prompt.text);
+                        }}
+                        className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                        title={isHidden ? "Show card" : "Hide card"}
+                      >
+                        <EyeOff size={18} className={isHidden ? "text-red-400" : "text-gray-400"} />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedListName('');
+                          setNewListName('');
+                          setCurrentPromptText(prompt.text);
+                          setIsAddToListOpen(true);
+                        }}
+                        className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                        title="Add to list"
+                      >
+                        <Plus size={18} className="text-gray-400" />
+                      </button>
                     </div>
                   </div>
-                  <div className="flex gap-1 flex-shrink-0 self-center">
-                    <button
-                      onClick={() => toggleFavorite(prompt.text)}
-                      className="p-3 hover:bg-white/10 rounded-full transition-colors"
-                      title="Toggle favorite"
-                    >
-                      <Heart size={20} className={favorites.has(prompt.text) ? "fill-pink-500 text-pink-500" : "text-gray-400"} />
-                    </button>
-                    <button
-                      onClick={() => handleToggleHidden(prompt.text)}
-                      className="p-3 hover:bg-white/10 rounded-full transition-colors"
-                      title={isHidden ? "Show card" : "Hide card"}
-                    >
-                      <EyeOff size={20} className={isHidden ? "text-red-400" : "text-gray-400"} />
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSelectedListName('');
-                        setNewListName('');
-                        setCurrentPromptText(prompt.text);
-                        setIsAddToListOpen(true);
-                      }}
-                      className="p-3 hover:bg-white/10 rounded-full transition-colors"
-                      title="Add to list"
-                    >
-                      <Plus size={20} className="text-gray-400" />
-                    </button>
-                  </div>
                 </div>
+                
+                {/* Expandable type and tags section */}
+                {isExpanded && (prompt.type || (prompt.tags && prompt.tags.length > 0)) && (
+                  <div className="pl-6 pr-4 pb-4 bg-white/2">
+                    <div className="space-y-2">
+                      {prompt.type && (
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-400 font-medium">type:</span>
+                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${isHidden ? 'bg-gray-600 text-gray-300' : ''}`} style={!isHidden ? { backgroundColor: '#D8A159', color: 'black' } : {}}>
+                            {prompt.type}
+                          </span>
+                        </div>
+                      )}
+                      {prompt.tags && prompt.tags.length > 0 && (
+                        <div className="flex items-start gap-2">
+                          <span className="text-xs text-gray-400 font-medium mt-1">tags:</span>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {prompt.tags.map((tag, tagIndex) => (
+                              <span key={tagIndex} className={`px-2 py-1 text-xs rounded-full ${isHidden ? 'bg-gray-600/50 text-gray-400' : 'bg-white/20 text-gray-300'}`}>
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
