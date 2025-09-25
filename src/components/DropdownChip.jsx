@@ -155,7 +155,7 @@ const DropdownChip = React.memo(({
       </button>
       {isOpen && (
         <div 
-          className="absolute z-40 mt-2 w-48 sm:w-56 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2"
+          className="absolute z-40 mt-2 w-48 sm:w-56 bg-gray-900 border border-gray-600 rounded-lg shadow-lg p-2"
           style={{
             maxWidth: 'calc(100vw - 2rem)',
             minWidth: '200px',
@@ -173,16 +173,16 @@ const DropdownChip = React.memo(({
                 const state = getOptionState(opt.id);
                 const getStateIcon = () => {
                   switch (state) {
-                    case 'included': return <span className="text-xs text-green-400">✓</span>;
-                    case 'excluded': return <span className="text-xs text-red-400">✗</span>;
+                    case 'included': return <span className="text-xs font-bold" style={{ color: '#D8A159' }}>✓</span>;
+                    case 'excluded': return <span className="text-xs text-gray-400 opacity-50">✗</span>;
                     default: return <span className="text-xs text-gray-400">○</span>;
                   }
                 };
                 
                 const getStateColor = () => {
                   switch (state) {
-                    case 'included': return 'text-green-400 border-green-400';
-                    case 'excluded': return 'text-red-400 border-red-400';
+                    case 'included': return 'text-gray-300 border-gray-500';
+                    case 'excluded': return 'text-gray-400 border-gray-600 opacity-50';
                     default: return 'text-gray-400 border-gray-600';
                   }
                 };
@@ -193,7 +193,7 @@ const DropdownChip = React.memo(({
                     className="flex items-center justify-between px-2 py-2 text-sm hover:bg-gray-700 rounded-md cursor-pointer"
                     onClick={() => handleThreeStateToggle(opt.id)}
                   >
-                    <span className="text-gray-200 flex-1">{opt.label}</span>
+                    <span className={`flex-1 ${state === 'excluded' ? 'text-gray-400 opacity-50' : 'text-gray-200'}`}>{opt.label}</span>
                     <div className={`flex items-center justify-center w-6 h-6 rounded border-2 ${getStateColor()}`}>
                       {getStateIcon()}
                     </div>

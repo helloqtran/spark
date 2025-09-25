@@ -138,14 +138,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
       <div className={`md:hidden fixed top-0 right-0 bottom-0 bg-black border-l border-gray-800 transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ width: '280px', paddingTop: 'max(env(safe-area-inset-top), 0px)', paddingBottom: 'max(env(safe-area-inset-bottom), 0px)', zIndex: 45 }}>
         <div ref={mobileMenuRef} className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
-            <button
-              onClick={handleSparkClick}
-              className="text-2xl font-bold text-white hover:text-gray-300 transition-colors spark-logo"
-              aria-label="Go to main prompts page"
-            >
-              SPARK
-            </button>
+          <div className="flex items-center justify-end px-6 py-4 border-b border-gray-800">
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
@@ -234,7 +227,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
       {/* Mobile Backdrop */}
       {isMobileMenuOpen && (
         <div 
-          className="md:hidden fixed top-0 left-0 right-0 bottom-0 z-30 bg-black/50 backdrop-blur-sm"
+          className="md:hidden fixed top-0 left-0 right-0 bottom-0 z-40 bg-black/50 backdrop-blur-sm"
           onClick={() => setIsMobileMenuOpen(false)}
           style={{ paddingTop: 'max(env(safe-area-inset-top), 0px)', paddingBottom: 'max(env(safe-area-inset-bottom), 0px)' }}
         />

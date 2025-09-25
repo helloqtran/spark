@@ -27,10 +27,12 @@ const FavoritesPage = ({ favorites, hiddenPrompts, lists, toggleFavorite }) => {
         <div className="p-6 max-w-4xl mx-auto w-full pb-8">
           {favoritePrompts.length === 0 ? (
             <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 p-8">
-              <div className="text-center py-12">
-                <Heart size={48} className="mx-auto text-gray-500 mb-4" />
-                <p className="text-gray-300">No favorites yet</p>
-                <p className="text-sm text-gray-400 mt-2">Tap the heart icon on cards to add them here</p>
+              <div className="text-center p-8">
+                <Heart size={64} className="mx-auto mb-4" style={{ color: '#D8A159' }} />
+                <h3 className="text-xl font-semibold text-white mb-2">No favorites yet</h3>
+                <p className="text-gray-300 mb-6">
+                  Tap the heart icon on cards to add them here
+                </p>
               </div>
             </div>
           ) : (
