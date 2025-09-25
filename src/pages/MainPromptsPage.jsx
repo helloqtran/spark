@@ -184,11 +184,12 @@ const MainPromptsPage = ({
   }, []);
 
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col overflow-hidden" style={{ background: 'radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%)', width: '100vw !important', height: '100dvh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: 'calc(-1 * env(safe-area-inset-top))', bottom: 'calc(-1 * env(safe-area-inset-bottom))', left: 'calc(-1 * env(safe-area-inset-left))', right: 'calc(-1 * env(safe-area-inset-right))', zIndex: 1 }}>
+    <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col overflow-hidden" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0', zIndex: 1 }}>
       <NavigationBar 
         favorites={favorites}
         hiddenPrompts={hiddenPrompts}
         lists={lists}
+        onShowWelcomeModal={() => setIsWelcomeModalOpen(true)}
       />
 
 
@@ -396,16 +397,6 @@ const MainPromptsPage = ({
           </div>
         )}
 
-        {/* Test Welcome Modal Button */}
-        <div className="flex justify-center items-center mt-4">
-          <button
-            onClick={() => setIsWelcomeModalOpen(true)}
-            className="text-xs px-3 py-1 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors border border-gray-600"
-            aria-label="Test welcome modal"
-          >
-            Test Welcome Modal
-          </button>
-        </div>
           </div>
         </div>
       </div>

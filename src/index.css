@@ -15,9 +15,9 @@
     height: 100% !important;
     width: 100% !important;
     /* Extend page background behind system UI safe areas */
-    background: radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%);
+    background: radial-gradient(ellipse 200vh 150vh at bottom center, #D8A159 0%, #D8A159 15%, #B88A4A 25%, #8A6B2F 35%, #4A3A1A 45%, #000000 60%, #000000 100%);
     background-color: #000000;
-    min-height: calc(100dvh + 120px);
+    min-height: 150vh;
     /* min-height: 100vh;
     min-height: 100svh;
     min-height: 100dvh;
@@ -68,6 +68,7 @@
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
+    background: transparent !important;
     /* Ensure background extends under mobile safe areas */
     /* background: radial-gradient(ellipse at bottom right, #D8A159 0%, #D8A159 10%, #B88A4A 20%, #8A6B2F 30%, #4A3A1A 40%, #000000 50%);
     background-color: #000000;
@@ -232,6 +233,7 @@
     padding: 0 !important;
     overflow: hidden !important;
     position: relative !important;
+    background-color: transparent !important;
   }
   
   /* Allow touch actions on interactive elements */
