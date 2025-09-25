@@ -189,7 +189,6 @@ const MainPromptsPage = ({
         favorites={favorites}
         hiddenPrompts={hiddenPrompts}
         lists={lists}
-        onShowWelcomeModal={() => setIsWelcomeModalOpen(true)}
       />
 
 

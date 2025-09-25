@@ -8,13 +8,11 @@ import { Heart, EyeOff, ChevronDown, List, Menu, X } from 'lucide-react';
  * Provides consistent navigation across all screens with counts for
  * favorites and hidden prompts.
  */
-const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists, onShowWelcomeModal }) => {
+const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [tapCount, setTapCount] = useState(0);
-  const [lastTapTime, setLastTapTime] = useState(0);
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
@@ -40,30 +38,9 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists, onShowWelco
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  // Triple-tap handler for SPARK logo
+  // Simple click handler for SPARK logo - navigate to main page
   const handleSparkClick = () => {
-    const now = Date.now();
-    const timeDiff = now - lastTapTime;
-    
-    if (timeDiff < 500) { // Within 500ms of last tap
-      const newTapCount = tapCount + 1;
-      setTapCount(newTapCount);
-      
-      if (newTapCount === 3) {
-        // Triple tap detected!
-        if (onShowWelcomeModal) {
-          onShowWelcomeModal();
-        }
-        setTapCount(0);
-        setLastTapTime(0);
-      } else {
-        setLastTapTime(now);
-      }
-    } else {
-      // Reset tap count if too much time has passed
-      setTapCount(1);
-      setLastTapTime(now);
-    }
+    navigate('/');
   };
 
   return (
