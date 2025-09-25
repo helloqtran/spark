@@ -30,7 +30,7 @@ const FavoritesPage = ({ favorites, hiddenPrompts, lists, toggleFavorite }) => {
               <div className="text-center py-12">
                 <Heart size={48} className="mx-auto text-gray-500 mb-4" />
                 <p className="text-gray-300">No favorites yet</p>
-                <p className="text-sm text-gray-400 mt-2">Tap the heart icon on prompts to add them here</p>
+                <p className="text-sm text-gray-400 mt-2">Tap the heart icon on cards to add them here</p>
               </div>
             </div>
           ) : (

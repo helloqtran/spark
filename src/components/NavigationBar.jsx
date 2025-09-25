@@ -104,7 +104,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
           </div>
 
           <button
-            onClick={() => navigate('/all-prompts')}
+            onClick={() => navigate('/all-cards')}
             className="text-gray-300 text-sm sm:text-xs hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
             aria-label="View all prompts"
           >
@@ -203,7 +203,7 @@ const NavigationBar = React.memo(({ favorites, hiddenPrompts, lists }) => {
             <div className="space-y-2 pt-4 border-t border-gray-800">
               <button
                 onClick={() => {
-                  navigate('/all-prompts');
+                  navigate('/all-cards');
                   setIsMobileMenuOpen(false);
                 }}
                 className="w-full flex items-center gap-3 px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"

@@ -29,8 +29,8 @@ const HiddenPage = ({ favorites, hiddenPrompts, lists, handleToggleHidden }) => 
             <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 p-8">
               <div className="text-center py-12">
                 <EyeOff size={48} className="mx-auto text-gray-500 mb-4" />
-                <p className="text-gray-300">No hidden prompts</p>
-                <p className="text-sm text-gray-400 mt-2">Tap the eye icon on prompts to hide them</p>
+                <p className="text-gray-300">No hidden cards</p>
+                <p className="text-sm text-gray-400 mt-2">Tap the eye icon on cards to hide them</p>
               </div>
             </div>
           ) : (

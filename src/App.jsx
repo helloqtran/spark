@@ -183,7 +183,7 @@ const App = () => {
         } 
       />
       <Route 
-        path="/all-prompts" 
+        path="/all-cards" 
         element={
           <AllPromptsPage 
             favorites={favorites}
