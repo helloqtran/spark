@@ -39,7 +39,7 @@ export const PROMPTS_DATABASE = [
   { text: 'Pretend you\'re dancing with a beach ball - hold it in your arms while you dance, throw it into the air, and catch it with different parts of your body', tags: ['fun', 'imagination', 'restriction']},
   { text: 'Keep 1 foot off the ground while you dance', tags: ['body parts', 'restriction']},
   { text: 'Pretend you\'re dancing through water', tags: ['imagination']},
-  { text: 'Become water, whatever that means to you - you might be a gentle creek or crashing waves or anything in', tags: ['imagination', 'fun']},
+  { text: 'Become water, whatever that means to you - you might be a gentle creek or crashing waves or anything in between', tags: ['imagination', 'fun']},
   { text: 'Follow your gaze as you dance'},
   { text: 'Have someone randomly pause the music while you dance and find a pose to hold each time the music pauses', tags: ['guided', 'restriction']},
   { text: 'Pick a body part and focus on showing it off while you dance', tags: ['body parts', 'repetition']},
