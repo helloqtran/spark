@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { X } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 import DropdownChip from '../components/DropdownChip';
 import PromptCard from '../components/PromptCard';
@@ -317,15 +318,16 @@ const MainPromptsPage = ({
                   isOpen={openDropdown === 'lists'}
                   dropdownId="lists"
                 />
-              </div>
-              <div className="flex justify-center mt-1">
-                <button
-                  onClick={handleClearFilters}
-                  className="text-sm sm:text-xs px-2 py-1 rounded-full text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 transition-colors"
-                  aria-label="Clear all filters"
-                >
-                  Clear filters
-                </button>
+                {(filterTypes.size > 0 || filterTags.size > 0 || filterLists.size > 0 || excludeTypes.size > 0 || excludeTags.size > 0 || excludeLists.size > 0) && (
+                  <button
+                    onClick={handleClearFilters}
+                    className="text-sm px-3 py-2 rounded-full border border-red-400 text-red-400 hover:text-red-300 hover:bg-red-900/20 hover:border-red-300 transition-colors flex items-center gap-1.5"
+                    aria-label="Clear all filters"
+                  >
+                    <X size={16} />
+                    Clear
+                  </button>
+                )}
               </div>
             </div>
           </div>
