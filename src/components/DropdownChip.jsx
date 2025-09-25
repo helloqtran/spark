@@ -38,12 +38,12 @@ const DropdownChip = React.memo(({
         let transform = 'translateX(-50%)';
         
         // Check if dropdown would go off the left edge
-        if (buttonRect.left + (dropdownWidth / 2) < margin) {
+        if (buttonRect.left - (dropdownWidth / 2) < margin) {
           left = `${margin}px`;
           transform = 'translateX(0)';
         }
         // Check if dropdown would go off the right edge
-        else if (buttonRect.right - (dropdownWidth / 2) > viewportWidth - margin) {
+        else if (buttonRect.right + (dropdownWidth / 2) > viewportWidth - margin) {
           left = `calc(100% - ${margin}px)`;
           transform = 'translateX(-100%)';
         }
@@ -72,12 +72,12 @@ const DropdownChip = React.memo(({
       let transform = 'translateX(-50%)';
       
       // Check if dropdown would go off the left edge
-      if (buttonRect.left + (dropdownWidth / 2) < margin) {
+      if (buttonRect.left - (dropdownWidth / 2) < margin) {
         left = `${margin}px`;
         transform = 'translateX(0)';
       }
       // Check if dropdown would go off the right edge
-      else if (buttonRect.right - (dropdownWidth / 2) > viewportWidth - margin) {
+      else if (buttonRect.right + (dropdownWidth / 2) > viewportWidth - margin) {
         left = `calc(100% - ${margin}px)`;
         transform = 'translateX(-100%)';
       }

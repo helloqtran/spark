@@ -321,11 +321,10 @@ const MainPromptsPage = ({
                 {(filterTypes.size > 0 || filterTags.size > 0 || filterLists.size > 0 || excludeTypes.size > 0 || excludeTags.size > 0 || excludeLists.size > 0) && (
                   <button
                     onClick={handleClearFilters}
-                    className="text-sm px-3 py-2 rounded-full border border-red-400 text-red-400 hover:text-red-300 hover:bg-red-900/20 hover:border-red-300 transition-colors flex items-center gap-1.5"
+                    className="text-sm p-2 rounded-full border border-red-400 text-red-400 hover:text-red-300 hover:bg-red-900/20 hover:border-red-300 transition-colors flex items-center justify-center"
                     aria-label="Clear all filters"
                   >
                     <X size={16} />
-                    Clear
                   </button>
                 )}
               </div>
