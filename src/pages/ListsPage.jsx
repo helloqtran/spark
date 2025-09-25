@@ -1,16 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import NavigationBar from '../components/NavigationBar';
 import AddToListModal from '../components/AddToListModal';
+import { useUserDataContext } from '../contexts/UserDataContext';
 
-const ListsPage = ({ 
-  favorites, 
-  hiddenPrompts, 
-  lists, 
-  addPromptToList,
-  setLists,
-  removePromptFromList,
-  deleteList
-}) => {
+const ListsPage = () => {
+  const { lists, addPromptToList, setLists, removePromptFromList, deleteList } = useUserDataContext();
   const [isAddToListOpen, setIsAddToListOpen] = useState(false);
   const [newListName, setNewListName] = useState('');
   const [selectedListName, setSelectedListName] = useState('');
@@ -39,11 +33,7 @@ const ListsPage = ({
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0' }}>
-      <NavigationBar 
-        favorites={favorites}
-        hiddenPrompts={hiddenPrompts}
-        lists={lists}
-      />
+      <NavigationBar />
 
       {/* Page Title */}
       <div className="bg-transparent py-8 relative z-40 pt-20">

@@ -1,19 +1,17 @@
 import React from 'react';
 import { Heart } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
+import { useUserDataContext } from '../contexts/UserDataContext';
 
-const FavoritesPage = ({ favorites, hiddenPrompts, lists, toggleFavorite }) => {
+const FavoritesPage = () => {
+  const { favorites, toggleFavorite } = useUserDataContext();
   const favoritePrompts = Array.from(favorites).map(text => {
     return { text };
   });
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0' }}>
-      <NavigationBar 
-        favorites={favorites}
-        hiddenPrompts={hiddenPrompts}
-        lists={lists}
-      />
+      <NavigationBar />
 
       {/* Page Title */}
       <div className="bg-transparent py-8 relative z-40 pt-20">

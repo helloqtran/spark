@@ -2,14 +2,10 @@ import React from 'react';
 import { Heart } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 
-const AboutPage = ({ favorites, hiddenPrompts }) => {
+const AboutPage = () => {
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0' }}>
-      <NavigationBar 
-        favorites={favorites}
-        hiddenPrompts={hiddenPrompts}
-        lists={{}}
-      />
+      <NavigationBar />
 
       {/* Page Title */}
       <div className="bg-transparent py-8 relative z-40 pt-20">
@@ -23,11 +19,12 @@ const AboutPage = ({ favorites, hiddenPrompts }) => {
         <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
           <div className="space-y-4">
             <p className="text-white leading-relaxed">
-              Spark was vibecoded with lots of love (and nearly a few tears) by <a href="https://www.instagram.com/pole_teenie" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>@pole_teenie</a> and <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>Cursor</a> <Heart size={16} className="inline fill-pink-500 text-pink-500 ml-1" />
+              Spark was vibecoded with lots of love (and nearly a few tears) by <a href="https://www.instagram.com/pole_teenie" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>@pole_teenie</a> with <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>Cursor</a> <Heart size={16} className="inline fill-pink-500 text-pink-500 ml-1" />
             </p>
             
             <p className="text-white leading-relaxed">
-              DM <a href="https://www.instagram.com/sparkcards.dance" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>@sparkcards.dance</a> on Instagram to share your favorite prompts or to let me know how I can make Spark even better!
+              DM <a href="https://www.instagram.com/sparkcards.dance" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>@sparkcards.dance</a> on Instagram to share your favorite prompts, request new features, or just to say hi!
+            Please also let me know if you find any bugs :)
             </p>
           </div>
         </div>

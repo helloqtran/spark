@@ -1,75 +1,25 @@
 import React, { useState, useCallback } from 'react';
 import { Heart, EyeOff, ListPlus, Info, X } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
-import DropdownChip from '../components/DropdownChip';
+import FiltersSection from '../components/filters/FiltersSection';
 import AddToListModal from '../components/AddToListModal';
 import { PROMPTS_DATABASE, normalizePromptItem, getAllTags, getAllTypes } from '../data/prompts';
+import { useUserDataContext } from '../contexts/UserDataContext';
+import { useAllPromptsFilters } from '../hooks/useAllPromptsFilters';
 
-const AllPromptsPage = ({ 
-  favorites, 
-  hiddenPrompts, 
-  lists, 
-  toggleFavorite, 
-  handleToggleHidden,
-  addPromptToList,
-  setLists,
-  deleteList
-}) => {
-  // Filters (multi-select) - All Prompts view
-  const [allPromptsFilterTypes, setAllPromptsFilterTypes] = useState(new Set());
-  const [allPromptsFilterTags, setAllPromptsFilterTags] = useState(new Set());
-  const [allPromptsFilterLists, setAllPromptsFilterLists] = useState(new Set());
+const AllPromptsPage = () => {
+  const { favorites, hiddenPrompts, lists, toggleFavorite, toggleHidden, addPromptToList, setLists, deleteList } = useUserDataContext();
   
-  // Exclusion filters
-  const [allPromptsExcludeTypes, setAllPromptsExcludeTypes] = useState(new Set());
-  const [allPromptsExcludeTags, setAllPromptsExcludeTags] = useState(new Set());
-  const [allPromptsExcludeLists, setAllPromptsExcludeLists] = useState(new Set());
-  const [allPromptsOpenDropdown, setAllPromptsOpenDropdown] = useState(null);
+  // Use custom hook for filters
+  const filters = useAllPromptsFilters(hiddenPrompts);
   const [isAddToListOpen, setIsAddToListOpen] = useState(false);
   const [newListName, setNewListName] = useState('');
   const [selectedListName, setSelectedListName] = useState('');
   const [currentPromptText, setCurrentPromptText] = useState(null);
   const [expandedPrompt, setExpandedPrompt] = useState(null);
 
-  // Apply the same filtering logic as the main screen, but include hidden prompts
-  let allPrompts = [];
-
-  // If list filters selected, union of those lists
-  if (allPromptsFilterLists.size > 0) {
-    const texts = Array.from(allPromptsFilterLists).flatMap(listName => lists[listName] || []);
-    const uniqueTexts = Array.from(new Set(texts));
-    allPrompts = uniqueTexts.map(text => {
-      const item = PROMPTS_DATABASE.find(it => it && it.text === text);
-      return item ? normalizePromptItem(item) : null;
-    }).filter(Boolean);
-  } else {
-    // Otherwise, pool from all prompts
-    allPrompts = PROMPTS_DATABASE.map(item => normalizePromptItem(item));
-  }
-
-  // Apply type filters (inclusion)
-  const typeSelected = allPromptsFilterTypes.size > 0;
-  if (typeSelected) {
-    allPrompts = allPrompts.filter(p => p.type && allPromptsFilterTypes.has(p.type));
-  }
-
-  // Apply type exclusions
-  const typeExcluded = allPromptsExcludeTypes.size > 0;
-  if (typeExcluded) {
-    allPrompts = allPrompts.filter(p => !p.type || !allPromptsExcludeTypes.has(p.type));
-  }
-
-  // Apply tag filters (inclusion)
-  const tagSelected = allPromptsFilterTags.size > 0;
-  if (tagSelected) {
-    allPrompts = allPrompts.filter(p => p.tags && p.tags.some(tag => allPromptsFilterTags.has(tag)));
-  }
-
-  // Apply tag exclusions
-  const tagExcluded = allPromptsExcludeTags.size > 0;
-  if (tagExcluded) {
-    allPrompts = allPrompts.filter(p => !p.tags || !p.tags.some(tag => allPromptsExcludeTags.has(tag)));
-  }
+  // Use filtered prompts from the hook
+  const allPrompts = filters.availablePrompts;
 
   const handleCreateList = useCallback(() => {
     const name = newListName.trim();
@@ -103,11 +53,7 @@ const AllPromptsPage = ({
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0' }}>
-      <NavigationBar 
-        favorites={favorites}
-        hiddenPrompts={hiddenPrompts}
-        lists={lists}
-      />
+      <NavigationBar />
 
       {/* Page Title */}
       <div className="bg-transparent py-8 relative z-40 pt-20">
@@ -117,146 +63,24 @@ const AllPromptsPage = ({
       </div>
 
       {/* Filters Section */}
-      <div className="flex justify-center items-center pt-6 pb-6 px-4 sm:px-0 bg-transparent">
-        <div className="w-full max-w-4xl">
-          <div className="text-center mb-3">
-            <h2 className="text-sm sm:text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <DropdownChip
-              label="Type"
-              options={getAllTypes()}
-              selected={allPromptsFilterTypes}
-              excluded={allPromptsExcludeTypes}
-              onToggle={(id, action) => {
-                if (action === 'include') {
-                  setAllPromptsFilterTypes(prev => new Set([...prev, id]));
-                  setAllPromptsExcludeTypes(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                } else if (action === 'exclude') {
-                  setAllPromptsFilterTypes(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                  setAllPromptsExcludeTypes(prev => new Set([...prev, id]));
-                } else if (action === 'clear') {
-                  setAllPromptsFilterTypes(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                  setAllPromptsExcludeTypes(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                }
-              }}
-              onClear={() => { setAllPromptsFilterTypes(new Set()); setAllPromptsExcludeTypes(new Set()); }}
-              onOpenChange={(open) => setAllPromptsOpenDropdown(open ? 'type' : null)}
-              isOpen={allPromptsOpenDropdown === 'type'}
-              dropdownId="type"
-            />
-            <DropdownChip
-              label="Tags"
-              options={getAllTags().map(tag => ({ id: tag, label: tag }))}
-              selected={allPromptsFilterTags}
-              excluded={allPromptsExcludeTags}
-              onToggle={(id, action) => {
-                if (action === 'include') {
-                  setAllPromptsFilterTags(prev => new Set([...prev, id]));
-                  setAllPromptsExcludeTags(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                } else if (action === 'exclude') {
-                  setAllPromptsFilterTags(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                  setAllPromptsExcludeTags(prev => new Set([...prev, id]));
-                } else if (action === 'clear') {
-                  setAllPromptsFilterTags(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                  setAllPromptsExcludeTags(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                }
-              }}
-              onClear={() => { setAllPromptsFilterTags(new Set()); setAllPromptsExcludeTags(new Set()); }}
-              onOpenChange={(open) => setAllPromptsOpenDropdown(open ? 'tags' : null)}
-              isOpen={allPromptsOpenDropdown === 'tags'}
-              dropdownId="tags"
-            />
-            <DropdownChip
-              label="Custom Lists"
-              options={Object.keys(lists).map(n => ({ id: n, label: n }))}
-              selected={allPromptsFilterLists}
-              excluded={allPromptsExcludeLists}
-              onToggle={(id, action) => {
-                if (action === 'include') {
-                  setAllPromptsFilterLists(prev => new Set([...prev, id]));
-                  setAllPromptsExcludeLists(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                } else if (action === 'exclude') {
-                  setAllPromptsFilterLists(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                  setAllPromptsExcludeLists(prev => new Set([...prev, id]));
-                } else if (action === 'clear') {
-                  setAllPromptsFilterLists(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                  setAllPromptsExcludeLists(prev => {
-                    const next = new Set(prev);
-                    next.delete(id);
-                    return next;
-                  });
-                }
-              }}
-              onClear={() => { setAllPromptsFilterLists(new Set()); setAllPromptsExcludeLists(new Set()); }}
-              onOpenChange={(open) => setAllPromptsOpenDropdown(open ? 'lists' : null)}
-              isOpen={allPromptsOpenDropdown === 'lists'}
-              dropdownId="lists"
-            />
-            {(allPromptsFilterTypes.size > 0 || allPromptsFilterTags.size > 0 || allPromptsFilterLists.size > 0 || allPromptsExcludeTypes.size > 0 || allPromptsExcludeTags.size > 0 || allPromptsExcludeLists.size > 0) && (
-              <button
-                onClick={() => {
-                  setAllPromptsFilterTypes(new Set());
-                  setAllPromptsFilterTags(new Set());
-                  setAllPromptsFilterLists(new Set());
-                  setAllPromptsExcludeTypes(new Set());
-                  setAllPromptsExcludeTags(new Set());
-                  setAllPromptsExcludeLists(new Set());
-                }}
-                className="text-sm px-3 py-2 rounded-full border border-red-400 text-red-400 hover:text-red-300 hover:bg-red-900/20 hover:border-red-300 transition-colors flex items-center gap-1.5"
-                aria-label="Clear all filters"
-              >
-                <X size={16} />
-                Clear
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
+      <FiltersSection
+        filterTypes={filters.filterTypes}
+        setFilterTypes={filters.setFilterTypes}
+        excludeTypes={filters.excludeTypes}
+        setExcludeTypes={filters.setExcludeTypes}
+        filterTags={filters.filterTags}
+        setFilterTags={filters.setFilterTags}
+        excludeTags={filters.excludeTags}
+        setExcludeTags={filters.setExcludeTags}
+        filterLists={filters.filterLists}
+        setFilterLists={filters.setFilterLists}
+        excludeLists={filters.excludeLists}
+        setExcludeLists={filters.setExcludeLists}
+        lists={lists}
+        openDropdown={filters.openDropdown}
+        setOpenDropdown={filters.setOpenDropdown}
+        onClearFilters={filters.clearAllFilters}
+      />
 
       {/* Scrollable content area */}
       <div 
@@ -307,7 +131,7 @@ const AllPromptsPage = ({
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleToggleHidden(prompt.text);
+                          toggleHidden(prompt.text);
                         }}
                         className="p-2 hover:bg-white/10 rounded-full transition-colors"
                         title={isHidden ? "Show card" : "Hide card"}
