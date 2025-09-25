@@ -117,7 +117,7 @@ const AllPromptsPage = ({
       </div>
 
       {/* Filters Section */}
-      <div className="flex justify-center items-center pt-4 pb-6 px-4 sm:px-0 bg-black">
+      <div className="flex justify-center items-center pt-6 pb-6 px-4 sm:px-0 bg-black">
         <div className="w-full max-w-4xl">
           <div className="text-center mb-3">
             <h2 className="text-sm sm:text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
