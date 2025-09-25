@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Heart, EyeOff, Plus, Info } from 'lucide-react';
+import { Heart, EyeOff, ListPlus, Info } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 import DropdownChip from '../components/DropdownChip';
 import AddToListModal from '../components/AddToListModal';
@@ -324,7 +324,7 @@ const AllPromptsPage = ({
                         className="p-2 hover:bg-white/10 rounded-full transition-colors"
                         title="Add to list"
                       >
-                        <Plus size={18} className="text-gray-400" />
+                        <ListPlus size={18} className="text-gray-400" />
                       </button>
                     </div>
                   </div>

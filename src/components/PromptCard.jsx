@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart } from 'lucide-react';
+import { Heart, Info, EyeOff, ListPlus } from 'lucide-react';
 
 /**
  * PromptCard Component
@@ -19,6 +19,7 @@ const PromptCard = React.memo(({
 }) => {
   const [touchStart, setTouchStart] = React.useState(null);
   const [touchEnd, setTouchEnd] = React.useState(null);
+  const [isFlipped, setIsFlipped] = React.useState(false);
 
   // Dynamic text sizing based on text length
   const getTextSize = (text) => {
@@ -31,6 +32,16 @@ const PromptCard = React.memo(({
   };
 
   const minSwipeDistance = 30;
+
+  // Reset flip state when prompt changes
+  React.useEffect(() => {
+    setIsFlipped(false);
+  }, [prompt.text]);
+
+  const handleFlip = (e) => {
+    e.stopPropagation();
+    setIsFlipped(!isFlipped);
+  };
 
   const onTouchStart = (e) => {
     setTouchEnd(null);
@@ -63,9 +74,8 @@ const PromptCard = React.memo(({
 
   return (
     <div
-      className={`absolute top-0 left-0 w-full h-full rounded-2xl p-4 sm:p-12 text-center flex flex-col justify-center cursor-pointer transition-transform duration-300 ease-in-out bg-white`}
+      className={`absolute top-0 left-0 w-full h-full cursor-pointer transition-transform duration-300 ease-in-out`}
       style={{
-        boxShadow: '0 15px 35px rgba(0,0,0,0.2)',
         zIndex: 30,
         transform: isAnimating
           ? 'translateX(100%) rotate(10deg)'
@@ -85,54 +95,152 @@ const PromptCard = React.memo(({
         }
       }}
     >
-      {/* Heart icon in top right */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onToggleFavorite(prompt.text);
+      {/* Card container with flip animation */}
+      <div 
+        className="relative w-full h-full rounded-2xl transition-transform duration-600 ease-in-out"
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          boxShadow: '0 15px 35px rgba(0,0,0,0.2)',
         }}
-        onTouchStart={(e) => e.stopPropagation()}
-        className="absolute top-3 right-3 sm:top-4 sm:right-4 p-3 hover:bg-gray-100 rounded-full transition-colors"
-        aria-label={favorites.has(prompt.text) ? 'Remove from favorites' : 'Add to favorites'}
       >
-        <Heart 
-          size={24} 
-          className={favorites.has(prompt.text) 
-            ? "fill-pink-500 text-pink-500" 
-            : "text-gray-400 hover:text-pink-500"
-          } 
-        />
-      </button>
+        {/* Front side of card */}
+        <div 
+          className="absolute inset-0 w-full h-full rounded-2xl p-4 sm:p-12 text-center flex flex-col justify-center bg-white backface-hidden"
+          style={{
+            backfaceVisibility: 'hidden',
+          }}
+        >
+          {/* Icon buttons centered in bottom */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 sm:bottom-12 flex gap-2">
+            {/* Info icon */}
+            <button
+              onClick={handleFlip}
+              onTouchStart={(e) => e.stopPropagation()}
+              className="px-3 py-2 sm:px-4 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="View prompt details"
+            >
+              <Info size={20} className="text-gray-400 hover:text-blue-500" />
+            </button>
 
-      {/* HIDE button in bottom left */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onToggleHidden(prompt.text);
-        }}
-        onTouchStart={(e) => e.stopPropagation()}
-        className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 px-3 py-2 sm:px-4 text-sm font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
-        aria-label={hiddenPrompts.has(prompt.text) ? 'Show prompt' : 'Hide prompt'}
-      >
-        {hiddenPrompts.has(prompt.text) ? "SHOW" : "HIDE"}
-      </button>
+            {/* Heart icon */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleFavorite(prompt.text);
+              }}
+              onTouchStart={(e) => e.stopPropagation()}
+              className="px-3 py-2 sm:px-4 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label={favorites.has(prompt.text) ? 'Remove from favorites' : 'Add to favorites'}
+            >
+              <Heart 
+                size={20} 
+                className={favorites.has(prompt.text) 
+                  ? "fill-pink-500 text-pink-500" 
+                  : "text-gray-400 hover:text-pink-500"
+                } 
+              />
+            </button>
 
-      {/* Add to list button in bottom right */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onAddToList();
-        }}
-        onTouchStart={(e) => e.stopPropagation()}
-        className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 px-3 py-2 sm:px-4 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
-        aria-label="Add prompt to list"
-      >
-        Add to list
-      </button>
+            {/* Hide button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleHidden(prompt.text);
+              }}
+              onTouchStart={(e) => e.stopPropagation()}
+              className="px-3 py-2 sm:px-4 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label={hiddenPrompts.has(prompt.text) ? 'Show prompt' : 'Hide prompt'}
+            >
+              <EyeOff 
+                size={20} 
+                className={hiddenPrompts.has(prompt.text) ? "text-red-400" : "text-gray-400 hover:text-gray-600"} 
+              />
+            </button>
 
-      {/* Card content */}
-      <div className="flex items-center justify-center h-full">
-        <p className={`${getTextSize(prompt.text)} text-gray-800 px-2 noto-serif-jp-normal`}>{prompt.text}</p>
+            {/* Add to list button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddToList();
+              }}
+              onTouchStart={(e) => e.stopPropagation()}
+              className="px-3 py-2 sm:px-4 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="Add prompt to list"
+            >
+              <ListPlus size={20} className="text-gray-400 hover:text-blue-500" />
+            </button>
+          </div>
+
+          {/* Card content */}
+          <div className="flex items-center justify-center h-full pb-8">
+            <p className={`${getTextSize(prompt.text)} text-gray-800 px-6 noto-serif-jp-normal`}>{prompt.text}</p>
+          </div>
+        </div>
+
+        {/* Back side of card */}
+        <div 
+          className="absolute inset-0 w-full h-full rounded-2xl p-4 sm:p-12 text-center flex flex-col justify-center bg-gray-50 border-2 border-gray-200 cursor-pointer"
+          style={{
+            backfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)',
+          }}
+          onClick={handleFlip}
+          role="button"
+          tabIndex={0}
+          aria-label="Back to prompt"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleFlip(e);
+            }
+          }}
+        >
+          {/* Back side content */}
+          <div className="flex flex-col items-center justify-between h-full">
+            {/* Main content area */}
+            <div className="flex flex-col items-center justify-center flex-1 space-y-6">
+              {/* Type section */}
+              {prompt.type && (
+                <div className="text-center">
+                  <h3 className="text-sm sm:text-xs font-medium text-gray-700 mb-2">Type</h3>
+                  <div className="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+                    {prompt.type}
+                  </div>
+                </div>
+              )}
+
+              {/* Tags section */}
+              {prompt.tags && prompt.tags.length > 0 && (
+                <div className="text-center">
+                  <h3 className="text-sm sm:text-xs font-medium text-gray-700 mb-3">Tags</h3>
+                  <div className="flex flex-wrap justify-center gap-2 max-w-xs">
+                    {prompt.tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* No metadata message */}
+              {!prompt.type && (!prompt.tags || prompt.tags.length === 0) && (
+                <div className="text-center">
+                  <p className="text-gray-500 text-sm">No additional metadata available</p>
+                </div>
+              )}
+            </div>
+
+            {/* Tap to flip back hint - moved to bottom */}
+            <div className="text-center pb-4">
+              <p className="text-xs text-gray-400">Tap to return</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
