@@ -23,7 +23,9 @@ export const usePromptFilters = (lists, hiddenPrompts) => {
 
   // Read URL parameters and set initial filters
   useEffect(() => {
-    const filters = parseFilterParams(new URLSearchParams(location.search));
+    const searchParams = new URLSearchParams(location.search);
+    const filters = parseFilterParams(searchParams);
+    
     setFilterTypes(filters.selectedTypes);
     setExcludeTypes(filters.excludedTypes);
     setFilterTags(filters.selectedTags);
