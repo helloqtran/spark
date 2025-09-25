@@ -365,7 +365,7 @@ const MainPromptsPage = ({
               </p>
               <button
                 onClick={handleClearFilters}
-                className="text-black px-2 py-1 sm:px-6 sm:py-3 text-xs sm:text-base rounded font-medium transition-colors"
+                className="text-black px-6 py-3 text-base rounded font-medium transition-colors"
                 style={{ backgroundColor: '#D8A159' }}
               >
                 Clear all filters
