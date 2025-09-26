@@ -47,7 +47,7 @@ const BackgroundCard = React.memo(({
           {prompt.type}
         </div>
       )}
-      <p className={`${getTextSize(prompt.text)} leading-relaxed text-gray-700 mb-2 px-2`}>{prompt.text}</p>
+      <p className={`${getTextSize(prompt.text)} leading-snug text-gray-700 mb-2 px-2 noto-serif-jp-normal`}>{prompt.text}</p>
       {prompt.tags && prompt.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 justify-center">
           {prompt.tags.slice(0,3).map(tag => (

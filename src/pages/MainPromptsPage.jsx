@@ -49,10 +49,18 @@ const MainPromptsPage = () => {
 
   return (
     <div 
-      className="fixed inset-0 flex flex-col bg-transparent z-[1]" 
+      className="absolute top-0 left-0 right-0 bottom-0 flex flex-col bg-transparent z-[1]" 
       style={{ 
-        width: '100vw', 
-        height: '100vh',
+        background: 'transparent', 
+        width: '100vw !important', 
+        height: '100vh !important', 
+        minHeight: '100vh !important', 
+        margin: '0 !important', 
+        position: 'fixed !important', 
+        top: '0', 
+        bottom: '0', 
+        left: '0', 
+        right: '0',
         paddingTop: 'max(env(safe-area-inset-top), 0px)',
         paddingBottom: 'max(env(safe-area-inset-bottom), 0px)'
       }}
@@ -86,7 +94,7 @@ const MainPromptsPage = () => {
           {/* Card and Help Text Container */}
           <div className="flex flex-col items-center w-full">
             {/* Card Deck */}
-            <div className="flex items-center justify-center w-full mb-6 sm:mb-8">
+            <div className="flex items-center justify-center w-full mb-10 sm:mb-12">
               <PromptDeck
                 availablePrompts={filters.availablePrompts}
                 currentIndex={navigation.currentIndex}

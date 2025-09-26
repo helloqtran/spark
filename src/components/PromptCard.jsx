@@ -18,15 +18,15 @@ const PromptCard = React.memo(({
   const [touchStart, setTouchStart] = React.useState(null);
   const [touchEnd, setTouchEnd] = React.useState(null);
   const [isFlipped, setIsFlipped] = React.useState(false);
-
-  // Dynamic text sizing based on text length
+  // Consistent line spacing ratio for mobile and desktop
   const getTextSize = (text) => {
     const length = text.length;
-    if (length <= 80) return 'text-3xl sm:text-4xl leading-responsive-3xl sm:leading-responsive-4xl';
-    if (length <= 120) return 'text-2xl sm:text-3xl leading-responsive-xl sm:leading-responsive-2xl';
-    if (length <= 180) return 'text-2xl sm:text-2xl leading-responsive-xl sm:leading-responsive-xl';
-    if (length <= 250) return 'text-xl sm:text-xl leading-responsive-lg sm:leading-responsive-lg';
-    return 'text-lg sm:text-lg leading-responsive-base sm:leading-responsive-base';
+    if (length <= 80) return 'text-3xl sm:text-4xl leading-snug sm:leading-snug';
+    if (length <= 120) return 'text-2xl sm:text-3xl leading-snug sm:leading-snug';
+    if (length <= 180) return 'text-xl sm:text-2xl leading-snug sm:leading-snug';
+    if (length <= 250) return 'text-lg sm:text-xl leading-snug sm:leading-snug';
+    if (length <= 400) return 'text-base sm:text-lg leading-snug sm:leading-snug';
+    return 'text-sm sm:text-base leading-snug sm:leading-snug';
   };
 
   const minSwipeDistance = 30;
@@ -36,6 +36,7 @@ const PromptCard = React.memo(({
     setIsFlipped(false);
   }, [prompt.text]);
 
+
   const handleFlip = (e) => {
     e.stopPropagation();
     setIsFlipped(!isFlipped);
@@ -44,10 +45,15 @@ const PromptCard = React.memo(({
   const onTouchStart = (e) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
+    // Prevent scroll propagation during card touch
+    e.stopPropagation();
   };
 
   const onTouchMove = (e) => {
     setTouchEnd(e.targetTouches[0].clientX);
+    // Prevent document scroll during touch movement
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   const onTouchEnd = (e) => {
@@ -61,6 +67,10 @@ const PromptCard = React.memo(({
       e.preventDefault();
       e.stopPropagation();
       onClick();
+    } else {
+      // Still prevent propagation even if no swipe
+      e.preventDefault();
+      e.stopPropagation();
     }
     
     // Reset touch states
@@ -110,7 +120,7 @@ const PromptCard = React.memo(({
           }}
         >
           {/* Icon buttons centered in bottom */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
             {/* Info icon */}
             <button
               onClick={handleFlip}
@@ -155,9 +165,9 @@ const PromptCard = React.memo(({
             </button>
           </div>
 
-          {/* Card content - using responsive positioning */}  
-          <div className="absolute top-12 left-6 right-6 bottom-24 flex items-center justify-center px-6 sm:top-16 sm:bottom-24">
-            <p className={`${getTextSize(prompt.text)} text-gray-800 noto-serif-jp-normal`}>
+          {/* Card content - flexible layout that uses full available space */}
+          <div className="absolute top-4 left-4 right-4 bottom-16 flex items-center justify-center px-4 sm:top-6 sm:left-6 sm:right-6 sm:bottom-20 sm:px-6">
+            <p className={`${getTextSize(prompt.text)} text-gray-800 noto-serif-jp-normal text-center leading-relaxed`}>
               {prompt.text}
             </p>
           </div>
