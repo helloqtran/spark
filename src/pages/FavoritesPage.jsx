@@ -21,7 +21,7 @@ const FavoritesPage = () => {
       </div>
 
       {/* Scrollable content area */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
+      <div className={`flex-1 overflow-x-hidden custom-scrollbar ${favoritePrompts.length === 0 ? 'overflow-y-hidden' : 'overflow-y-auto'}`}>
         <div className="p-6 max-w-4xl mx-auto w-full pb-8">
           {favoritePrompts.length === 0 ? (
             <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 p-8">

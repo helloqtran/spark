@@ -64,8 +64,11 @@ const App = () => {
     };
 
     const preventTouchScroll = (e) => {
-      // Same logic for touch events
-      if (isScrollableElement(e.target) || isInteractiveElement(e.target)) {
+      // Same logic for touch events - but with enhanced mobile detection
+      const target = e.target;
+      
+      // Check if the touch target is within scrollable elements
+      if (isScrollableElement(target) || isInteractiveElement(target)) {
         return;
       }
       

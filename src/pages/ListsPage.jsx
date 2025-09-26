@@ -101,7 +101,7 @@ const ListsPage = () => {
       </div>
 
       {/* Scrollable content area */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
+      <div className={`flex-1 overflow-x-hidden custom-scrollbar ${listNames.length === 0 ? 'overflow-y-hidden' : 'overflow-y-auto'}`}>
         <div className="p-4 sm:p-6 max-w-4xl mx-auto w-full space-y-16 pb-8">
         {listNames.length === 0 ? (
           <div className="text-center py-12 text-base text-gray-300">No custom lists yet.</div>
