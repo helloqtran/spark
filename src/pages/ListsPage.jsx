@@ -70,6 +70,7 @@ const ListsPage = () => {
                 value={newListInput}
                 onChange={(e) => setNewListInput(e.target.value)}
                 placeholder="List name"
+                maxLength={50}
                 className="px-4 py-2 rounded-lg text-black placeholder-gray-500"
                 autoFocus
                 onKeyPress={(e) => {

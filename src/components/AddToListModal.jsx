@@ -71,6 +71,7 @@ const AddToListModal = React.memo(({
                 value={newListName}
                 onChange={(e) => setNewListName(e.target.value)}
                 placeholder="New list name"
+                maxLength={50}
                 className="flex-1 border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 bg-gray-800 text-white"
                 style={{ fontSize: '16px' }}
                 aria-label="New list name"
