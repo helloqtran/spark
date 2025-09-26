@@ -31,7 +31,7 @@ export const PROMPTS_DATABASE = [
   { text: 'Have someone pick a surprise song for you to dance to', type: 'general', tags: ['with others','guided', 'restriction']},
   { text: 'Focus on dancing your climbs', type: 'in the air'},
   { text: 'Add clothing - put on leg warmers or pants, long sleeved shirts, and any other cozy layers', type: 'general', tags: ['props','clothes']},
-  { text: 'Put on lots of layers and peel them off one-by-one while you dance', type: 'general', tags: ['props','clothes', 'restriction']},
+  { text: 'Put on layers and peel them off one-by-one while you dance', type: 'general', tags: ['props','clothes', 'restriction']},
   { text: 'Maintain at least 1 contact point with the pole at all times', type: 'pole', tags: ['body parts', 'restriction']},
   { text: 'Have someone call out "freeze!" and "unfreeze!"at random times while you dance', type: 'general', tags: ['guided']},
   { text: 'Focus on traveling across the floor in different ways', type:'floor'},
