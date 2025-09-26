@@ -42,41 +42,7 @@ const BackgroundCard = React.memo(({
         opacity: isAnimatingSubtle ? 0.1 : 0.3,
       }}
     >
-      {prompt.type && prompt.type.trim() !== '' && (
-        <div className="text-xs uppercase tracking-wide text-gray-500 mb-2">
-          {prompt.type}
-        </div>
-      )}
       <p className={`${getTextSize(prompt.text)} leading-snug text-gray-700 mb-2 px-2 noto-serif-jp-normal`}>{prompt.text}</p>
-      {prompt.tags && prompt.tags.length > 0 && (
-        <div className="flex flex-wrap gap-1 justify-center">
-          {prompt.tags.slice(0,3).map(tag => (
-            <span 
-              key={tag} 
-              className="text-[10px] px-1.5 py-0.5 border border-gray-300 rounded-full text-gray-600"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
-      {prompt.credit && (
-        <div className="text-[10px] text-gray-500 mt-1">
-          {prompt.creditUrl ? (
-            <a
-              href={prompt.creditUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-gray-400 transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {prompt.credit}
-            </a>
-          ) : (
-            prompt.credit
-          )}
-        </div>
-      )}
     </div>
   );
 });
