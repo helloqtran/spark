@@ -112,8 +112,9 @@ const TestWelcomePage = () => {
           <div className="max-w-sm mx-auto flex flex-col items-center justify-center space-y-6 py-6">
             <div className="text-center">
               <p className="text-gray-300 text-lg leading-snug">
-                Which movement types do you want to explore? <span className="text-gray-400 text-xs">(optional)</span>
+                Which movement types do you want to explore?
               </p>
+              <p className="text-gray-400 text-xs mt-1">(optional)</p>
             </div>
             <div className="flex flex-wrap gap-2 justify-center">
               {types.map(type => (
@@ -145,8 +146,9 @@ const TestWelcomePage = () => {
           <div className="max-w-sm mx-auto flex flex-col items-center justify-center space-y-6 py-6">
             <div className="text-center">
               <p className="text-gray-300 text-lg leading-snug">
-                Are there any themes you'd like to focus on? <span className="text-gray-400 text-xs">(optional)</span>
+                What themes would you like to focus on?
               </p>
+              <p className="text-gray-400 text-xs mt-1">(optional)</p>
             </div>
             <div className="flex flex-wrap gap-2 justify-center">
               {tags.map(tag => (

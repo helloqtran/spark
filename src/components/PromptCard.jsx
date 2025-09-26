@@ -16,6 +16,9 @@ const PromptCard = React.memo(({
   onClick 
 }) => {
   const [isFlipped, setIsFlipped] = React.useState(false);
+  const [touchStartX, setTouchStartX] = React.useState(null);
+  const [touchStartY, setTouchStartY] = React.useState(null);
+  
   // Consistent line spacing ratio for mobile and desktop
   const getTextSize = (text) => {
     const length = text.length;
@@ -32,10 +35,56 @@ const PromptCard = React.memo(({
     setIsFlipped(false);
   }, [prompt.text]);
 
-
   const handleFlip = (e) => {
     e.stopPropagation();
     setIsFlipped(!isFlipped);
+  };
+
+  // Touch gesture handling for swiping
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    setTouchStartX(touch.clientX);
+    setTouchStartY(touch.clientY);
+  };
+
+  const handleTouchMove = (e) => {
+    // Prevent page scrolling when moving on card
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!touchStartX || !touchStartY) {
+      setTouchStartX(null);
+      setTouchStartY(null);
+      return;
+    }
+
+    const touch = e.changedTouches[0];
+    const touchEndX = touch.clientX;
+    const touchEndY = touch.clientY;
+
+    const distanceX = touchEndX - touchStartX;
+    const distanceY = Math.abs(touchEndY - touchStartY);
+
+    // If minimal movement - treat as tap, allow natural onClick to handle
+    if (Math.abs(distanceX) <= 10 && distanceY <= 10) {
+      setTouchStartX(null);
+      setTouchStartY(null);
+      return; // Let the onClick handler take care of it
+    }
+
+    // Check if it's a horizontal swipe (more horizontal than vertical movement)
+    if (Math.abs(distanceX) > distanceY && Math.abs(distanceX) > 50) {
+      // Swipe in either direction - trigger next prompt directly
+      e.preventDefault();
+      e.stopPropagation();
+      onClick();
+    }
+
+    // Reset
+    setTouchStartX(null);
+    setTouchStartY(null);
   };
 
 
@@ -50,6 +99,9 @@ const PromptCard = React.memo(({
           ? 'translateX(100%) rotate(10deg)'
           : 'translateX(0) rotate(0deg)',
       }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       onClick={onClick}
       role="button"
       tabIndex={0}

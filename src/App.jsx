@@ -72,17 +72,17 @@ const App = () => {
         return;
       }
       
-      // Check if this is on a prompt card - handle separately to avoid breaking clicks
+      // Check if this is on a prompt card - handle separately to allow swiping
       const isOnPromptCard = target.closest('[data-prompt-card]');
       if (isOnPromptCard) {
-        // Only prevent scrolling for card touchmove - allow touch start/end for clicks
+        // For card touchmove events, prevent page scrolling
+        // For touchstart/touchend, allow the card's handlers to decide
         if (e.type === 'touchmove') {
           e.preventDefault();
           return;
-        } else {
-          // For touch start/end on cards, don't prevent - let clicks work naturally
-          return;
         }
+        // Don't prevent touchstart/touchend - let card handle gesture detection
+        return;
       }
       
       // Allow interactions but prevent page scrolling on other elements
