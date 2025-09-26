@@ -111,9 +111,8 @@ const TestWelcomePage = () => {
         return (
           <div className="max-w-sm mx-auto flex flex-col items-center justify-center space-y-6 py-6">
             <div className="text-center">
-              <p className="text-gray-400 text-xs mb-2">(optional)</p>
               <p className="text-gray-300 text-lg leading-snug">
-                Which movement types do you want to explore?
+                Which movement types do you want to explore? <span className="text-gray-400 text-xs">(optional)</span>
               </p>
             </div>
             <div className="flex flex-wrap gap-2 justify-center">
@@ -145,9 +144,8 @@ const TestWelcomePage = () => {
         return (
           <div className="max-w-sm mx-auto flex flex-col items-center justify-center space-y-6 py-6">
             <div className="text-center">
-              <p className="text-gray-400 text-xs mb-2">(optional)</p>
               <p className="text-gray-300 text-lg leading-snug">
-                Are there any themes you'd like to focus on?
+                Are there any themes you'd like to focus on? <span className="text-gray-400 text-xs">(optional)</span>
               </p>
             </div>
             <div className="flex flex-wrap gap-2 justify-center">
