@@ -98,7 +98,7 @@ const AllPromptsPage = () => {
             return (
               <div key={prompt.text} className={`${index !== allPrompts.length - 1 ? 'border-b border-white/10' : ''}`}>
                 {/* Prompt row */}
-                <div className="pl-6 pr-4 py-4 hover:bg-white/5 transition-colors">
+                <div className={`pl-6 pr-4 py-4 hover:bg-white/5 transition-colors ${index === 0 ? 'rounded-t-2xl' : ''} ${index === allPrompts.length - 1 ? 'rounded-b-2xl' : ''}`}>
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex-1 min-w-0 pr-2">
                       <p className="text-base leading-relaxed break-words text-white">{prompt.text}</p>
