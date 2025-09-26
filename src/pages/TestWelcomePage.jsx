@@ -17,50 +17,6 @@ const TestWelcomePage = () => {
   const [showHelpPopup, setShowHelpPopup] = useState(false);
   const helpButtonRef = useRef(null);
 
-  // Touch/swipe detection
-  const [touchStartX, setTouchStartX] = useState(0);
-  const [touchEndX, setTouchEndX] = useState(0);
-
-  const handleTouchStart = (e) => {
-    // Only track swipes if not on interactive elements
-    if (!e.target.closest('button')) {
-      setTouchStartX(e.targetTouches[0].clientX);
-    }
-  };
-
-  const handleTouchEnd = (e) => {
-    // Only process swipes if we have a start position
-    if (touchStartX !== 0 && !e.target.closest('button')) {
-      setTouchEndX(e.changedTouches[0].clientX);
-      handleSwipe();
-    }
-  };
-
-  const handleSwipe = () => {
-    const swipeThreshold = 50; // minimum distance for swipe
-    const swipeDistance = touchStartX - touchEndX;
-
-    if (Math.abs(swipeDistance) > swipeThreshold) {
-      if (swipeDistance > 0) {
-        // Swipe left - go to next step
-        if (currentStep < 3) {
-          setCurrentStep(currentStep + 1);
-        } else {
-          // Final step - trigger navigation same as handleNext
-          handleNext();
-        }
-      } else {
-        // Swipe right - go to previous step  
-        if (currentStep > 1) {
-          setCurrentStep(currentStep - 1);
-        }
-      }
-    }
-    
-    // Reset position tracking
-    setTouchStartX(0);
-    setTouchEndX(0);
-  };
 
   // Handle click outside to close help popup
   React.useEffect(() => {
@@ -243,8 +199,6 @@ const TestWelcomePage = () => {
       <div className="flex-1 flex flex-col items-center justify-center p-4 pt-12">
         <div 
           className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md h-[400px] pt-12 pb-16 px-8 text-center relative"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
         >
           {/* Help Button - Top Right Corner */}
           {(currentStep === 2 || currentStep === 3) && (
