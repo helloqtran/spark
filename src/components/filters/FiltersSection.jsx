@@ -34,12 +34,12 @@ const FiltersSection = React.memo(({
                           (showCustomListsFilter && excludeLists.size > 0);
 
   return (
-    <div className="flex justify-center items-center mb-8 sm:mb-12">
+    <div className="flex justify-center items-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
       <div className="w-full max-w-4xl">
         <div className="text-center mb-3">
           <h2 className="text-sm sm:text-xs font-medium text-gray-300 uppercase tracking-wide">Filters</h2>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2">
           <DropdownChip
             label="Type"
             options={getAllTypes()}

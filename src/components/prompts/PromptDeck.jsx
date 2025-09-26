@@ -32,7 +32,13 @@ const PromptDeck = React.memo(({
   }
 
   return (
-    <div className="relative w-[90%] sm:w-[500px] h-[350px] sm:h-[450px]" style={{ height: 'calc(350px + 16px)' }}>
+    <div 
+      className="relative w-[85%] sm:w-[500px]" 
+      style={{ 
+        height: 'min(calc(60vh - 120px), 450px)',
+        minHeight: '300px'
+      }}
+    >
       {/* Background cards */}
       {[1, 2].map((offsetIndex) => {
         const cardIndex = (currentIndex + offsetIndex) % availablePrompts.length;

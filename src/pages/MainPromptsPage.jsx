@@ -48,13 +48,21 @@ const MainPromptsPage = () => {
   }, [selectedListName, navigation.currentPromptText, navigation.currentPrompt, addPromptToList, navigation.setCurrentPromptText]);
 
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col overflow-hidden" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0', zIndex: 1 }}>
+    <div 
+      className="fixed inset-0 flex flex-col bg-transparent z-[1]" 
+      style={{ 
+        width: '100vw', 
+        height: '100vh',
+        paddingTop: 'max(env(safe-area-inset-top), 0px)',
+        paddingBottom: 'max(env(safe-area-inset-bottom), 0px)'
+      }}
+    >
       <NavigationBar />
 
-      {/* Main Content Container - Groups Filters and Cards */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-2 pt-14 sm:pt-12">
+      {/* Main Content Area - Takes remaining space and centers content */}
+      <div className="flex-1 flex flex-col justify-center items-center px-4" style={{ minHeight: 0 }}>
         {/* Combined Filters and Cards Section */}
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-full max-w-4xl">
           {/* Filters Section */}
           <FiltersSection
             filterTypes={filters.filterTypes}
@@ -76,9 +84,9 @@ const MainPromptsPage = () => {
           />
 
           {/* Card and Help Text Container */}
-          <div className="flex flex-col items-center w-full max-w-none">
-        {/* Card Deck - Vertically Centered */}
-        <div className="flex items-center justify-center w-full mb-8 sm:mb-12">
+          <div className="flex flex-col items-center w-full">
+            {/* Card Deck */}
+            <div className="flex items-center justify-center w-full mb-6 sm:mb-8">
               <PromptDeck
                 availablePrompts={filters.availablePrompts}
                 currentIndex={navigation.currentIndex}
@@ -89,16 +97,16 @@ const MainPromptsPage = () => {
                 onAddToList={handleAddToList}
                 favorites={favorites}
               />
-        </div>
+            </div>
 
-        {/* Help Text - Centered at bottom */}
+            {/* Help Text */}
             {filters.availablePrompts.length > 0 && (
-          <div className="flex justify-center items-center">
-            <p className="text-sm text-gray-300 text-center">
-              Tap or swipe the card to get a new prompt
-            </p>
-          </div>
-        )}
+              <div className="flex justify-center items-center">
+                <p className="text-sm text-gray-300 text-center">
+                  Tap or swipe the card to get a new prompt
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
