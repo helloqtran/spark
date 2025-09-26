@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, HelpCircle, X } from 'lucide-react';
 import { getAllTypes, getAllTags, PROMPTS_DATABASE, normalizePromptItem } from '../data/prompts';
 import { useUserDataContext } from '../contexts/UserDataContext';
 import { createThreeStateToggle, createFilterParams } from '../utils/filterUtils';
@@ -14,6 +14,24 @@ const TestWelcomePage = () => {
   const [excludedTypes, setExcludedTypes] = useState(new Set());
   const [selectedTags, setSelectedTags] = useState(new Set());
   const [excludedTags, setExcludedTags] = useState(new Set());
+  const [showHelpPopup, setShowHelpPopup] = useState(false);
+  const helpButtonRef = useRef(null);
+
+  // Handle click outside to close help popup
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showHelpPopup && helpButtonRef.current && !helpButtonRef.current.contains(event.target)) {
+        setShowHelpPopup(false);
+      }
+    };
+
+    if (showHelpPopup) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [showHelpPopup]);
 
   const types = getAllTypes();
   const tags = getAllTags();
@@ -100,13 +118,9 @@ const TestWelcomePage = () => {
               <p className="text-gray-400 text-xs mb-1">
                 (optional)
               </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
+              <p className="text-gray-300 text-lg leading-snug">
                 Which movement types do you want to explore?
               </p>
-              <div className="text-gray-400 text-xs mt-1 space-y-0.5">
-                <p>Tap once to <b>include</b> prompts with that type</p>
-                <p>Tap twice to <b>exclude</b> prompts with that type</p>
-              </div>
             </div>
             <div className="flex-1 flex items-center justify-center">
               <div className="flex flex-wrap gap-2 justify-center">
@@ -143,13 +157,9 @@ const TestWelcomePage = () => {
               <p className="text-gray-400 text-xs mb-1">
                 (optional)
               </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
+              <p className="text-gray-300 text-lg leading-snug">
               Are there any themes you'd like to focus on?
               </p>
-              <div className="text-gray-400 text-xs mt-1 space-y-0.5">
-                <p>Tap once to <b>include</b> prompts with that tag </p>
-                <p>Tap twice to <b>exclude</b> prompts with that tag</p>
-              </div>
             </div>
             <div className="flex-1 flex items-center justify-center">
               <div className="flex flex-wrap gap-2 justify-center">
@@ -189,6 +199,27 @@ const TestWelcomePage = () => {
       <TestNavigationBar />
       <div className="flex-1 flex flex-col items-center justify-center p-4 pt-12">
         <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md h-[400px] pt-12 pb-16 px-8 text-center relative">
+          {/* Help Button - Top Right Corner */}
+          {(currentStep === 2 || currentStep === 3) && (
+            <div className="absolute top-4 right-4 z-50" ref={helpButtonRef}>
+              <button
+                onClick={() => setShowHelpPopup(!showHelpPopup)}
+                className="text-gray-400 hover:text-gray-300 transition-colors"
+              >
+                <HelpCircle size={16} />
+              </button>
+              {/* Help popup positioned below button */}
+              {showHelpPopup && (
+                <div className="absolute top-full right-0 mt-2 bg-black/90 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl p-3 text-center min-w-max z-50">
+                  <div className="text-gray-400 text-xs space-y-0.5">
+                    <p>Tap once to <b>include</b> prompts with that {currentStep === 2 ? 'type' : 'tag'}</p>
+                    <p>Tap twice to <b>exclude</b> prompts with that {currentStep === 2 ? 'type' : 'tag'}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          
           {/* Step Content */}
           {renderStep()}
           
@@ -240,6 +271,7 @@ const TestWelcomePage = () => {
           ))}
         </div>
       </div>
+
     </div>
   );
 };
