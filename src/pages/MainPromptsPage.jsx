@@ -68,7 +68,7 @@ const MainPromptsPage = () => {
       <NavigationBar />
 
       {/* Main Content Area - Takes remaining space and centers content */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4" style={{ minHeight: 0 }}>
+      <div className="flex-1 flex flex-col justify-center items-center px-4 pb-8" style={{ minHeight: 0 }}>
         {/* Combined Filters and Cards Section */}
         <div className="flex flex-col items-center w-full max-w-4xl">
           {/* Filters Section */}
