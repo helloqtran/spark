@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, ChevronLeft, HelpCircle, X } from 'lucide-react';
+import { ChevronRight, ChevronLeft, HelpCircle, X, Sparkles } from 'lucide-react';
 import { getAllTypes, getAllTags, PROMPTS_DATABASE, normalizePromptItem } from '../data/prompts';
 import { useUserDataContext } from '../contexts/UserDataContext';
 import { createThreeStateToggle, createFilterParams } from '../utils/filterUtils';
@@ -96,94 +96,81 @@ const TestWelcomePage = () => {
     switch (currentStep) {
       case 1:
         return (
-          <div className="max-w-sm mx-auto h-[264px] flex flex-col -mt-4">
-            <h1 className="text-7xl font-bold text-white tracking-wide spark-logo mb-8">SPARK</h1>
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center space-y-3">
-                <p className="text-gray-300 text-base leading-relaxed">
-                  Stuck in a movement rut?
-                </p>
-                <p className="text-gray-300 text-base leading-relaxed">
-                  Get prompts to spark your freestyle flow, served up in a deck for you to shuffle through during your next session.
-                </p>
-              </div>
+          <div className="max-w-sm mx-auto flex flex-col items-center justify-center space-y-4 pt-16">
+            <h1 className="text-7xl font-bold text-white tracking-wide spark-logo">SPARK</h1>
+            <div className="text-center">
+              <p className="text-gray-300 text-base leading-relaxed max-w-xs">
+                Generate a deck of movement prompts and spark your freestyle flow{' '}
+                <Sparkles className="w-4 h-4 text-white inline" />
+              </p>
             </div>
-            <div className="h-8"></div> {/* Space for button */}
           </div>
         );
       
       case 2:
         return (
-          <div className="max-w-sm mx-auto h-[264px] flex flex-col items-center justify-center">
-            <div className="mb-8">
-              <p className="text-gray-400 text-xs mb-1">
-                (optional)
-              </p>
+          <div className="max-w-sm mx-auto flex flex-col items-center justify-center space-y-6 py-6">
+            <div className="text-center">
+              <p className="text-gray-400 text-xs mb-2">(optional)</p>
               <p className="text-gray-300 text-lg leading-snug">
                 Which movement types do you want to explore?
               </p>
             </div>
-            <div className="flex items-start justify-center">
-              <div className="flex flex-wrap gap-2 justify-center">
-                {types.map(type => (
-                  <button
-                    key={type.id}
-                    onClick={() => toggleType(type.id)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                      selectedTypes.has(type.id)
-                        ? 'text-black'
-                        : excludedTypes.has(type.id)
-                        ? 'bg-gray-700 text-gray-300 opacity-50'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    }`}
-                    style={
-                      selectedTypes.has(type.id) 
-                        ? { backgroundColor: '#D8A159' }
-                        : {}
-                    }
-                  >
-                    {type.label}
-                  </button>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {types.map(type => (
+                <button
+                  key={type.id}
+                  onClick={() => toggleType(type.id)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    selectedTypes.has(type.id)
+                      ? 'text-black'
+                      : excludedTypes.has(type.id)
+                      ? 'bg-gray-700 text-gray-300 opacity-50'
+                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
+                  style={
+                    selectedTypes.has(type.id) 
+                      ? { backgroundColor: '#D8A159' }
+                      : {}
+                  }
+                >
+                  {type.label}
+                </button>
+              ))}
             </div>
           </div>
         );
       
       case 3:
         return (
-          <div className="max-w-sm mx-auto h-[264px] flex flex-col items-center justify-center">
-            <div className="mb-8">
-              <p className="text-gray-400 text-xs mb-1">
-                (optional)
-              </p>
+          <div className="max-w-sm mx-auto flex flex-col items-center justify-center space-y-6 py-6">
+            <div className="text-center">
+              <p className="text-gray-400 text-xs mb-2">(optional)</p>
               <p className="text-gray-300 text-lg leading-snug">
-              Are there any themes you'd like to focus on?
+                Are there any themes you'd like to focus on?
               </p>
             </div>
-            <div className="flex items-start justify-center">
-              <div className="flex flex-wrap gap-2 justify-center">
-                {tags.map(tag => (
-                  <button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                      selectedTags.has(tag)
-                        ? 'text-black'
-                        : excludedTags.has(tag)
-                        ? 'bg-gray-700 text-gray-300 opacity-50'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    }`}
-                    style={
-                      selectedTags.has(tag) 
-                        ? { backgroundColor: '#D8A159' }
-                        : {}
-                    }
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {tags.map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => toggleTag(tag)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    selectedTags.has(tag)
+                      ? 'text-black'
+                      : excludedTags.has(tag)
+                      ? 'bg-gray-700 text-gray-300 opacity-50'
+                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
+                  style={
+                    selectedTags.has(tag) 
+                      ? { backgroundColor: '#D8A159' }
+                      : {}
+                  }
+                >
+                  {tag}
+                </button>
+              ))}
             </div>
           </div>
         );
@@ -194,12 +181,10 @@ const TestWelcomePage = () => {
   };
 
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col overflow-hidden" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0', zIndex: 1 }}>
+    <div className="min-h-screen flex flex-col">
       <TestNavigationBar />
-      <div className="flex-1 flex flex-col items-center justify-center p-4 pt-12">
-        <div 
-          className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md h-[400px] pt-12 pb-16 px-8 text-center relative"
-        >
+      <div className="flex-1 flex flex-col items-center justify-center p-4">
+        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md min-h-[400px] relative">
           {/* Help Button - Top Right Corner */}
           {(currentStep === 2 || currentStep === 3) && (
             <div className="absolute top-4 right-4 z-50" ref={helpButtonRef}>
@@ -209,7 +194,7 @@ const TestWelcomePage = () => {
               >
                 <HelpCircle size={16} />
               </button>
-              {/* Help popup positioned below button */}
+              {/* Help popup */}
               {showHelpPopup && (
                 <div className="absolute top-full right-0 mt-2 bg-black/90 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl p-3 text-center min-w-max z-50">
                   <div className="text-gray-400 text-xs space-y-0.5">
@@ -222,44 +207,55 @@ const TestWelcomePage = () => {
           )}
           
           {/* Step Content */}
-          {renderStep()}
-          
-          {/* Navigation Buttons - Positioned at bottom */}
-          {currentStep === 1 ? (
-            /* Single centered button for step 1 */
-            <button 
-              onClick={handleNext}
-              className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-black px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors text-sm hover:opacity-90 h-10"
-              style={{ backgroundColor: '#D8A159' }}
-            >
-              Start
-              <ChevronRight size={16} />
-            </button>
-          ) : (
-            /* Full width layout for steps 2 and 3 */
-            <div className="absolute bottom-8 left-8 right-8 flex justify-between items-center">
-              {/* Back Button - Far left */}
-              <button 
-                onClick={handleBack}
-                className="text-gray-400 w-10 h-10 rounded-lg transition-colors hover:text-gray-300 hover:bg-gray-800/50 flex items-center justify-center"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              
-              {/* Next/Get Started Button - Far right */}
+          <div className="flex-1 flex flex-col items-center justify-center p-8">
+            {renderStep()}
+            {/* Main button positioned inline for step 1, kept separate for others */}
+            {currentStep === 1 && (
               <button 
                 onClick={handleNext}
-                className="text-black px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors text-sm hover:opacity-90 h-10"
+                className="text-black px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors text-sm hover:opacity-90 h-10 mt-6"
                 style={{ backgroundColor: '#D8A159' }}
               >
-                {currentStep === 2 ? 'Next' : `See ${getMatchingPromptCount} matching prompts`}
+                Customize my deck
                 <ChevronRight size={16} />
               </button>
-            </div>
-          )}
+            )}
+          </div>
+          
+          {/* Navigation Buttons */}
+          <div className="absolute bottom-6 left-6 right-6">
+            {currentStep === 1 ? (
+              <div className="flex justify-center">
+                <button 
+                  onClick={() => navigate('/shuffle')}
+                  className="text-gray-400 text-xs hover:text-gray-300 transition-colors underline"
+                >
+                  No need to customize? Click here to shuffle all prompts
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-between items-center">
+                <button 
+                  onClick={handleBack}
+                  className="text-gray-400 w-10 h-10 rounded-lg transition-colors hover:text-gray-300 hover:bg-gray-800/50 flex items-center justify-center"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                
+                <button 
+                  onClick={handleNext}
+                  className="text-black px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors text-sm hover:opacity-90 h-10"
+                  style={{ backgroundColor: '#D8A159' }}
+                >
+                  {currentStep === 2 ? 'Next' : `See ${getMatchingPromptCount} matching prompts`}
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         
-        {/* Step Indicator - Outside the modal */}
+        {/* Step Indicator */}
         <div className="flex justify-center mt-6 space-x-2">
           {[1, 2, 3].map((step) => (
             <div
@@ -272,7 +268,6 @@ const TestWelcomePage = () => {
           ))}
         </div>
       </div>
-
     </div>
   );
 };
