@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchX } from 'lucide-react';
+import { SearchX, RotateCcw, CheckCircle } from 'lucide-react';
 import PromptCard from '../PromptCard';
 import BackgroundCard from '../BackgroundCard';
 
@@ -17,7 +17,9 @@ const PromptDeck = React.memo(({
   onNextPrompt,
   onToggleFavorite,
   onAddToList,
-  favorites
+  favorites,
+  isComplete,
+  onResetDeck
 }) => {
   if (availablePrompts.length === 0) {
     return (
@@ -31,13 +33,36 @@ const PromptDeck = React.memo(({
     );
   }
 
+  // Show completion message when all cards have been seen
+  if (isComplete) {
+    return (
+      <div className="relative w-[85%] sm:w-[500px] h-full">
+        {/* Empty background cards maintaining identical layer structure to normal deck*/}
+        <div style={{position: 'absolute', width: '100%', height: '100%', top: 0, left: 0}}></div>
+        <div style={{position: 'absolute', width: '100%', height: '100%', top: 0, left: 0}}></div>
+        
+        {/* Completion overlay - simplified for layout consistency*/}
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center p-8" style={{zIndex: 30}}>
+          <CheckCircle size={64} className="mx-auto mb-4" style={{ color: '#D8A159' }} />
+          <h3 className="text-xl font-semibold text-white mb-2">That's all the cards!</h3>
+          <button
+            onClick={onResetDeck}
+            className="px-6 py-3 text-base font-medium rounded-lg text-black transition-colors mx-auto block"
+            style={{ backgroundColor: '#D8A159' }}
+          >
+            <div className="flex items-center justify-center gap-2">
+              <RotateCcw size={20} />
+              Shuffle Again
+            </div>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div 
-      className="relative w-[85%] sm:w-[500px]" 
-      style={{ 
-        height: 'min(calc(60vh - 120px), 550px)',
-        minHeight: '300px'
-      }}
+      className="relative w-[85%] sm:w-[500px] h-full"
     >
       {/* Background cards */}
       {[1, 2].map((offsetIndex) => {

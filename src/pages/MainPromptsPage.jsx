@@ -94,24 +94,36 @@ const MainPromptsPage = () => {
           {/* Card and Help Text Container */}
           <div className="flex flex-col items-center w-full">
             {/* Card Deck */}
-            <div className="flex items-center justify-center w-full mb-10 sm:mb-12">
-              <PromptDeck
-                availablePrompts={filters.availablePrompts}
-                currentIndex={navigation.currentIndex}
-                currentPrompt={navigation.currentPrompt}
-                isAnimating={navigation.isAnimating}
-                onNextPrompt={navigation.getNewPrompt}
-                onToggleFavorite={toggleFavorite}
-                onAddToList={handleAddToList}
-                favorites={favorites}
-              />
+            <div 
+              className="w-full mb-10 sm:mb-12"
+              style={{
+                height: 'min(calc(60vh - 120px), 550px)',
+                minHeight: '300px'
+              }}
+            >
+              <div className="flex items-center justify-center w-full h-full">
+                <PromptDeck
+                  availablePrompts={filters.availablePrompts}
+                  currentIndex={navigation.currentIndex}
+                  currentPrompt={navigation.currentPrompt}
+                  isAnimating={navigation.isAnimating}
+                  onNextPrompt={navigation.getNewPrompt}
+                  onToggleFavorite={toggleFavorite}
+                  onAddToList={handleAddToList}
+                  favorites={favorites}
+                  isComplete={navigation.isComplete}
+                  onResetDeck={navigation.resetDeck}
+                />
+              </div>
             </div>
 
-            {/* Help Text */}
+            {/* Help Text - hidden during completion to preserve layout */}
             {filters.availablePrompts.length > 0 && (
               <div className="flex justify-center items-center">
-                <p className="text-sm text-gray-300 text-center">
-                  Tap or swipe the card to get a new prompt
+                <p className={`text-sm text-gray-300 text-center ${navigation.isComplete ? 'opacity-0' : ''}`}>
+                  {navigation.isComplete 
+                    ? "You've seen all the prompts in this deck." 
+                    : "Tap or swipe the card to get a new prompt"}
                 </p>
               </div>
             )}
