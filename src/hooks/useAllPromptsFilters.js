@@ -8,7 +8,7 @@ import { createThreeStateToggle } from '../utils/filterUtils';
  * Manages filter state and logic specifically for the AllPromptsPage.
  * Similar to usePromptFilters but for the all prompts view.
  */
-export const useAllPromptsFilters = (hiddenPrompts) => {
+export const useAllPromptsFilters = () => {
   // Filter states
   const [filterTypes, setFilterTypes] = useState(new Set());
   const [filterTags, setFilterTags] = useState(new Set());
@@ -47,11 +47,8 @@ export const useAllPromptsFilters = (hiddenPrompts) => {
       ? tagFiltered.filter(p => !p.tags || !p.tags.some(tag => excludeTags.has(tag)))
       : tagFiltered;
 
-    // Exclude hidden
-    const filtered = tagExclusionFiltered.filter(p => !hiddenPrompts.has(p.text));
-    
-    return filtered;
-  }, [filterTypes, filterTags, filterLists, excludeTypes, excludeTags, excludeLists, hiddenPrompts]);
+    return tagExclusionFiltered;
+  }, [filterTypes, filterTags, filterLists, excludeTypes, excludeTags, excludeLists]);
 
   // Clear all filters function
   const clearAllFilters = () => {

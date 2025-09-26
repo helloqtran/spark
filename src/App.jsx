@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // Import page components
 import MainPromptsPage from './pages/MainPromptsPage';
 import FavoritesPage from './pages/FavoritesPage';
-import HiddenPage from './pages/HiddenPage';
 import AboutPage from './pages/AboutPage';
 import AllPromptsPage from './pages/AllPromptsPage';
 import ListsPage from './pages/ListsPage';
@@ -68,7 +67,6 @@ const App = () => {
         <Route path="/" element={<TestWelcomePage />} />
         <Route path="/shuffle" element={<MainPromptsPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
-        <Route path="/hidden" element={<HiddenPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/all-prompts" element={<AllPromptsPage />} />
         <Route path="/lists" element={<ListsPage />} />

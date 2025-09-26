@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Heart, EyeOff, ChevronDown, List, Menu, X } from 'lucide-react';
+import { Heart, ChevronDown, List, Menu, X } from 'lucide-react';
 import { useUserDataContext } from '../contexts/UserDataContext';
 
 /**
  * Test Navigation Bar Component (without SPARK logo)
  * 
  * Provides consistent navigation across all screens with counts for
- * favorites and hidden prompts, but without the SPARK logo.
+ * favorites, but without the SPARK logo.
  */
 const TestNavigationBar = React.memo(() => {
-  const { favorites, hiddenPrompts, lists } = useUserDataContext();
+  const { favorites, lists } = useUserDataContext();
   const navigate = useNavigate();
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -71,17 +71,6 @@ const TestNavigationBar = React.memo(() => {
                 >
                   <Heart size={18} className={favorites.size > 0 ? "fill-pink-500 text-pink-500" : ""} />
                   Favorites ({favorites.size})
-                </button>
-                <button
-                  onClick={() => {
-                    navigate('/hidden');
-                    setIsDropdownOpen(false);
-                  }}
-                  className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2 text-sm whitespace-nowrap"
-                  aria-label={`View hidden prompts (${hiddenPrompts.size} items)`}
-                >
-                  <EyeOff size={18} />
-                  Hidden ({hiddenPrompts.size})
                 </button>
                 <button
                   onClick={() => {
@@ -155,20 +144,6 @@ const TestNavigationBar = React.memo(() => {
                 <div>
                   <div className="font-medium">Favorites</div>
                   <div className="text-sm text-gray-400">{favorites.size} items</div>
-                </div>
-              </button>
-              <button
-                onClick={() => {
-                  navigate('/hidden');
-                  setIsMobileMenuOpen(false);
-                }}
-                className="w-full flex items-center gap-3 px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
-                aria-label={`View hidden prompts (${hiddenPrompts.size} items)`}
-              >
-                <EyeOff size={20} />
-                <div>
-                  <div className="font-medium">Hidden</div>
-                  <div className="text-sm text-gray-400">{hiddenPrompts.size} items</div>
                 </div>
               </button>
               <button

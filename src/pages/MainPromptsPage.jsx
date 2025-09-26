@@ -8,7 +8,7 @@ import { usePromptFilters } from '../hooks/usePromptFilters';
 import { usePromptNavigation } from '../hooks/usePromptNavigation';
 
 const MainPromptsPage = () => {
-  const { favorites, hiddenPrompts, lists, toggleFavorite, toggleHidden, addPromptToList, setLists } = useUserDataContext();
+  const { favorites, lists, toggleFavorite, addPromptToList, setLists } = useUserDataContext();
   
   // Modal state
   const [isAddToListOpen, setIsAddToListOpen] = useState(false);
@@ -16,7 +16,7 @@ const MainPromptsPage = () => {
   const [selectedListName, setSelectedListName] = useState('');
   
   // Use custom hooks for filters and navigation
-  const filters = usePromptFilters(lists, hiddenPrompts);
+  const filters = usePromptFilters(lists, new Set());
   const navigation = usePromptNavigation(filters.availablePrompts);
 
 
@@ -86,11 +86,9 @@ const MainPromptsPage = () => {
                 isAnimating={navigation.isAnimating}
                 onNextPrompt={navigation.getNewPrompt}
                 onToggleFavorite={toggleFavorite}
-                onToggleHidden={toggleHidden}
                 onAddToList={handleAddToList}
-                  favorites={favorites}
-                  hiddenPrompts={hiddenPrompts}
-                />
+                favorites={favorites}
+              />
         </div>
 
         {/* Help Text - Centered at bottom */}

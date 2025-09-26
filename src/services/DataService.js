@@ -56,22 +56,6 @@ const DataService = {
     }
   },
   
-  saveHidden: (hidden) => {
-    try {
-      DataService.saveUserData('hidden', Array.from(hidden));
-    } catch (error) {
-      console.error('Failed to save hidden prompts:', error);
-    }
-  },
-  loadHidden: () => {
-    try {
-      const hidden = DataService.loadUserData('hidden', []);
-      return new Set(Array.isArray(hidden) ? hidden : []);
-    } catch (error) {
-      console.error('Failed to load hidden prompts:', error);
-      return new Set();
-    }
-  },
   
   saveLists: (lists) => {
     try {

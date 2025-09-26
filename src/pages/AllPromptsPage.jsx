@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Heart, EyeOff, ListPlus, Info, X } from 'lucide-react';
+import { Heart, ListPlus, Info, X } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 import FiltersSection from '../components/filters/FiltersSection';
 import AddToListModal from '../components/AddToListModal';
@@ -8,10 +8,10 @@ import { useUserDataContext } from '../contexts/UserDataContext';
 import { useAllPromptsFilters } from '../hooks/useAllPromptsFilters';
 
 const AllPromptsPage = () => {
-  const { favorites, hiddenPrompts, lists, toggleFavorite, toggleHidden, addPromptToList, setLists, deleteList } = useUserDataContext();
+  const { favorites, lists, toggleFavorite, addPromptToList, setLists, deleteList } = useUserDataContext();
   
   // Use custom hook for filters
-  const filters = useAllPromptsFilters(hiddenPrompts);
+  const filters = useAllPromptsFilters();
   const [isAddToListOpen, setIsAddToListOpen] = useState(false);
   const [newListName, setNewListName] = useState('');
   const [selectedListName, setSelectedListName] = useState('');
@@ -93,15 +93,14 @@ const AllPromptsPage = () => {
         <div className="p-4 sm:p-6 max-w-4xl mx-auto w-full pb-8 pt-6">
         <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10">
           {allPrompts.map((prompt, index) => {
-            const isHidden = hiddenPrompts.has(prompt.text);
             const isExpanded = expandedPrompt === prompt.text;
             return (
-              <div key={prompt.text} className={`${index !== allPrompts.length - 1 ? 'border-b border-white/10' : ''} ${isHidden ? 'opacity-50' : ''}`}>
+              <div key={prompt.text} className={`${index !== allPrompts.length - 1 ? 'border-b border-white/10' : ''}`}>
                 {/* Prompt row */}
                 <div className="pl-6 pr-4 py-4 hover:bg-white/5 transition-colors">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex-1 min-w-0 pr-2">
-                      <p className={`text-base leading-relaxed break-words ${isHidden ? 'text-gray-400' : 'text-white'}`}>{prompt.text}</p>
+                      <p className="text-base leading-relaxed break-words text-white">{prompt.text}</p>
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
                       {/* Info indicator */}
@@ -131,16 +130,6 @@ const AllPromptsPage = () => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          toggleHidden(prompt.text);
-                        }}
-                        className="p-2 hover:bg-white/10 rounded-full transition-colors"
-                        title={isHidden ? "Show card" : "Hide card"}
-                      >
-                        <EyeOff size={18} className={isHidden ? "text-red-400" : "text-gray-400"} />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
                           setSelectedListName('');
                           setNewListName('');
                           setCurrentPromptText(prompt.text);
@@ -162,7 +151,7 @@ const AllPromptsPage = () => {
                       {prompt.type && (
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-gray-400 font-medium">type:</span>
-                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${isHidden ? 'bg-gray-600 text-gray-300' : ''}`} style={!isHidden ? { backgroundColor: '#D8A159', color: 'black' } : {}}>
+                          <span className="px-2 py-1 text-xs font-medium rounded-full" style={{ backgroundColor: '#D8A159', color: 'black' }}>
                             {prompt.type}
                           </span>
                         </div>
@@ -172,7 +161,7 @@ const AllPromptsPage = () => {
                           <span className="text-xs text-gray-400 font-medium mt-1">tags:</span>
                           <div className="flex items-center gap-2 flex-wrap">
                             {prompt.tags.map((tag, tagIndex) => (
-                              <span key={tagIndex} className={`px-2 py-1 text-xs rounded-full ${isHidden ? 'bg-gray-600/50 text-gray-400' : 'bg-white/20 text-gray-300'}`}>
+                              <span key={tagIndex} className="px-2 py-1 text-xs rounded-full bg-white/20 text-gray-300">
                                 {tag}
                               </span>
                             ))}
@@ -186,18 +175,18 @@ const AllPromptsPage = () => {
                               href={prompt.creditUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`text-xs transition-colors ${isHidden ? 'text-gray-400' : ''}`}
-                              style={!isHidden ? { color: '#D8A159' } : {}}
-                              onMouseEnter={(e) => !isHidden && (e.target.style.color = '#B88A4A')}
-                              onMouseLeave={(e) => !isHidden && (e.target.style.color = '#D8A159')}
+                              className="text-xs transition-colors"
+                              style={{ color: '#D8A159' }}
+                              onMouseEnter={(e) => e.target.style.color = '#B88A4A'}
+                              onMouseLeave={(e) => e.target.style.color = '#D8A159'}
                               onClick={(e) => e.stopPropagation()}
                             >
                               {prompt.credit}
                             </a>
                           ) : (
                             <span 
-                              className={`text-xs ${isHidden ? 'text-gray-400' : ''}`}
-                              style={!isHidden ? { color: '#D8A159' } : {}}
+                              className="text-xs"
+                              style={{ color: '#D8A159' }}
                             >
                               {prompt.credit}
                             </span>

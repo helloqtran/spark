@@ -16,10 +16,8 @@ const PromptDeck = React.memo(({
   isAnimating, 
   onNextPrompt,
   onToggleFavorite,
-  onToggleHidden,
   onAddToList,
-  favorites,
-  hiddenPrompts
+  favorites
 }) => {
   if (availablePrompts.length === 0) {
     return (
@@ -60,9 +58,7 @@ const PromptDeck = React.memo(({
           prompt={currentPrompt}
           isAnimating={isAnimating}
           favorites={favorites}
-          hiddenPrompts={hiddenPrompts}
           onToggleFavorite={onToggleFavorite}
-          onToggleHidden={onToggleHidden}
           onAddToList={onAddToList}
           onClick={onNextPrompt}
         />

@@ -4,13 +4,12 @@ import DataService from '../services/DataService';
 /**
  * User Data Management Hook - prepares for future authentication
  * 
- * This hook manages all user-specific data including favorites, hidden prompts,
+ * This hook manages all user-specific data including favorites,
  * custom lists, and selected categories. It provides a clean interface for
  * data manipulation and automatically persists changes to localStorage.
  */
 export const useUserData = () => {
   const [favorites, setFavorites] = useState(new Set());
-  const [hiddenPrompts, setHiddenPrompts] = useState(new Set());
   const [lists, setLists] = useState({});
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -22,7 +21,6 @@ export const useUserData = () => {
       try {
         setError(null);
         setFavorites(DataService.loadFavorites());
-        setHiddenPrompts(DataService.loadHidden());
         setLists(DataService.loadLists());
         setSelectedCategories(DataService.loadSelectedCategories());
       } catch (error) {
@@ -30,7 +28,6 @@ export const useUserData = () => {
         setError(error);
         // Set default values if loading fails
         setFavorites(new Set());
-        setHiddenPrompts(new Set());
         setLists({});
         setSelectedCategories([]);
       } finally {
@@ -47,9 +44,6 @@ export const useUserData = () => {
     DataService.saveFavorites(favorites);
   }, [favorites]);
 
-  useEffect(() => {
-    DataService.saveHidden(hiddenPrompts);
-  }, [hiddenPrompts]);
 
   useEffect(() => {
     DataService.saveLists(lists);
@@ -72,18 +66,6 @@ export const useUserData = () => {
     });
   };
 
-  const toggleHidden = (promptText) => {
-    setHiddenPrompts(prev => {
-      const newHidden = new Set(prev);
-      const wasHidden = newHidden.has(promptText);
-      if (wasHidden) {
-        newHidden.delete(promptText);
-      } else {
-        newHidden.add(promptText);
-      }
-      return newHidden;
-    });
-  };
 
   const addPromptToList = (listName, promptText) => {
     if (!listName || !promptText) return;
@@ -113,19 +95,16 @@ export const useUserData = () => {
   return {
     // State
     favorites,
-    hiddenPrompts,
     lists,
     selectedCategories,
     isLoaded,
     error,
     // Setters
     setFavorites,
-    setHiddenPrompts,
     setLists,
     setSelectedCategories,
     // Actions
     toggleFavorite,
-    toggleHidden,
     addPromptToList,
     removePromptFromList,
     deleteList

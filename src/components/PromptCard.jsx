@@ -1,19 +1,17 @@
 import React from 'react';
-import { Heart, Info, EyeOff, ListPlus } from 'lucide-react';
+import { Heart, Info, ListPlus } from 'lucide-react';
 
 /**
  * PromptCard Component
  * 
  * Displays a single prompt with interactive elements for favoriting,
- * hiding, and adding to lists. Used in the main card deck.
+ * and adding to lists. Used in the main card deck.
  */
 const PromptCard = React.memo(({ 
   prompt, 
   isAnimating, 
   favorites, 
-  hiddenPrompts, 
   onToggleFavorite, 
-  onToggleHidden, 
   onAddToList, 
   onClick 
 }) => {
@@ -142,21 +140,6 @@ const PromptCard = React.memo(({
               />
             </button>
 
-            {/* Hide button */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleHidden(prompt.text);
-              }}
-              onTouchStart={(e) => e.stopPropagation()}
-              className="px-3 py-2 sm:px-4 hover:bg-gray-100 rounded-full transition-colors"
-              aria-label={hiddenPrompts.has(prompt.text) ? 'Show prompt' : 'Hide prompt'}
-            >
-              <EyeOff 
-                size={20} 
-                className={hiddenPrompts.has(prompt.text) ? "text-red-400" : "text-gray-400 hover:text-gray-600"} 
-              />
-            </button>
 
             {/* Add to list button */}
             <button
