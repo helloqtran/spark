@@ -65,23 +65,27 @@ const App = () => {
     };
 
     const preventTouchScroll = (e) => {
-      // Same logic for touch events - but with enhanced mobile detection
       const target = e.target;
       
-      // Check if touch is on a prompt card (to prevent scroll interference)
-      const isOnPromptCard = target.closest('[data-prompt-card]');
-      
-      // For prompt cards, we want to prevent background scrolling completely
-      if (isOnPromptCard) {
-        e.preventDefault();
-        return;
-      }
-      
-      // Check if the touch target is within scrollable elements
+      // Check if the touch target is within scrollable elements first
       if (isScrollableElement(target) || isInteractiveElement(target)) {
         return;
       }
       
+      // Check if this is on a prompt card - handle separately to avoid breaking clicks
+      const isOnPromptCard = target.closest('[data-prompt-card]');
+      if (isOnPromptCard) {
+        // Only prevent scrolling for card touchmove - allow touch start/end for clicks
+        if (e.type === 'touchmove') {
+          e.preventDefault();
+          return;
+        } else {
+          // For touch start/end on cards, don't prevent - let clicks work naturally
+          return;
+        }
+      }
+      
+      // Allow interactions but prevent page scrolling on other elements
       e.preventDefault();
     };
 

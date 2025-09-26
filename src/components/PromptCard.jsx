@@ -15,8 +15,6 @@ const PromptCard = React.memo(({
   onAddToList, 
   onClick 
 }) => {
-  const [touchStart, setTouchStart] = React.useState(null);
-  const [touchEnd, setTouchEnd] = React.useState(null);
   const [isFlipped, setIsFlipped] = React.useState(false);
   // Consistent line spacing ratio for mobile and desktop
   const getTextSize = (text) => {
@@ -29,8 +27,6 @@ const PromptCard = React.memo(({
     return 'text-sm sm:text-base leading-snug sm:leading-snug';
   };
 
-  const minSwipeDistance = 30;
-
   // Reset flip state when prompt changes
   React.useEffect(() => {
     setIsFlipped(false);
@@ -42,64 +38,6 @@ const PromptCard = React.memo(({
     setIsFlipped(!isFlipped);
   };
 
-  const onTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-    // Prevent any scrolling during card touch
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-    
-    // Additional prevention by disabling body scroll
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-  };
-
-  const onTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-    // Prevent document scroll during touch movement
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-  };
-
-  const onTouchEnd = (e) => {
-    if (!touchStart) return;
-    
-    // Calculate distance only if we have both start and end
-    const hasMovement = touchEnd !== null && touchStart !== null;
-    if (hasMovement) {
-      const distance = touchStart - touchEnd;
-      const isLeftSwipe = distance > minSwipeDistance;
-      const isRightSwipe = distance < -minSwipeDistance;
-
-      if (isLeftSwipe || isRightSwipe) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        onClick();
-      } else {
-        // Still prevent propagation even if no swipe
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-      }
-    } else {
-      // Simple tap - handle click but prevent scroll
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      onClick();
-    }
-    
-    // Re-enable scrolling on document
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-    
-    // Reset touch states
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
 
   if (!prompt) return null;
 
@@ -107,18 +45,12 @@ const PromptCard = React.memo(({
     <div
       className={`absolute top-0 left-0 w-full h-full cursor-pointer transition-transform duration-300 ease-in-out`}
       style={{
-        touchAction: 'none',
         zIndex: 30,
         transform: isAnimating
           ? 'translateX(100%) rotate(10deg)'
           : 'translateX(0) rotate(0deg)',
-        overscrollBehavior: 'none',
-        userSelect: 'none',
       }}
       onClick={onClick}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
       role="button"
       tabIndex={0}
       aria-label={`Movement prompt: ${prompt.text}`}
