@@ -25,10 +25,13 @@ const FiltersSection = React.memo(({
   lists,
   openDropdown,
   setOpenDropdown,
-  onClearFilters
+  onClearFilters,
+  showCustomListsFilter = true
 }) => {
-  const hasActiveFilters = filterTypes.size > 0 || filterTags.size > 0 || filterLists.size > 0 || 
-                          excludeTypes.size > 0 || excludeTags.size > 0 || excludeLists.size > 0;
+  const hasActiveFilters = filterTypes.size > 0 || filterTags.size > 0 || 
+                          (showCustomListsFilter && filterLists.size > 0) || 
+                          excludeTypes.size > 0 || excludeTags.size > 0 || 
+                          (showCustomListsFilter && excludeLists.size > 0);
 
   return (
     <div className="flex justify-center items-center mb-8 sm:mb-12">
@@ -113,44 +116,46 @@ const FiltersSection = React.memo(({
             isOpen={openDropdown === 'tags'}
             dropdownId="tags"
           />
-          <DropdownChip
-            label="Custom Lists"
-            options={Object.keys(lists).map(n => ({ id: n, label: n }))}
-            selected={filterLists}
-            excluded={excludeLists}
-            onToggle={(id, action) => {
-              if (action === 'include') {
-                setFilterLists(prev => new Set([...prev, id]));
-                setExcludeLists(prev => {
-                  const next = new Set(prev);
-                  next.delete(id);
-                  return next;
-                });
-              } else if (action === 'exclude') {
-                setFilterLists(prev => {
-                  const next = new Set(prev);
-                  next.delete(id);
-                  return next;
-                });
-                setExcludeLists(prev => new Set([...prev, id]));
-              } else if (action === 'clear') {
-                setFilterLists(prev => {
-                  const next = new Set(prev);
-                  next.delete(id);
-                  return next;
-                });
-                setExcludeLists(prev => {
-                  const next = new Set(prev);
-                  next.delete(id);
-                  return next;
-                });
-              }
-            }}
-            onClear={() => { setFilterLists(new Set()); setExcludeLists(new Set()); }}
-            onOpenChange={(open) => setOpenDropdown(open ? 'lists' : null)}
-            isOpen={openDropdown === 'lists'}
-            dropdownId="lists"
-          />
+          {showCustomListsFilter && (
+            <DropdownChip
+              label="Custom Lists"
+              options={Object.keys(lists).map(n => ({ id: n, label: n }))}
+              selected={filterLists}
+              excluded={excludeLists}
+              onToggle={(id, action) => {
+                if (action === 'include') {
+                  setFilterLists(prev => new Set([...prev, id]));
+                  setExcludeLists(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                } else if (action === 'exclude') {
+                  setFilterLists(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                  setExcludeLists(prev => new Set([...prev, id]));
+                } else if (action === 'clear') {
+                  setFilterLists(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                  setExcludeLists(prev => {
+                    const next = new Set(prev);
+                    next.delete(id);
+                    return next;
+                  });
+                }
+              }}
+              onClear={() => { setFilterLists(new Set()); setExcludeLists(new Set()); }}
+              onOpenChange={(open) => setOpenDropdown(open ? 'lists' : null)}
+              isOpen={openDropdown === 'lists'}
+              dropdownId="lists"
+            />
+          )}
           {hasActiveFilters && (
             <button
               onClick={onClearFilters}

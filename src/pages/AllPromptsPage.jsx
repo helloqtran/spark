@@ -80,6 +80,7 @@ const AllPromptsPage = () => {
         openDropdown={filters.openDropdown}
         setOpenDropdown={filters.setOpenDropdown}
         onClearFilters={filters.clearAllFilters}
+        showCustomListsFilter={false}
       />
 
       {/* Scrollable content area */}
