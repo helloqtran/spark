@@ -113,8 +113,8 @@ const TestWelcomePage = () => {
       
       case 2:
         return (
-          <div className="max-w-sm mx-auto h-[264px] flex flex-col">
-            <div className="-mt-4">
+          <div className="max-w-sm mx-auto h-[264px] flex flex-col items-center justify-center">
+            <div className="mb-8">
               <p className="text-gray-400 text-xs mb-1">
                 (optional)
               </p>
@@ -122,7 +122,7 @@ const TestWelcomePage = () => {
                 Which movement types do you want to explore?
               </p>
             </div>
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex items-start justify-center">
               <div className="flex flex-wrap gap-2 justify-center">
                 {types.map(type => (
                   <button
@@ -146,14 +146,13 @@ const TestWelcomePage = () => {
                 ))}
               </div>
             </div>
-            <div className="h-4"></div> {/* Spacer for button area */}
           </div>
         );
       
       case 3:
         return (
-          <div className="max-w-sm mx-auto h-[264px] flex flex-col">
-            <div className="-mt-4">
+          <div className="max-w-sm mx-auto h-[264px] flex flex-col items-center justify-center">
+            <div className="mb-8">
               <p className="text-gray-400 text-xs mb-1">
                 (optional)
               </p>
@@ -161,7 +160,7 @@ const TestWelcomePage = () => {
               Are there any themes you'd like to focus on?
               </p>
             </div>
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex items-start justify-center">
               <div className="flex flex-wrap gap-2 justify-center">
                 {tags.map(tag => (
                   <button
@@ -185,7 +184,6 @@ const TestWelcomePage = () => {
                 ))}
               </div>
             </div>
-            <div className="h-4"></div> {/* Spacer for button area */}
           </div>
         );
       
