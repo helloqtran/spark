@@ -70,8 +70,14 @@ const App = () => {
       // Check if touch is on a prompt card (to prevent scroll interference)
       const isOnPromptCard = target.closest('[data-prompt-card]');
       
+      // For prompt cards, we want to prevent background scrolling completely
+      if (isOnPromptCard) {
+        e.preventDefault();
+        return;
+      }
+      
       // Check if the touch target is within scrollable elements
-      if (isScrollableElement(target) || isInteractiveElement(target) || isOnPromptCard) {
+      if (isScrollableElement(target) || isInteractiveElement(target)) {
         return;
       }
       
