@@ -45,10 +45,14 @@ const PromptCard = React.memo(({
   const onTouchStart = (e) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
-    // Prevent scroll propagation during card touch
+    // Prevent any scrolling during card touch
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
+    
+    // Additional prevention by disabling body scroll
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
   };
 
   const onTouchMove = (e) => {
@@ -60,23 +64,37 @@ const PromptCard = React.memo(({
   };
 
   const onTouchEnd = (e) => {
-    if (!touchStart || !touchEnd) return;
+    if (!touchStart) return;
     
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
+    // Calculate distance only if we have both start and end
+    const hasMovement = touchEnd !== null && touchStart !== null;
+    if (hasMovement) {
+      const distance = touchStart - touchEnd;
+      const isLeftSwipe = distance > minSwipeDistance;
+      const isRightSwipe = distance < -minSwipeDistance;
 
-    if (isLeftSwipe || isRightSwipe) {
+      if (isLeftSwipe || isRightSwipe) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        onClick();
+      } else {
+        // Still prevent propagation even if no swipe
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
+    } else {
+      // Simple tap - handle click but prevent scroll
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
       onClick();
-    } else {
-      // Still prevent propagation even if no swipe
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
     }
+    
+    // Re-enable scrolling on document
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
     
     // Reset touch states
     setTouchStart(null);
@@ -94,6 +112,8 @@ const PromptCard = React.memo(({
         transform: isAnimating
           ? 'translateX(100%) rotate(10deg)'
           : 'translateX(0) rotate(0deg)',
+        overscrollBehavior: 'none',
+        userSelect: 'none',
       }}
       onClick={onClick}
       onTouchStart={onTouchStart}

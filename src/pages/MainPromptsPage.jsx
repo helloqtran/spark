@@ -52,15 +52,17 @@ const MainPromptsPage = () => {
       className="absolute top-0 left-0 right-0 bottom-0 flex flex-col bg-transparent z-[1]" 
       style={{ 
         background: 'transparent', 
-        width: '100vw !important', 
-        height: '100vh !important', 
-        minHeight: '100vh !important', 
-        margin: '0 !important', 
-        position: 'fixed !important', 
+        width: '100vw', 
+        height: '100vh', 
+        maxHeight: '100vh',
+        maxWidth: '100vw',
+        margin: '0', 
+        position: 'fixed', 
         top: '0', 
         bottom: '0', 
         left: '0', 
         right: '0',
+        overflow: 'hidden',
         paddingTop: 'max(env(safe-area-inset-top), 0px)',
         paddingBottom: 'max(env(safe-area-inset-bottom), 0px)'
       }}
