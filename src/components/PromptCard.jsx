@@ -46,7 +46,9 @@ const PromptCard = React.memo(({
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
     // Prevent scroll propagation during card touch
+    e.preventDefault();
     e.stopPropagation();
+    e.stopImmediatePropagation();
   };
 
   const onTouchMove = (e) => {
@@ -54,6 +56,7 @@ const PromptCard = React.memo(({
     // Prevent document scroll during touch movement
     e.preventDefault();
     e.stopPropagation();
+    e.stopImmediatePropagation();
   };
 
   const onTouchEnd = (e) => {
@@ -66,11 +69,13 @@ const PromptCard = React.memo(({
     if (isLeftSwipe || isRightSwipe) {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
       onClick();
     } else {
       // Still prevent propagation even if no swipe
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
     }
     
     // Reset touch states
@@ -84,6 +89,7 @@ const PromptCard = React.memo(({
     <div
       className={`absolute top-0 left-0 w-full h-full cursor-pointer transition-transform duration-300 ease-in-out`}
       style={{
+        touchAction: 'none',
         zIndex: 30,
         transform: isAnimating
           ? 'translateX(100%) rotate(10deg)'
@@ -96,6 +102,7 @@ const PromptCard = React.memo(({
       role="button"
       tabIndex={0}
       aria-label={`Movement prompt: ${prompt.text}`}
+      data-prompt-card={true}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();

@@ -67,8 +67,11 @@ const App = () => {
       // Same logic for touch events - but with enhanced mobile detection
       const target = e.target;
       
+      // Check if touch is on a prompt card (to prevent scroll interference)
+      const isOnPromptCard = target.closest('[data-prompt-card]');
+      
       // Check if the touch target is within scrollable elements
-      if (isScrollableElement(target) || isInteractiveElement(target)) {
+      if (isScrollableElement(target) || isInteractiveElement(target) || isOnPromptCard) {
         return;
       }
       
