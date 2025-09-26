@@ -104,7 +104,7 @@ const NavigationBar = React.memo(() => {
             className="text-gray-300 text-sm sm:text-xs hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
             aria-label="View all prompts"
           >
-            View All
+            View All Prompts
           </button>
           <button
             onClick={() => navigate('/about')}

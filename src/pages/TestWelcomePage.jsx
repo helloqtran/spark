@@ -85,7 +85,7 @@ const TestWelcomePage = () => {
                   Stuck in a movement rut?
                 </p>
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  Get freestyle prompts that match your style and spark your flow, in a deck you can shuffle through during your next session.
+                  Get prompts to spark your freestyle flow, served up in a deck for you to shuffle through during your next session.
                 </p>
               </div>
             </div>
