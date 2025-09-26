@@ -138,20 +138,20 @@ const DropdownChip = React.memo(({
         ref={buttonRef}
         onClick={handleToggle}
         className={`text-sm px-3 py-2 rounded-full border flex items-center gap-1.5 focus:outline-none focus:bg-transparent active:bg-transparent ${
-          selected.size > 0
+          selected.size > 0 || excluded.size > 0
             ? 'text-black border-white border-opacity-50' 
             : isOpen
             ? 'text-white border-white border-opacity-50'
             : 'border-white border-opacity-50 text-gray-300 hover:bg-gray-800'
         }`}
         style={
-          selected.size > 0 
+          selected.size > 0 || excluded.size > 0
             ? { backgroundColor: '#D8A159' } 
             : isOpen 
             ? { backgroundColor: 'black' } 
             : { backgroundColor: 'transparent' }
         }
-        aria-label={`${label} filter (${selected.size} selected)`}
+        aria-label={`${label} filter (${selected.size} selected, ${excluded.size} excluded)`}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >

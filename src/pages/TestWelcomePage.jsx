@@ -81,10 +81,10 @@ const TestWelcomePage = () => {
             <h1 className="text-7xl font-bold text-white tracking-wide spark-logo mb-8">SPARK</h1>
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center space-y-3">
-                <p className="text-gray-300 text-lg leading-relaxed">
+                <p className="text-gray-300 text-base leading-relaxed">
                   Stuck in a movement rut?
                 </p>
-                <p className="text-gray-300 text-lg leading-relaxed">
+                <p className="text-gray-300 text-base leading-relaxed">
                   Get prompts to spark your freestyle flow, served up in a deck for you to shuffle through during your next session.
                 </p>
               </div>
@@ -97,7 +97,7 @@ const TestWelcomePage = () => {
         return (
           <div className="max-w-sm mx-auto h-[264px] flex flex-col">
             <div className="-mt-4">
-              <p className="text-gray-400 text-sm mb-1">
+              <p className="text-gray-400 text-xs mb-1">
                 (optional)
               </p>
               <p className="text-gray-300 text-lg leading-relaxed">
@@ -140,7 +140,7 @@ const TestWelcomePage = () => {
         return (
           <div className="max-w-sm mx-auto h-[264px] flex flex-col">
             <div className="-mt-4">
-              <p className="text-gray-400 text-sm mb-1">
+              <p className="text-gray-400 text-xs mb-1">
                 (optional)
               </p>
               <p className="text-gray-300 text-lg leading-relaxed">
@@ -188,7 +188,7 @@ const TestWelcomePage = () => {
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col overflow-hidden" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0', zIndex: 1 }}>
       <TestNavigationBar />
       <div className="flex-1 flex flex-col items-center justify-center p-4 pt-12">
-        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md h-[400px] pt-16 pb-16 px-8 text-center relative">
+        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md h-[400px] pt-12 pb-16 px-8 text-center relative">
           {/* Step Content */}
           {renderStep()}
           
