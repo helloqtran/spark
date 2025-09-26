@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, ChevronLeft, HelpCircle, X } from 'lucide-react';
 import { getAllTypes, getAllTags, PROMPTS_DATABASE, normalizePromptItem } from '../data/prompts';
@@ -16,6 +16,51 @@ const TestWelcomePage = () => {
   const [excludedTags, setExcludedTags] = useState(new Set());
   const [showHelpPopup, setShowHelpPopup] = useState(false);
   const helpButtonRef = useRef(null);
+
+  // Touch/swipe detection
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
+
+  const handleTouchStart = (e) => {
+    // Only track swipes if not on interactive elements
+    if (!e.target.closest('button')) {
+      setTouchStartX(e.targetTouches[0].clientX);
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    // Only process swipes if we have a start position
+    if (touchStartX !== 0 && !e.target.closest('button')) {
+      setTouchEndX(e.changedTouches[0].clientX);
+      handleSwipe();
+    }
+  };
+
+  const handleSwipe = () => {
+    const swipeThreshold = 50; // minimum distance for swipe
+    const swipeDistance = touchStartX - touchEndX;
+
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+      if (swipeDistance > 0) {
+        // Swipe left - go to next step
+        if (currentStep < 3) {
+          setCurrentStep(currentStep + 1);
+        } else {
+          // Final step - trigger navigation same as handleNext
+          handleNext();
+        }
+      } else {
+        // Swipe right - go to previous step  
+        if (currentStep > 1) {
+          setCurrentStep(currentStep - 1);
+        }
+      }
+    }
+    
+    // Reset position tracking
+    setTouchStartX(0);
+    setTouchEndX(0);
+  };
 
   // Handle click outside to close help popup
   React.useEffect(() => {
@@ -196,7 +241,11 @@ const TestWelcomePage = () => {
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col overflow-hidden" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0', zIndex: 1 }}>
       <TestNavigationBar />
       <div className="flex-1 flex flex-col items-center justify-center p-4 pt-12">
-        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md h-[400px] pt-12 pb-16 px-8 text-center relative">
+        <div 
+          className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl w-full max-w-md h-[400px] pt-12 pb-16 px-8 text-center relative"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {/* Help Button - Top Right Corner */}
           {(currentStep === 2 || currentStep === 3) && (
             <div className="absolute top-4 right-4 z-50" ref={helpButtonRef}>
