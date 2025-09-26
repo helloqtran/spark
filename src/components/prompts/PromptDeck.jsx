@@ -35,7 +35,7 @@ const PromptDeck = React.memo(({
     <div 
       className="relative w-[85%] sm:w-[500px]" 
       style={{ 
-        height: 'min(calc(60vh - 120px), 450px)',
+        height: 'min(calc(60vh - 120px), 550px)',
         minHeight: '300px'
       }}
     >

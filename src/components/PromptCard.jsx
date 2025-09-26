@@ -24,9 +24,9 @@ const PromptCard = React.memo(({
     const length = text.length;
     if (length <= 80) return 'text-3xl sm:text-4xl leading-responsive-3xl sm:leading-responsive-4xl';
     if (length <= 120) return 'text-2xl sm:text-3xl leading-responsive-xl sm:leading-responsive-2xl';
-    if (length <= 180) return 'text-xl sm:text-2xl leading-responsive-lg sm:leading-responsive-xl';
-    if (length <= 250) return 'text-lg sm:text-xl leading-responsive-base sm:leading-responsive-lg';
-    return 'text-base sm:text-lg leading-responsive-sm sm:leading-responsive-base';
+    if (length <= 180) return 'text-2xl sm:text-2xl leading-responsive-xl sm:leading-responsive-xl';
+    if (length <= 250) return 'text-xl sm:text-xl leading-responsive-lg sm:leading-responsive-lg';
+    return 'text-lg sm:text-lg leading-responsive-base sm:leading-responsive-base';
   };
 
   const minSwipeDistance = 30;
@@ -104,13 +104,13 @@ const PromptCard = React.memo(({
       >
         {/* Front side of card */}
         <div 
-          className="absolute inset-0 w-full h-full rounded-2xl p-4 sm:p-12 text-center flex flex-col justify-center bg-white backface-hidden"
+          className="absolute inset-0 w-full h-full rounded-2xl p-4 sm:p-12 text-center flex flex-col bg-white backface-hidden"
           style={{
             backfaceVisibility: 'hidden',
           }}
         >
           {/* Icon buttons centered in bottom */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 sm:bottom-12 flex gap-2">
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
             {/* Info icon */}
             <button
               onClick={handleFlip}
@@ -155,9 +155,11 @@ const PromptCard = React.memo(({
             </button>
           </div>
 
-          {/* Card content */}
-          <div className="flex items-center justify-center h-full pb-8">
-            <p className={`${getTextSize(prompt.text)} text-gray-800 px-6 noto-serif-jp-normal`}>{prompt.text}</p>
+          {/* Card content - using responsive positioning */}  
+          <div className="absolute top-12 left-6 right-6 bottom-24 flex items-center justify-center px-6 sm:top-16 sm:bottom-24">
+            <p className={`${getTextSize(prompt.text)} text-gray-800 noto-serif-jp-normal`}>
+              {prompt.text}
+            </p>
           </div>
         </div>
 
