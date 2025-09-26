@@ -41,6 +41,7 @@ const App = () => {
         'input',
         'textarea',
         'select',
+        'a',
         '[role="button"]',
         '[role="menu"]',
         '[role="listbox"]',

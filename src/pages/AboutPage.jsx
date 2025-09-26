@@ -22,7 +22,7 @@ const AboutPage = () => {
         <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
           <div className="space-y-4">
           <p className="text-white leading-relaxed text-center">
-              Spark was vibecoded with lots of love by <a href="https://www.instagram.com/pole_teenie" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'}>@pole_teenie</a> using Cursor <Heart size={16} className="inline fill-pink-500 text-pink-500 ml-1" />
+              Spark was vibecoded with lots of love by <a href="https://www.instagram.com/pole_teenie" target="_blank" rel="noopener noreferrer" className="underline transition-colors font-medium" style={{ color: '#D8A159' }} onMouseEnter={(e) => e.target.style.color = '#B88A4A'} onMouseLeave={(e) => e.target.style.color = '#D8A159'} onTouchStart={(e) => e.stopPropagation()}>@pole_teenie</a> using Cursor <Heart size={16} className="inline fill-pink-500 text-pink-500 ml-1" />
             </p>
             <br />
             <p className="text-white leading-relaxed text-center">
@@ -38,7 +38,8 @@ const AboutPage = () => {
             href="https://www.instagram.com/sparkcards.dance" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-white hover:text-gray-300 transition-colors"
+            className="text-white hover:text-gray-300 transition-colors p-2"
+            onTouchStart={(e) => e.stopPropagation()}
           >
             <Instagram size={32} />
           </a>
