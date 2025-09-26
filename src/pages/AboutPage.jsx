@@ -2,6 +2,9 @@ import React from 'react';
 import { Heart, Instagram } from 'lucide-react';
 import NavigationBar from '../components/NavigationBar';
 
+// Import package.json for version
+import packageJson from '../../package.json';
+
 const AboutPage = () => {
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col" style={{ background: 'transparent', width: '100vw !important', height: '100vh !important', minHeight: '100vh !important', margin: '0 !important', position: 'fixed !important', top: '0', bottom: '0', left: '0', right: '0' }}>
@@ -40,6 +43,11 @@ const AboutPage = () => {
             <Instagram size={32} />
           </a>
         </div>
+      </div>
+
+      {/* Version display in bottom right */}
+      <div className="absolute bottom-4 right-4 text-xs text-gray-400/60 z-20">
+        v{packageJson.version}
       </div>
     </div>
   );
