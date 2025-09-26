@@ -1,32 +1,141 @@
 /**
- * Data Service Layer - prepares for future user authentication
+ * Data Service Layer with Version and Migration Support
  * 
- * This service handles all data persistence operations and can be easily
- * modified to support user authentication by updating the storage key
- * generation and switching from localStorage to API calls.
+ * This enhanced service handles data migrations automatically,
+ * preventing user data loss during app updates.
  */
 
 const DataService = {
-  // User data keys - can be modified later to include user ID
+  // Current app version for data migration
+  VERSION: '1.0.0',
+  
+  // Storage keys for data
   getStorageKey: (key) => `spark:${key}`,
   
-  // Generic storage operations
+  // Save data with version information
   save: (key, data) => {
     try {
-      localStorage.setItem(DataService.getStorageKey(key), JSON.stringify(data));
+      const wrappedData = {
+        version: DataService.VERSION,
+        data: data,
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem(DataService.getStorageKey(key), JSON.stringify(wrappedData));
     } catch (error) {
       console.error(`Failed to save ${key}:`, error);
     }
   },
   
+  // Load data with automatic migration
   load: (key, defaultValue = null) => {
     try {
       const stored = localStorage.getItem(DataService.getStorageKey(key));
-      return stored ? JSON.parse(stored) : defaultValue;
+      if (!stored) return defaultValue;
+
+      const parsed = JSON.parse(stored);
+      
+      // Check if this is new format (has version wrapper)
+      if (parsed && typeof parsed === 'object' && 'version' in parsed) {
+        // Run migration if needed
+        return DataService._migrateData(parsed, key, defaultValue);
+      }
+      
+      // Legacy format (data stored directly) - migrate
+      return DataService._migrateLegacyData(parsed, key, defaultValue);
+      
     } catch (error) {
       console.error(`Failed to load ${key}:`, error);
       return defaultValue;
     }
+  },
+  
+  // Handle data migration for versioned data
+  _migrateData: (parsed, key, defaultValue) => {
+    const { version, data } = parsed;
+    
+    // If versions match, return data directly
+    if (version === DataService.VERSION) {
+      return data;
+    }
+    
+    // Handle migration based on key and version
+    switch (key) {
+      case 'favorites':
+        return DataService._migrateFavorites(data, version);
+      case 'lists':
+        return DataService._migrateLists(data, version);
+      case 'selectedCategories':
+        return DataService._migrateCategories(data, version);
+      default:
+        return data || defaultValue;
+    }
+  },
+  
+  // Handle legacy data migration from direct storage format
+  _migrateLegacyData: (legacyData, key, defaultValue) => {
+    console.log(`Migrating legacy ${key} data...`);
+    
+    switch (key) {
+      case 'favorites':
+        // Legacy: might be array directly stored
+        const favorites = Array.isArray(legacyData) ? legacyData : [];
+        
+        // If we successfully loaded legacy data, save it in new format
+        if (favorites.length > 0) {
+          DataService.save(key, favorites);
+        }
+        
+        return favorites;
+      case 'lists':
+        // Legacy: ensure object format
+        const lists = (legacyData && typeof legacyData === 'object') ? legacyData : {};
+        
+        // If we successfully loaded legacy data, save it in new format
+        if (Object.keys(lists).length > 0) {
+          DataService.save(key, lists);
+        }
+        
+        return lists;
+      case 'selectedCategories':
+        const categories = Array.isArray(legacyData) ? legacyData : [];
+        
+        // If we successfully loaded legacy data, save it in new format
+        if (categories.length > 0) {
+          DataService.save(key, categories);
+        }
+        
+        return categories;
+      default:
+        return legacyData || defaultValue;
+    }
+  },
+  
+  // Migration functions for version-specific changes
+  _migrateFavorites: (data, fromVersion) => {
+    // Handle potential format changes in favorites
+    return Array.isArray(data) ? data : [];
+  },
+  
+  _migrateLists: (data, fromVersion) => {
+    // Handle list format changes if needed for future versions
+    
+    if (!data || typeof data !== 'object') return {};
+    
+    // Example: Handle potential future list structure changes
+    if (Array.isArray(data.lists)) {
+      const newLists = {};
+      data.lists.forEach(list => {
+        newLists[list.name] = list.items || [];
+      });
+      return newLists;
+    }
+    
+    return data;
+  },
+  
+  _migrateCategories: (data, fromVersion) => {
+    // Handle category format changes if needed for future versions
+    return Array.isArray(data) ? data : [];
   },
   
   // User-specific data operations
@@ -46,6 +155,7 @@ const DataService = {
       console.error('Failed to save favorites:', error);
     }
   },
+  
   loadFavorites: () => {
     try {
       const favorites = DataService.loadUserData('favorites', []);
@@ -56,7 +166,6 @@ const DataService = {
     }
   },
   
-  
   saveLists: (lists) => {
     try {
       DataService.saveUserData('lists', lists);
@@ -64,6 +173,7 @@ const DataService = {
       console.error('Failed to save lists:', error);
     }
   },
+  
   loadLists: () => {
     try {
       const lists = DataService.loadUserData('lists', {});
@@ -81,6 +191,7 @@ const DataService = {
       console.error('Failed to save selected categories:', error);
     }
   },
+  
   loadSelectedCategories: () => {
     try {
       const categories = DataService.loadUserData('selectedCategories', []);
